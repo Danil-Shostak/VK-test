@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "export_date": "2026-03-02 13:00:58",
+    "profile_url": "https://vk.com/dariapalchik",
+    "profile_id": 293172436
+  },
+  "basic_info": {
+    "id": 293172436,
+    "first_name": "Даша",
+    "last_name": "Пальчик",
+    "domain": "dariapalchik",
+    "screen_name": "dariapalchik",
+    "sex": "Женский",
+    "city": "Новогрудок",
+    "country": "Беларусь",
+    "photo": "https://sun23-2.userapi.com/s/v1/ig2/GRtaV--JZ2RCsZchzG1JoHWX0j0b_vTUjwgw6AD53e_tKarJhtkuvnIWh1sDcPODye9oYjKahr6ppC704_xKfgLL.jpg?quality=96&crop=3,418,1617,1617&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=0w_Z2d_3gl2dQclXUlfE374Yjzll3mMdtFOtX8VtTjs&cs=240x240",
+    "is_closed": false,
+    "verified": 0
+  },
+  "personal_info": {
+    "home_town": "Новогрудок"
+  },
+  "contacts": {},
+  "interests": {},
+  "education_career": {
+    "career": [
+      {
+        "city_id": 4121,
+        "country_id": 3,
+        "from": 2023,
+        "group_id": 153455961
+      }
+    ],
+    "universities": [
+      {
+        "chair": 1707873,
+        "chair_name": "Кафедра современных технологий программирования (бывш. Программного обеспечения интеллектуальных и компьютерных систем, Информатики и вычислительной техники)",
+        "city": 649,
+        "country": 3,
+        "education_form": "Очное отделение",
+        "education_form_id": 1,
+        "education_status": "Студентка (бакалавр)",
+        "education_status_id": 3,
+        "faculty": 88973,
+        "faculty_name": "Факультет математики и информатики",
+        "graduation": 2023,
+        "id": 66413,
+        "name": "ГрГУ им. Янки Купалы"
+      }
+    ],
+    "schools": []
+  },
+  "statistics": {
+    "counters": {
+      "albums": 2,
+      "audios": 0,
+      "followers": 15,
+      "friends": 77,
+      "gifts": 72,
+      "groups": 125,
+      "online_friends": 1,
+      "pages": 86,
+      "photos": 12,
+      "subscriptions": 3,
+      "user_photos": 0,
+      "videos": 1,
+      "video_playlists": 0,
+      "mutual_friends": 0,
+      "clips_followers": 92,
+      "clips_views": 0,
+      "clips_likes": 0
+    },
+    "followers_count": 92
+  },
+  "online_status": {
+    "online": 0,
+    "last_seen": {
+      "time": 1766208121,
+      "platform": 4
+    }
+  },
+  "raw_data": {
+    "id": 293172436,
+    "nickname": "",
+    "maiden_name": "",
+    "domain": "dariapalchik",
+    "city": {
+      "id": 4121,
+      "title": "Новогрудок"
+    },
+    "country": {
+      "id": 3,
+      "title": "Беларусь"
+    },
+    "photo_max": "https://sun23-2.userapi.com/s/v1/ig2/GRtaV--JZ2RCsZchzG1JoHWX0j0b_vTUjwgw6AD53e_tKarJhtkuvnIWh1sDcPODye9oYjKahr6ppC704_xKfgLL.jpg?quality=96&crop=3,418,1617,1617&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=0w_Z2d_3gl2dQclXUlfE374Yjzll3mMdtFOtX8VtTjs&cs=400x400",
+    "photo_max_orig": "https://sun23-2.userapi.com/s/v1/ig2/GRtaV--JZ2RCsZchzG1JoHWX0j0b_vTUjwgw6AD53e_tKarJhtkuvnIWh1sDcPODye9oYjKahr6ppC704_xKfgLL.jpg?quality=96&crop=3,418,1617,1617&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=0w_Z2d_3gl2dQclXUlfE374Yjzll3mMdtFOtX8VtTjs&cs=240x240",
+    "has_photo": 1,
+    "interests": "",
+    "books": "",
+    "quotes": "",
+    "about": "",
+    "games": "",
+    "movies": "",
+    "activities": "",
+    "music": "",
+    "site": "",
+    "status": "",
+    "last_seen": {
+      "platform": 4,
+      "time": 1766208121
+    },
+    "followers_count": 92,
+    "occupation": {
+      "id": 153455961,
+      "name": "Новогрудский ТЭК",
+      "type": "work"
+    },
+    "career": [
+      {
+        "city_id": 4121,
+        "country_id": 3,
+        "from": 2023,
+        "group_id": 153455961
+      }
+    ],
+    "military": [],
+    "university": 66413,
+    "university_name": "ГрГУ им. Янки Купалы",
+    "faculty": 88973,
+    "faculty_name": "Факультет математики и информатики",
+    "graduation": 2023,
+    "education_form": "Очное отделение",
+    "education_status": "Студентка (бакалавр)",
+    "home_town": "Новогрудок",
+    "personal": {
+      "alcohol": 0,
+      "inspired_by": "",
+      "life_main": 0,
+      "people_main": 0,
+      "smoking": 0
+    },
+    "universities": [
+      {
+        "chair": 1707873,
+        "chair_name": "Кафедра современных технологий программирования (бывш. Программного обеспечения интеллектуальных и компьютерных систем, Информатики и вычислительной техники)",
+        "city": 649,
+        "country": 3,
+        "education_form": "Очное отделение",
+        "education_form_id": 1,
+        "education_status": "Студентка (бакалавр)",
+        "education_status_id": 3,
+        "faculty": 88973,
+        "faculty_name": "Факультет математики и информатики",
+        "graduation": 2023,
+        "id": 66413,
+        "name": "ГрГУ им. Янки Купалы"
+      }
+    ],
+    "schools": [],
+    "relatives": [],
+    "counters": {
+      "albums": 2,
+      "audios": 0,
+      "followers": 15,
+      "friends": 77,
+      "gifts": 72,
+      "groups": 125,
+      "online_friends": 1,
+      "pages": 86,
+      "photos": 12,
+      "subscriptions": 3,
+      "user_photos": 0,
+      "videos": 1,
+      "video_playlists": 0,
+      "mutual_friends": 0,
+      "clips_followers": 92,
+      "clips_views": 0,
+      "clips_likes": 0
+    },
+    "sex": 1,
+    "screen_name": "dariapalchik",
+    "online": 0,
+    "verified": 0,
+    "friend_status": 0,
+    "first_name": "Даша",
+    "last_name": "Пальчик",
+    "can_access_closed": true,
+    "is_closed": false
+  }
+}
