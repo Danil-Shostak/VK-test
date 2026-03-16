@@ -9,9 +9,9 @@ from datetime import datetime
 from typing import Dict, Optional
 
 # Импортируем модули проекта
-from vk_api_client import VKApiClient
-from profile_comparer import ProfileComparer
-from utils import extract_user_id_from_url
+from src.vk_api.vk_api_client import VKApiClient
+from src.matchers.profile_comparer import ProfileComparer
+from src.utils.utils import extract_user_id_from_url
 
 
 class IdentityChecker:
@@ -37,7 +37,7 @@ class IdentityChecker:
         else:
             # Пробуем импортировать из config
             try:
-                from config import VK_TOKEN
+                from src.utils.config import VK_TOKEN
                 self.api = VKApiClient(VK_TOKEN)
             except:
                 print("⚠️ Внимание: Токен VK API не найден.")
@@ -268,4 +268,6 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # Точка входа перенесена в run.py
+    # Запустите: python run.py
+    pass

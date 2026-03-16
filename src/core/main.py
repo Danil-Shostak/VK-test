@@ -9,13 +9,13 @@ if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
-from config import VK_TOKEN, RESULTS_FOLDER
-from vk_api_client import VKApiClient
-from photo_handler import PhotoHandler
-from friends_handler import FriendsHandler
-from file_exporters import FileExporter
-from html_generator import HTMLGenerator
-from data_preparer import DataPreparer
+from src.utils.config import VK_TOKEN, RESULTS_FOLDER
+from src.vk_api.vk_api_client import VKApiClient
+from src.handlers.photo_handler import PhotoHandler
+from src.handlers.friends_handler import FriendsHandler
+from src.handlers.file_exporters import FileExporter
+from src.output.html_generator import HTMLGenerator
+from src.utils.data_preparer import DataPreparer
 
 def main():
     print("="*60)
@@ -90,4 +90,6 @@ def main():
     print("="*60)
 
 if __name__ == "__main__":
-    main()
+    # Точка входа перенесена в run.py
+    # Запустите: python run.py
+    pass

@@ -4,7 +4,7 @@
 import os
 import sys
 
-from identity_checker import IdentityChecker
+from src.core.identity_checker import IdentityChecker
 
 
 def print_header():
@@ -92,7 +92,7 @@ def main():
                 continue
             
             # Сравниваем
-            checker.compare_profiles(p1, p2)
+            result = checker.compare_profiles(p1, p2)
             
             # Предлагаем сохранить
             save = input("\nСохранить результаты? (д/н): ").strip().lower()
@@ -100,10 +100,7 @@ def main():
                 output_file = input("Введите имя файла (или Enter для auto): ").strip()
                 if not output_file:
                     output_file = f"comparison_{p1['profile'].get('id', 'p1')}_{p2['profile'].get('id', 'p2')}.json"
-                checker.save_results(
-                    checker.compare_profiles(p1, p2),
-                    output_file
-                )
+                checker.save_results(result, output_file)
         
         elif choice == "2":
             # Профиль из папки + URL
@@ -149,16 +146,13 @@ def main():
                 continue
             
             # Сравниваем
-            checker.compare_profiles(p1, p2)
+            result = checker.compare_profiles(p1, p2)
             
             # Предлагаем сохранить
             save = input("\nСохранить результаты? (д/н): ").strip().lower()
             if save == "д" or save == "y":
                 output_file = input("Введите имя файла: ").strip()
                 if output_file:
-                    p1_id = p1.get('profile', {}).get('id', 'p1')
-                    p2_id = p2.get('profile', {}).get('id', 'p2')
-                    result = checker.compare_profiles(p1, p2)
                     checker.save_results(result, output_file)
         
         elif choice == "4":
@@ -172,4 +166,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Точка входа перенесена в run.py
+    # Запустите: python run.py
+    pass

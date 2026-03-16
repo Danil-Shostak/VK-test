@@ -12,12 +12,12 @@ if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
-from name_matcher import NameMatcher
-from geo_matcher import GeoMatcher
-from friends_matcher import FriendsMatcher
-from content_matcher import ContentMatcher
-from visual_matcher import VisualMatcher
-from demographics_matcher import DemographicsMatcher
+from src.matchers.name_matcher import NameMatcher
+from src.matchers.geo_matcher import GeoMatcher
+from src.matchers.friends_matcher import FriendsMatcher
+from src.matchers.content_matcher import ContentMatcher
+from src.matchers.visual_matcher import VisualMatcher
+from src.matchers.demographics_matcher import DemographicsMatcher
 
 
 class ProfileComparer:

@@ -799,20 +799,14 @@ class MediaPipeFaceRecognizer:
     """
     
     def __init__(self):
-        self.is_available = MEDIAPIPE_AVAILABLE
+        self.is_available = False  # Отключаем MediaPipe по умолчанию
         self.face_detector = None
         
-        if self.is_available:
-            try:
-                detector_options = mp_tasks.vision.FaceDetectorOptions(
-                    base_options=mp_tasks.BaseOptions(model_asset_path='mediapipe://tasks/vision/face_detector'),
-                    running_mode=mp_tasks.vision.RunningMode.IMAGE
-                )
-                self.face_detector = mp_tasks.vision.FaceDetector.create_from_options(detector_options)
-                print("[OK] MediaPipe FaceDetector loaded")
-            except Exception as e:
-                print("[X] MediaPipe: " + str(e))
-                self.is_available = False
+        # Примечание: Для использования MediaPipe требуется:
+        # 1. Скачать модель face_detector с https://developers.google.com/mediapipe/solutions/vision/face_detector
+        # 2. Указать локальный путь к файлу модели (.blob)
+        # Пока используем OpenCV как основной метод распознавания лиц
+        print("[X] MediaPipe: Требуется загрузка моделей вручную. Используется OpenCV.")
     
     def _load_image(self, image_path: str):
         """Загружает изображение для MediaPipe"""

@@ -1,7 +1,6 @@
 # html_generator.py
 import os
 from datetime import datetime
-from friends_handler import FriendsHandler  # Добавляем импорт
 
 class HTMLGenerator:
     @staticmethod
@@ -11,8 +10,8 @@ class HTMLGenerator:
         # Получаем статистику по друзьям, если они есть
         friend_stats = {}
         if friends_data and friends_data.get('items'):
-            fh = FriendsHandler(None)
-            friend_stats = fh.analyze_friends_stats(friends_data['items'])
+            from src.handlers.friends_handler import FriendsHandler
+            friend_stats = FriendsHandler.analyze_friends_stats(friends_data['items'])
         
         # Количество друзей для отображения в табе
         friends_count = friends_data.get('total', 0) if friends_data else 0

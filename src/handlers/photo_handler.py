@@ -4,7 +4,7 @@
 import requests
 import time
 import os
-from config import MAX_PHOTOS_PER_REQUEST
+from src.utils.config import MAX_PHOTOS_PER_REQUEST
 
 class PhotoHandler:
     def __init__(self, api_client):

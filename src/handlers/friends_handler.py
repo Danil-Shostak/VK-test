@@ -3,7 +3,7 @@
 
 import time
 from datetime import datetime
-from utils import get_platform_name
+from src.utils.utils import get_platform_name
 
 class FriendsHandler:
     def __init__(self, api_client):
@@ -67,8 +67,9 @@ class FriendsHandler:
             'items': all_friends
         }
     
-    def analyze_friends_stats(self, friends_list):
-        """Анализирует статистику по друзьям"""
+    @staticmethod
+    def analyze_friends_stats(friends_list):
+        """Анализирует статистику по друзьям (статический метод)"""
         if not friends_list:
             return {}
         
