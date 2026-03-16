@@ -1,6 +1,14 @@
 # main.py
 import os
+import sys
+import io
 from datetime import datetime
+
+# UTF-8 for Windows
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 from config import VK_TOKEN, RESULTS_FOLDER
 from vk_api_client import VKApiClient
 from photo_handler import PhotoHandler

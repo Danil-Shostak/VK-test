@@ -1,0 +1,311 @@
+{
+  "metadata": {
+    "timestamp": "2026-03-10T14:33:35.434686",
+    "profile1_id": 551667191,
+    "profile2_id": 551667191
+  },
+  "analysis": {
+    "name": {
+      "score": 0.9,
+      "first_name": {
+        "value1": "Влад",
+        "value2": "Влад",
+        "comparison": {
+          "exact_match": true,
+          "fuzzy_score": 1.0,
+          "phonetic_score": 1.0,
+          "variation_match": true,
+          "transliteration_match": true,
+          "final_score": 1.0,
+          "details": {
+            "exact_match": true,
+            "fuzzy_score": 1.0,
+            "phonetic_score": 1.0,
+            "soundex": [
+              "в9a4",
+              "в9a4",
+              true
+            ],
+            "metaphone": [
+              "влад",
+              "влад",
+              true
+            ],
+            "variants1": [
+              "владимир",
+              "влад",
+              "vova",
+              "vladik",
+              "вова",
+              "владик",
+              "vladimir",
+              "vovan",
+              "вован",
+              "vlad"
+            ],
+            "variants2": [
+              "владимир",
+              "влад",
+              "vova",
+              "vladik",
+              "вова",
+              "владик",
+              "vladimir",
+              "vovan",
+              "вован",
+              "vlad"
+            ],
+            "common_variants": [
+              "владимир",
+              "влад",
+              "vladik",
+              "вова",
+              "владик",
+              "vladimir",
+              "vovan",
+              "вован",
+              "vlad",
+              "вл4д",
+              "вла",
+              "влак",
+              "vova"
+            ],
+            "transliteration_match": true,
+            "translit_n1": "влад",
+            "translit_n2": "vlad",
+            "levenshtein_distance": 0,
+            "levenshtein_score": 1.0
+          }
+        }
+      },
+      "last_name": {
+        "value1": "Тамашевич",
+        "value2": "Тамашевич",
+        "comparison": {
+          "exact_match": true,
+          "fuzzy_score": 1.0,
+          "phonetic_score": 1.0,
+          "variation_match": true,
+          "transliteration_match": true,
+          "final_score": 1.0,
+          "details": {
+            "exact_match": true,
+            "fuzzy_score": 1.0,
+            "phonetic_score": 1.0,
+            "soundex": [
+              "тaba",
+              "тaba",
+              true
+            ],
+            "metaphone": [
+              "тамаше",
+              "тамаше",
+              true
+            ],
+            "variants1": [
+              "т4м4ш3в1ч",
+              "tamashevich",
+              "тамк",
+              "там",
+              "тама",
+              "тамашевич"
+            ],
+            "variants2": [
+              "т4м4ш3в1ч",
+              "tamashevich",
+              "тамк",
+              "там",
+              "тама",
+              "тамашевич"
+            ],
+            "common_variants": [
+              "т4м4ш3в1ч",
+              "tamashevich",
+              "тамк",
+              "там",
+              "тама",
+              "тамашевич"
+            ],
+            "transliteration_match": true,
+            "translit_n1": "тамашевич",
+            "translit_n2": "tamashevich",
+            "levenshtein_distance": 0,
+            "levenshtein_score": 1.0
+          }
+        }
+      },
+      "has_data": true,
+      "interpretation": "Очень вероятно тот же человек"
+    },
+    "geolocation": {
+      "score": 0.0,
+      "city1": "",
+      "city2": "",
+      "country1": "",
+      "country2": "",
+      "comparison": {
+        "exact_match": false,
+        "normalized_match": false,
+        "same_country": false,
+        "same_region": false,
+        "distance_km": null,
+        "final_score": 0.0,
+        "details": "Оба местоположения не указаны"
+      },
+      "has_data": false,
+      "interpretation": "Нет данных для сравнения"
+    },
+    "friends": {
+      "score": 1.0,
+      "common_count": 16,
+      "total_1": 16,
+      "total_2": 16,
+      "jaccard": 1.0,
+      "has_data": true,
+      "interpretation": "Сильное пересечение друзей"
+    },
+    "content": {
+      "score": 0.0,
+      "has_data": false,
+      "interpretation": "Нет контента для анализа"
+    },
+    "demographics": {
+      "score": 0.25,
+      "details": {
+        "birthdate": {
+          "exact_match": true,
+          "year_match": true,
+          "close_years": true,
+          "age1": 19,
+          "age2": 19,
+          "year_diff": 0,
+          "final_score": 1.0,
+          "interpretation": "Точное совпадение дат рождения"
+        },
+        "sex": {
+          "match": true,
+          "score": 1.0,
+          "interpretation": "Пол совпадает"
+        },
+        "education": {
+          "match": false,
+          "score": 0.0,
+          "interpretation": "Образование не указано"
+        },
+        "career": {
+          "match": false,
+          "score": 0.0,
+          "interpretation": "Информация о работе не указана"
+        },
+        "relation": {
+          "match": false,
+          "score": 0.0,
+          "interpretation": "Семейное положение не указано"
+        },
+        "overall_demographics_score": 0.25,
+        "interpretation": "Разные демографические данные или недостаточно данных"
+      },
+      "has_data": true,
+      "interpretation": "Разные демографические данные или недостаточно данных"
+    },
+    "visual": {
+      "score": 1.0,
+      "has_data": true,
+      "face_similarity": 0.0,
+      "face_match": false,
+      "face_method": "none",
+      "identical_photos": 2,
+      "activity_similarity": 1.0,
+      "interpretation": "Найдены общие фотографии"
+    }
+  },
+  "scores": {
+    "weighted_scores": {
+      "name": 0.135,
+      "visual": 0.25,
+      "friends": 0.25,
+      "geolocation": 0.0,
+      "content": 0.0,
+      "demographics": 0.025
+    },
+    "bonuses": {
+      "strong_name_match": 0.15,
+      "high_friend_overlap": 0.1,
+      "exact_location": 0.0,
+      "identical_photos": 0.1,
+      "total_bonus": 0.35
+    },
+    "total_raw": 1.01
+  },
+  "final": {
+    "percentage": 100.0,
+    "interpretation": "🟢 ПРАКТИЧЕСКИ ТОЧНО - профили почти наверняка принадлежат одному человеку",
+    "confidence": "Средняя уверенность (частичные данные)",
+    "data_quality": {
+      "profile1_complete": false,
+      "profile2_complete": false,
+      "has_friends": true,
+      "has_photos": true,
+      "missing_factors": [
+        "profile1_incomplete",
+        "profile2_incomplete"
+      ]
+    }
+  },
+  "detailed_breakdown": [
+    {
+      "factor": "name",
+      "name": "Имя",
+      "weight": 0.15,
+      "score": 0.9,
+      "weighted_score": 0.135,
+      "has_data": true,
+      "interpretation": "Очень вероятно тот же человек"
+    },
+    {
+      "factor": "geolocation",
+      "name": "Геолокация",
+      "weight": 0.1,
+      "score": 0.0,
+      "weighted_score": 0.0,
+      "has_data": false,
+      "interpretation": "Нет данных для сравнения"
+    },
+    {
+      "factor": "friends",
+      "name": "Друзья",
+      "weight": 0.25,
+      "score": 1.0,
+      "weighted_score": 0.25,
+      "has_data": true,
+      "interpretation": "Сильное пересечение друзей"
+    },
+    {
+      "factor": "content",
+      "name": "Контент",
+      "weight": 0.15,
+      "score": 0.0,
+      "weighted_score": 0.0,
+      "has_data": false,
+      "interpretation": "Нет контента для анализа"
+    },
+    {
+      "factor": "demographics",
+      "name": "Демография",
+      "weight": 0.1,
+      "score": 0.25,
+      "weighted_score": 0.025,
+      "has_data": true,
+      "interpretation": "Разные демографические данные или недостаточно данных"
+    },
+    {
+      "factor": "visual",
+      "name": "Фотографии",
+      "weight": 0.25,
+      "score": 1.0,
+      "weighted_score": 0.25,
+      "has_data": true,
+      "interpretation": "Найдены общие фотографии"
+    }
+  ]
+}

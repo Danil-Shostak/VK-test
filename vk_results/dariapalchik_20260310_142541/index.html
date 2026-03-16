@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VK Профиль: Даша Пальчик</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4a76a8 0%, #2a4a6a 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .header .date {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Профиль */
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #4a76a8;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .profile-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .status-online {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status-offline {
+            background: #9e9e9e;
+            color: white;
+        }
+        
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .detail-item {
+            background: #f5f5f5;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Табы */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button:hover {
+            background: #4a76a8;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: #4a76a8;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Секции */
+        .section-title {
+            font-size: 24px;
+            color: #4a76a8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a76a8;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Друзья */
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .friend-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+        
+        .friend-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .friend-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .friend-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .friend-info {
+            flex: 1;
+        }
+        
+        .friend-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .friend-details {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .friend-online {
+            color: #4caf50;
+            font-weight: 600;
+        }
+        
+        .friend-offline {
+            color: #999;
+        }
+        
+        /* Фотографии */
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+        }
+        
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .photo-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 10px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .photo-card:hover .photo-overlay {
+            opacity: 1;
+        }
+        
+        /* Статистика друзей */
+        .stats-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .city-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .city-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .close {
+            position: absolute;
+            right: 35px;
+            top: 15px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 16px;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .prev {
+            left: 20px;
+        }
+        
+        .next {
+            right: 20px;
+        }
+        
+        .photo-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 16px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin: 20px 0;
+            border: 2px solid #4a76a8;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 VK Профиль: Даша Пальчик</h1>
+        <div class="date">Сгенерировано: 10.03.2026 14:26</div>
+    </div>
+    
+    <div class="container">
+        <!-- Карточка профиля -->
+        <div class="profile-card">
+            <div class="profile-avatar">
+                <img src="https://sun23-2.userapi.com/s/v1/ig2/GRtaV--JZ2RCsZchzG1JoHWX0j0b_vTUjwgw6AD53e_tKarJhtkuvnIWh1sDcPODye9oYjKahr6ppC704_xKfgLL.jpg?quality=96&crop=3,418,1617,1617&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=0w_Z2d_3gl2dQclXUlfE374Yjzll3mMdtFOtX8VtTjs&cs=240x240" alt="Avatar">
+            </div>
+            <div class="profile-info">
+                <div class="profile-name">
+                    Даша Пальчик
+                </div>
+                <span class="profile-status status-offline">
+                    ⚫ Офлайн
+                </span>
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <div class="detail-label">ID</div>
+                        <div class="detail-value">293172436</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Пол</div>
+                        <div class="detail-value">Женский</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Дата рождения</div>
+                        <div class="detail-value">Не указана</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Город</div>
+                        <div class="detail-value">Новогрудок</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Страна</div>
+                        <div class="detail-value">Беларусь</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Табы -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('info')">📋 Информация</button>
+            <button class="tab-button" onclick="showTab('friends')">👥 Друзья (76)</button>
+            <button class="tab-button" onclick="showTab('photos')">📸 Фотографии (12)</button>
+        </div>
+        
+        <!-- Вкладка с информацией -->
+        <div id="tab-info" class="tab-content active">
+
+            <div class="section-title">📊 Статистика</div>
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-number">91</div>
+                    <div class="stat-label">Подписчиков</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">76</div>
+                    <div class="stat-label">Друзья</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">72</div>
+                    <div class="stat-label">Подарки</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">125</div>
+                    <div class="stat-label">Группы</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Фотографии</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Видео</div>
+                </div>
+
+            </div>
+
+            <div class="section-title">🎓 Образование и карьера</div>
+            <div class="stats-grid">
+
+            </div>
+
+        </div>
+        
+        <!-- Вкладка с друзьями -->
+        <div id="tab-friends" class="tab-content">
+
+            <div class="section-title">📊 Статистика друзей</div>
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)">
+                    <div class="stat-number">39</div>
+                    <div class="stat-label">Женщины</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%)">
+                    <div class="stat-number">37</div>
+                    <div class="stat-label">Мужчины</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Сейчас онлайн</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%)">
+                    <div class="stat-number">27.2</div>
+                    <div class="stat-label">Средний возраст</div>
+                </div>
+            </div>
+            
+            <div class="section-title">🏙️ Топ городов</div>
+            <div class="city-stats">
+
+                <div class="city-item">
+                    <span>Гродно</span>
+                    <span><strong>22</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>Минск</span>
+                    <span><strong>7</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>Новогрудок</span>
+                    <span><strong>7</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>Брест</span>
+                    <span><strong>2</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>Барановичи</span>
+                    <span><strong>1</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>Andorra la Vella</span>
+                    <span><strong>1</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>New York City</span>
+                    <span><strong>1</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>Волковыск</span>
+                    <span><strong>1</strong></span>
+                </div>
+
+                <div class="city-item">
+                    <span>Олекшицы</span>
+                    <span><strong>1</strong></span>
+                </div>
+
+            </div>
+            
+            <div class="section-title">👥 Все друзья</div>
+            <input type="text" class="search-box" id="friend-search" placeholder="🔍 Поиск по имени..." onkeyup="searchFriends()">
+            <div class="friends-grid" id="friends-grid">
+
+                <div class="friend-card" data-name="Андрей Гецевич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/KsidwHMSOfL_HthnjXTzT8-BtuLeTH6I8liL-NYvt217BOhif6k7KCEsotk0ozKtXLX51N8o.jpg?quality=96&crop=4,377,878,878&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=S1qgeiaoeBjXiIsDjb7LC-nD93Toj96RHrUGrnIzkF0&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Андрей Гецевич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Ольга Кудрявцева">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/VvNknOfhZdtqfwNpsK_sykNNfYyE4D3LuMXm4xdFWP2-YOkElLAu8VqdDxbDy24LEuYX2EWDmcwG5h2zde2Ao412.jpg?quality=96&crop=144,90,470,470&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&u=9ThCOTeFOVxorCEixkM_5SRWudUhHGV5s75MPIRDkDw&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Ольга Кудрявцева</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Минск
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Оля Урбан">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/BTtFKy1TlHPKoHhcctoFsbZRsjFmlsFmTAlE6hNSqqpS1FDlsLFdNh7A3idBd-r7mwmdIW9teEpWoj0fBUqqQg6l.jpg?quality=95&crop=1144,231,1208,1208&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=x-scID3fJHibYyif1cZptZgs0wZIu24clE25ieigfGw&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Оля Урбан</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Лена Шарковская">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/bBuxFaxl7uDlGEWyIWbSYH2eggjvUo9GNYOB7v3fbaeBpAsPIbYxao5-EmfBvGCknp5jQ8_Y59vVyi-tPNKm3TR0.jpg?quality=95&crop=353,740,1028,1028&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=L-D5y7mddADwCMYElenXZFBPYS9E5x_zM2jBn-lUUck&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Лена Шарковская</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Соня Протосовицкая">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/yn0XliSAtNXy6JGzut94UFt5bxb2aoL7-4fD9pfa6faXEDQQaXVgt5Mc46J3gjtE8M-lU7yasscJXeC5lEog2NDP.jpg?quality=95&crop=217,448,639,639&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540&ava=1&u=LISMtSuIqjJ_CZF1Ee8zGeePc1OVfnWU0V3OLoNLx7Q&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Соня Протосовицкая</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Егор Довгун">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/aK0k9Yz0OBOsR8sTzt4NOcBFd7HNad8RwbvPC08B12FsBb5Dd9KRfl-zyBdUbuqanP5unhrQRMwnuGIQwSpq8xIe.jpg?quality=95&crop=0,74,960,960&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=Up4_vlBeN2kQQXXb9dAp3B3s5Cj86HCof4JldSQ1P9A&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Егор Довгун</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Юлия Радевич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/Acscv_6n7_Ieq_v9Z4pYoBFdqgUYrr-REWDEtcPmsl9XTgtHh5uMox4LdnyU-Vd5cGyT80XqUr5mqjuQv3fb-qJQ.jpg?quality=96&crop=5,122,1196,1196&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=vHXLx4YHW7M1gWTPipZgYh6Up6gIo9HJimS0ZGpbUrM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Юлия Радевич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Минск
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Александр Чугай">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/fZpLvaq9aOcyUXSKoB87870V3dXf9Lbv8bxA4V7evF7TexlIb_D9aYEkk3voCHTnWWKOVjjPkBEE26zXW-6zarho.jpg?quality=96&crop=0,144,1620,1620&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=mIfYKN0L_qr43a9pfCAAkyNSHr2S3rG_3Q-WZROiGwY&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Александр Чугай</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Минск, 26 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Даша Семиш">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/MoiX2lFt9trTPGCczzX-MBQbglr_1sujrjUwTZZJvy8DPKXHeAZoRjFsolvFqmxglqLOxZeNO9e4lBg_DLJAF2Ea.jpg?quality=95&crop=131,239,273,273&as=32x32,48x48,72x72,108x108,160x160,240x240&ava=1&u=H7UVyCG01vUrzx9If40jnSfHxOrri5lE85I6L7_Jrac&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Даша Семиш</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 25 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Маргарита Федосевич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/sLcPZXCLqQCGXDBZUargQg7h-f-fvMc2fGrZ3funbmmfl5mPe-E09EnFI68_2WYZwEQGV4VuASo9GX07xwSZkIf3.jpg?quality=95&crop=224,308,1097,1097&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=RC9rf6CcokgYBIW4GXXOHJjzwGzzebMtp3vnTPVFNZg&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Маргарита Федосевич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Марк Котович">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/Gevz5dso4rpXeJPxPiGmE0ayVYqXREWHtBDUwTcof1lHFq7Z3gJmKIbGLH1daRLh8yEAySXAjgP2ZyU45_H_Rqmb.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=4f0YMuxtNE0GUpYuMRZoLA1RBjy-T8ugkqovyHJrHLk&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Марк Котович</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Барановичи
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Максим Пашковский">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig1/8a29xe0Mi6rHBFs2ZVI0fctV6hWkMzb-eii0HKb-9dPBi8Ag7rJEdlO4USMsIMmBjqPmpFIy.jpg?quality=96&crop=0,51,798,798&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=2tpzlHIEUNZiEOLG77FEwE3yUa4-AE7J331j6N7gFJ0&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Максим Пашковский</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="DELETED ">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">DELETED </div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Слава Салей">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/n48OLWn0HW1Ds0hST4aQ7HW_8VnZigKjgvYhg9xjTJDiwC-YzTbbJTUXcbstBN-JQcR2qcmCWk-0pD0A-jpcPEAM.jpg?quality=95&crop=527,242,1120,1120&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=8sKMtUNzVAo1QLpW_MH_uJgl4chvDvnIZ0Gc6TAlR8I&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Слава Салей</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 25 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Кирилл Колесникович">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/VDy3tDSTpJ1jC8qmghelnTfTJDTQb_EjPvGvzA_VoMFOPnX8dvXU-_0vqigpCtd6oOTGL7a1XjhicelqfRRKMPDV.jpg?quality=96&crop=696,288,339,339&as=32x32,48x48,72x72,108x108,160x160,240x240&ava=1&u=8Pwc-fk-_0W_YuhqdlXarDqy5V7vDC5J3nBOFSZdlng&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Кирилл Колесникович</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Брест, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Лёха Гинель">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/FSmFQBSREPum8185Hb6Uf6jWiEzbZghEkocPM2wt8KOHFOnbT_SttbfKFrmzwSEpsItR_8Fd9UBzjtshjMpML3B5.jpg?quality=96&crop=252,135,466,466&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&u=Ue02WWx-TVzuV88f8XHqyssBWPAzWkPgR4KGB5EF9PU&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Лёха Гинель</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Никита Травяной">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Никита Травяной</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Andorra la Vella
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Роман Комар">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/140MRJrGLeA3oC_0INj4wbveRLWIcTMaIMisVC3NKEN1T7lM2gT1EBCeAQdnyA7aHclMwPl-8lDS2JJivuBwaBOe.jpg?quality=95&crop=0,0,1920,1920&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=JS3WGSIVqaWVK6zPpnoUneEQ5oEkvj3cXvrsTpHhG6Y&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Роман Комар</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Новогрудок
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Дима Машков">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/EkFETDrSnGSPPR4KFip28HhdF_6jr6ZbzMhmzTZz49m_TGkFgvkoYO4Rr7egRZPe8pSxguQSVaOJy0O7ogmNmRtt.jpg?quality=95&crop=131,0,578,578&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540&ava=1&u=kwYZoj23L8SGUFypvZH75qkI02IIvc3QGHfJUt4sMdg&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Дима Машков</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Марта Туревич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/PLsSnFu5Wcax_2-XORopL28RIGmuglKW4DGdjCYKi4UxDJbOvsJVQp2AD3A0uy3WgR_Da6eNQQrJYREzQeYXTRMc.jpg?quality=96&crop=22,145,418,418&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&u=rZRU1iz1LVzqfq8d1a0PzLlbFQj4bVxmNBwJOddZEEw&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Марта Туревич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Диана Хломко">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Диана Хломко</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Евгения Деркач">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/BTtoFrz3qS1M_OUL8Rrk3-BovKbBpmriE4Rf0XkVwzHSIUn2KbucmbntdoRjjvZvY5z9zFEQWNTGqW4sPpsWstaB.jpg?quality=95&crop=2,99,1071,1071&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=KylwPlpSr1Toq3IFVKuxxji1PznEDBypT-06xNpRtUY&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Евгения Деркач</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Максим Самсонович">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Максим Самсонович</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Виктория Рива">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/goIVX5KQ5iqItBeuZi6hn815HluZLJB-A7jpXQHU5AzOx8mweV4Lrlr10lZGiv1ZYwD_j0La.jpg?quality=96&crop=0,0,806,806&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=GFOTmP-IXWlR8WOXdMXX8PUlLmKLGkHRjyDlf_krXro&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Виктория Рива</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Evelina Glavitskaya">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/585tKuhyJ-gTw3nwjOn3ndf93_2_yu2cxFBD5NL90k7TEO6vL9Hznrw6GlGddbwNUuX4nWxb.jpg?quality=96&crop=102,9,444,444&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&u=W3SMt6diazw9h3TrjR9Elk232I9Jezm8XLyOpTaElEw&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Evelina Glavitskaya</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Валентин Костевич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/U2pagjoT5PcFxSeLbXWAc8vajxVLtLhTjLODJOBAJ14rH_85AJ0-x_py8DfnvRIVWlCjH9dfS-IkVSbdHCe8FvNv.jpg?quality=95&crop=592,0,1299,1299&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&ava=1&u=-m8V-p38P-l6WI240wKf6GvYje477UlhfdK0YdalMLA&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Валентин Костевич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="DELETED ">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">DELETED </div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 25 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Арсений Мартиросянц">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/fIE1KfO2H7VSkiX_JTZ7GqJz5YZdzGmGH5-3tT0GqiQqZIzICQkAAlFdScexMOgpP1vqY9rwv939N8Ha3v5mcRGo.jpg?quality=95&crop=32,48,668,668&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640&ava=1&u=eSz0qAWC4Ur_A54a6pMEb9BGdtrqeH_A3IAUYOxkKSI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Арсений Мартиросянц</div>
+                        <div class="friend-details">
+                            <span class="friend-online">🟢 Онлайн</span><br>
+                            New York City, 31 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Рахим Караев">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/LKAc3szvLBq6RYKZlUbv02QVMcw_Z81UOtySTTHyuGQfuorlFltPAqNXjL5Zg4Bdm0wakY2pVCVLTx9BJdQQL8qt.jpg?quality=95&crop=681,3,1704,1704&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=prWj1rwtSrx8-77HxnWagnWvHnmW9rTKu2Qq9zgMHvE&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Рахим Караев</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Дарья Щерба">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/GZLnLXCjyH7eWGf0l2tIAuZEGgQQrjBxRl0pNUNOHNnaZ-XMqLOEndp75xdWw3ZWSXTvU96WoUWswQ8iOpV_MUxC.jpg?quality=95&crop=153,309,1227,1227&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=jIyrHAn8HKHsi_VtIDx1bzS1QyL3P4nunKTmHRKKjRQ&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Дарья Щерба</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Артём Радюк">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Артём Радюк</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Новогрудок
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Анастасия Омельянович">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig1/Z8LwvVV-YnoC92Yz3Dk4zSOqRryum7Y2JQa0jKMa0pviVlFFWhSBAnTEGwKrxiVtz9_lbKg0.jpg?quality=96&crop=0,0,719,719&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640&ava=1&u=Kyn4uZmNofq8szQdbrm7r6eMonC4uA-bbe6LKoXsnBg&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Анастасия Омельянович</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Новогрудок, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Максим Воробьёв">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/tVr4WmeZuDnFFtOnyNvhEJrrwtREruo4oV3AKsApO8UjccarFnIPv7svAUf7g_6QDEVFEtJNui6dbUqE13PJrMZ0.jpg?quality=95&crop=0,89,808,808&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=1yc4YP76P3GTYuav82m6B6yblg9DbcrdhkAG84fP5FI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Максим Воробьёв</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Никита Сизов">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/a5VQ8fqqa6ANnQEMkTgBkcgkQy-RACSYxJRFdaz_XaaTZ2eVlC1enl6Rjc71Ac-1Q_el2X8Ca2icn0U03xp7GOSm.jpg?quality=95&crop=32,0,573,573&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540&ava=1&u=_6RJzwS3mXA-H82JPPkx_8AWYZtk7IqE3GsLqid-N_E&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Никита Сизов</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Ольга Сырникова">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/dW7MKar7ZWMr3ZPghLEtAvZYBiZ9RZR0PVBCIFh9uqHehiVzuK77kS57btjpkfvfSWNTAlNkJowaKuEyJISAJ1Dj.jpg?quality=96&crop=40,140,661,661&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640&ava=1&u=MuTm0ooPUft9yjag2RSQWRq27ySned-j2iuzLTAqYd0&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Ольга Сырникова</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Варвара Штефирца">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/vieAlSbNcEU5Flz4Qltqzs8BK8aIBeocbIx2Sb0vCPCMg3eQpjaQnyQzbj4WBn7WzwTP8LyVSnCFjptXJkokoySX.jpg?quality=96&crop=0,0,1084,1084&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=hndWm1Mm3_2fqf8C4xqhZtdy9ym-F-_My74QymFV0Z0&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Варвара Штефирца</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Jarosław Xxlva">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/xxIygRz9lQ-6dJzv8XnWzBA_hWZli41Y-ARxyJKfb3xQkmQ1qZRY06pnBVGR9Awxo8QurLfoexUpcHhLXBehymJU.jpg?quality=95&crop=1,1,736,736&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=S9SVTQxdnvb0zDH-ysoAEueCPQNz7zI_4jyWVdISQ68&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Jarosław Xxlva</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Новогрудок
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Дарья Драчиловская">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/MDMFCrHxxaovd61Zl5yIADrqus2UHFZ67YYQ-M4FcXK30OLSxvpuwlTYZjNXD0C46O03kLoWrsF2jJECaI4kDkv_.jpg?quality=96&crop=7,388,1143,1143&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=szEK1ED-gNQzS9UDfOQsPT59TzSYrSQWJRLn-vUh0K0&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Дарья Драчиловская</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Новогрудок
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Даниил Колонтай">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/h1hwL5NutR3MBbe-LGF8vE7hbl2hJBuRuKMpQhLC-BXEgov_D024_d_4FIBbjjmup0Z1LWE4RR-s82Ak22F5jMvZ.jpg?quality=95&crop=0,209,2048,2048&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=O6g72S2vh79QT4JKLUU2OLK9iUea3OVZVITmr3VfWFM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Даниил Колонтай</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Misha Pup">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/TWWayCMbQkk48jrRU-H-NKwdmKsanYfBvI5fOMLOpOXzEt8oE9yHLqkizSMtYKihohLDm9wTQ867Z-IFBzuhszE5.jpg?quality=95&crop=99,2,402,402&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&u=hO4srtsjqSuRT7mYC_NVe6T9gGlpWrbu4jL5FDlLzto&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Misha Pup</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Брест
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Виктория Маркевич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/2RiE7UaahVisV3f7QfJf-6rK2cHIIu6yX2HBkrBWM3Oev9eyy6w5hBwiZW4QGp59Iln95_SHX-DEPuzZAKmMacHl.jpg?quality=95&crop=316,141,480,480&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480&ava=1&u=hm7C7fjk1laXNqtGy_KTBVse6jQFpxF7Q13s0mxAWpo&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Виктория Маркевич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Светлана Шарковская">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/-fqhewyIpZ03dSdjljHo0yB5PHWYM0XGg3-qfsgHJznOtOemXJ6P7jDQ9dEzGmmnXSldlKXh4SzqAkCFcbx4rxF7.jpg?quality=96&crop=1,258,718,718&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640&ava=1&u=K5433dzbNQzEtB6oc3vK1-DlEWKtFt8NgAX0ib42L-M&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Светлана Шарковская</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 52 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Кирилл Писарук">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/R9sz4H2V8WZ2sRy8BOWVvBbimgUJbEgPBCyW85DrGDOG6OJhD68a_Yell9wmkSCo0oHx59STWCmE86MDinvwdMl0.jpg?quality=96&crop=16,0,682,682&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640&ava=1&u=5OwUCGSY4s2O3CbvbzekoBEp-R2tvE15FsTn3ghOd3M&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Кирилл Писарук</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 25 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Ксения Жинко">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/JHsC3tPBR8zEuwP4dEnZHRtPrZZRPXnNghi1JO9oBmeEjkSN4v9aD31RbUDE1GlNz5P-ku_IDSWJCKNNCD9EOmr9.jpg?quality=95&crop=0,74,1529,1529&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=DB7O3tPRKbTj2VAlUyoLApXwX3wLvFQBzMcFE4TnFhA&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Ксения Жинко</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Виталий Хилевский">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/myk06oam9mWigAtGradpIxomwHXrE07If8rTcmlBtpND2eFH45Pc4G7wbUdaMvGIwAEKLTPG2NT70ZCen1gUF9ex.jpg?quality=95&crop=50,256,322,322&as=32x32,48x48,72x72,108x108,160x160,240x240&ava=1&u=IuigVrYyF7eu6yY78NKI9z29g_B5Ql92vE_mqP8HH7w&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Виталий Хилевский</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Полина Апанович">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/V9fovB12E970rbCJNJW3mPibpGO3Hr3200LFudNdu5r6UgjaIbyyRog5TeMYrlzG-fsnsKGMJ1KNRgJV69MUFpY0.jpg?quality=95&crop=258,246,1157,1157&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=BOPqx9LX98_OJmyQx3eiihdtWARB45zCWpB3cYWaviM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Полина Апанович</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Минск
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Надзея Лапа">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/ulPQ76TTdDKi9JQ9b7iRGeC4yTJh28zt-uff4BHWT6yShHK74P8P6d5e2V6EbGdwRQ7MsSkKZkrErTDwsjYTNfR3.jpg?quality=95&crop=214,2,850,850&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=Chitcy0HK4k64D45kQetHCRgZ1JvGNc1Zss1ub_oFT4&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Надзея Лапа</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Волковыск, 23 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Илья Онищик">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/udWKKjDYRsL18b6dRQqViUs_xOjvAljKfnQtVuDAbG_gjzULGHTqKeoNpZra9KQjsm766A5A.jpg?quality=96&crop=6,187,724,724&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=nzJsxM6B7SCZY6AQqTUURbx3aA0WGY788tesHHDq1xo&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Илья Онищик</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 25 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Anime Lover">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/J8Z9VJx5dljiVAd_d_CZvDJ_SKLjCKmI-yn87tDYnczSn4iWBmQYQXdTa-7z5Pq-G4d31rDV.jpg?quality=96&crop=4,3,712,712&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640&ava=1&u=j4REHfixXhXpLrkJ-Sze7JTtGBLS72WTEoi6Rh0QY0E&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Anime Lover</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Яна Василевич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/CZgHnX40jbt35UZXmfkHdaCwkkZfZvE_tNXIvdAp7iSTO1vS9Y8c7UB1l32LddcsivwSX8Gp.jpg?quality=96&crop=58,58,460,460&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&u=HKPMDMQhBlKFy8Hfjqn8ocbEZqwrQQrMujUPwI6OqUY&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Яна Василевич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Снежана Антипова">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Снежана Антипова</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Павел Лисовский">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Павел Лисовский</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Минск, 29 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Екатерина Бако">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Екатерина Бако</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 23 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Юлиан Айрапетов">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Юлиан Айрапетов</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Олекшицы, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Константин Арабчик">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig1/tPQhH3I4QFzX-htdxe_1qPH6yDJCM-kom_vI8V42-VxMUMHjnOt-7h8xNxingq6hRZiRLYCt.jpg?quality=96&crop=111,96,201,201&as=32x32,48x48,72x72,108x108,160x160&ava=1&u=7puFZ7y56ShmZ7sSg0YyH1rmRELccjA4GfATn27D-8U&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Константин Арабчик</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Álí Dábáśh">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/X5-bOP0JBRjAQQZzcJP9eAi1YK4ppvyxU2j3QFJml-Ir5xcP3s48tw7gwcribhXTtl4vaJh83PmL2691lAeBLGbS.jpg?quality=95&crop=461,8,1287,1287&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&ava=1&u=pKuT4zNyGv4l2i1sJWSHcgi0uaVGIJNeitqu-xHHuGs&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Álí Dábáśh</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 31 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Полина Буцкевич">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/RZtEhj7ibRoYg24zdyJC_RpsDjk1_-5m9ByibXNP83qFiPLlktPQHOv9BgOI3M7jmpvXsQ3EKvYPsMr_UDHC0BDh.jpg?quality=95&crop=96,317,628,628&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540&ava=1&u=uYTDiFrfjpClt73Qe5KYCka7FNplOmiTjAzl5AG5gk4&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Полина Буцкевич</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Виктория Воронова">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/t1pVrqkZ3Zy7TOUuljDUkFB9k1A6q1BOMMDW0iZ_EQogFvHku7mXp8AKOeBjuZXVbsdopbLrQ33wivTs2tkngONc.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=VbZBxR3uhhRXeV3js2ZY9MioRuMM4Otx3X6mt7EjIqI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Виктория Воронова</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Мария Коледа">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/PF3eN2E9XkW3xo6IdM6k0xDWauQB4Fg71nj7zspIOEpPNKpQQwbA4hryN43WkNmjmtpZsA_xCaoJA_LQHoCcIFNE.jpg?quality=95&crop=0,247,960,960&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=Waoh0FmQm4-QRsX0Wc83Xg-vydglmFG4C3pkNvMLZuM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Мария Коледа</div>
+                        <div class="friend-details">
+                            <span class="friend-online">🟢 Онлайн</span><br>
+                            Новогрудок, 21 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Денис Янюк">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/HIVEVAzQpA5Fds7hTQe3A9ulMHK2ac5bBoSjHgt0NSRG7imDvIKBW4CguGgqA-SRuklYz91gRbjZpwImMbfX6p3x.jpg?quality=95&crop=1,1,1077,1077&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=NCauKVWiao3j-PKXbqhyCGxhuVQSPl7OKxUjYx-C2sw&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Денис Янюк</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Яся Я">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/iGjdS6V5upmG2Vyu-7ISnN2RH2whq46unNr8ryVTICgIAQEj0Ncn3ZLwQFziFUmra3N_SP255LYFKGmenGGndd6t.jpg?quality=95&crop=328,7,1904,1904&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=W9PlQOlPT3F4BBdJ4SriFjiffMBWZC9XR29-3KHT3JM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Яся Я</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Минск, 26 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Владимир-Александрович Русакоф">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/he8YTRn2AcxaB_2-ACDG5XRkc8A-AXCsyC4cg1Z-5nrdFV2Tw6dXahjLKqAUKHNDeJvZ84HT35P2E1-aTT10Fo4I.jpg?quality=95&crop=406,1005,957,957&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=Zo2F6ejIeLpkV5H6mWpehfbaPoOJUH-MmQh-s7vPvYg&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Владимир-Александрович Русакоф</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Снов
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Полина Дементьева">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/_91uJDWEm_1LgQcUSJLTAbTgPpdcVApSSPF9xjvnQtQNcU2g7xar8u3NYQZIxMGQf9P490BHH60J8LarKySsXtPS.jpg?quality=95&crop=88,163,491,491&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480&ava=1&u=mMklmw65oYFQlxIoSLrsiRhRZaUVfBNiEZpn5q9X0oA&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Полина Дементьева</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 22 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Ilya Kardinalov">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Ilya Kardinalov</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Катрина К">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/impg/_nb2NhfE_jv_qxgCOx2FOjBdyXDTRZoApoB7ow/mLrG7mi-98Y.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=027f3a6ab46c06112aaff21998198fb8&u=Gsgve_JGBJIKsdpKeqSEdgzA8QnKETeW3ILhU4seZNI&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Катрина К</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Andrei Tsymbalist">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Andrei Tsymbalist</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 25 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Владимир Пальчик">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/Sg7YLbK3nQNArr01Q5KaTOxZc4JYvbIccZhoRjqp7TAPUmR08OGwbEafc4gFwWOC38HLVOCR.jpg?quality=96&crop=80,0,480,480&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480&ava=1&u=x4B_RfqpGlaBMXnWnNiObXMnElKAvkp9mA5MEnCqFxQ&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Владимир Пальчик</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Москва, 50 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Елена Малиновская">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig1/Xo74GDJHrkhIbFv_cbjuwNeFO1Jwpo_tIBqn_ByIq7GZXsbUo7lAIDQdIvnBpkYbEUxClQ.jpg?quality=96&crop=164,74,291,291&as=32x32,48x48,72x72,108x108,160x160,240x240&ava=1&u=8HTBTy_re2A4_TZ7VmwYfYiWl_sm2cOfzBgN7hYSC9k&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Елена Малиновская</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Минск, 35 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Миша Апанович">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Миша Апанович</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 46 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Zoro Roronoa">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/EFIbndKqvYA6iaYGWpLuE_nBRYEmmBChExTjqABfRX4NIO5U0PEiVH4EJLqdqp0XTN-ZYpp-SseIrI-39mQZ-2Zc.jpg?quality=96&crop=168,210,709,709&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640&ava=1&u=02jMUL4Rir33xjzGc8KPJWyP95aJlq1KhSKge5wJyKg&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Zoro Roronoa</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Женя Тишков">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/s/v1/ig2/IgpzBCyO2YBz-D1vkssZXHqR2zIVOv5DPQFHxO5bQx_yfP9hh-QSlhCPYxpVCnHf_il4vsMWNWHCE5589z7lvlY9.jpg?quality=96&crop=79,211,299,299&as=32x32,48x48,72x72,108x108,160x160,240x240&ava=1&u=IV2cKseYx90SzopPtfdBQwtJA4rnhxr3FQxfKGnljLs&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Женя Тишков</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Елена Пальчик">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Елена Пальчик</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Новогрудок, 44 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Анастасия Максимович">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/48M-qLqoA9JYeXSf4SJzbOxDVeaEgSCKO8mZn2MJU3Vwd2EdvbcUOy1anNxojU6CMCq6qaCtO3yHUIsqBPLt4oNP.jpg?quality=95&crop=96,448,479,479&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&u=OZtGmbEQbJI3fuhCO53j5UMykGoYQM2r7mvQIBr-7Ck&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Анастасия Максимович</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 20 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Полина Винглевская">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/IlEv-_Z0LY1VaowFLCQrLcnTG9WXRBxi-qSzebF5yMl49JcO_kaiKd32yIWmRGPQ2bt2y0GKgwUeawHWBkGD4UJL.jpg?quality=95&crop=0,0,2149,2149&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BTz70C6qemE-fFHQ54H6c4y1NTWFYHkQNI10bUf94AU&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Полина Винглевская</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Лида, 24 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Маха Привет">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-1.userapi.com/s/v1/ig2/SsSZhURHLx7GIFZo2BjxljGkp7s1oAwVRP7nh68QDYL67T2rjjk0HVx-_z9_Cow0bOo1ASQk0G1fxtSuGYd-Kbx5.jpg?quality=95&crop=0,0,736,736&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720&ava=1&u=bSPrOem2D25AKoDI7Jtru0XR1Dn1NjW_OIV2ZYI5agY&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Маха Привет</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            , 18 лет
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-card" data-name="Даниил Сорока">
+                    <div class="friend-avatar">
+                        <img src="https://sun23-2.userapi.com/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=100x100" alt="">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">Даниил Сорока</div>
+                        <div class="friend-details">
+                            <span class="friend-offline">⚫ Офлайн</span><br>
+                            Гродно, 23 лет
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+        <!-- Вкладка с фотографиями -->
+        <div id="tab-photos" class="tab-content">
+
+            <div class="section-title">📸 Все фотографии (12)</div>
+            <div class="photos-grid" id="photos-grid">
+
+                <div class="photo-card" onclick="openModal(0)">
+                    <img src="photos/photo_0001_1602258576.jpg" alt="Photo 1">
+                </div>
+
+                <div class="photo-card" onclick="openModal(1)">
+                    <img src="photos/photo_0002_1602230793.jpg" alt="Photo 2">
+                </div>
+
+                <div class="photo-card" onclick="openModal(2)">
+                    <img src="photos/photo_0003_1602182118.jpg" alt="Photo 3">
+                </div>
+
+                <div class="photo-card" onclick="openModal(3)">
+                    <img src="photos/photo_0004_1602137758.jpg" alt="Photo 4">
+                </div>
+
+                <div class="photo-card" onclick="openModal(4)">
+                    <img src="photos/photo_0005_1583056836.jpg" alt="Photo 5">
+                </div>
+
+                <div class="photo-card" onclick="openModal(5)">
+                    <img src="photos/photo_0006_1578768933.jpg" alt="Photo 6">
+                </div>
+
+                <div class="photo-card" onclick="openModal(6)">
+                    <img src="photos/photo_0007_1578768892.jpg" alt="Photo 7">
+                </div>
+
+                <div class="photo-card" onclick="openModal(7)">
+                    <img src="photos/photo_0008_1578768883.jpg" alt="Photo 8">
+                </div>
+
+                <div class="photo-card" onclick="openModal(8)">
+                    <img src="photos/photo_0009_1578743618.jpg" alt="Photo 9">
+                </div>
+
+                <div class="photo-card" onclick="openModal(9)">
+                    <img src="photos/photo_0010_1559232791.jpg" alt="Photo 10">
+                </div>
+
+                <div class="photo-card" onclick="openModal(10)">
+                    <img src="photos/photo_0011_1502866094.jpg" alt="Photo 11">
+                </div>
+
+                <div class="photo-card" onclick="openModal(11)">
+                    <img src="photos/photo_0012_1433245169.jpg" alt="Photo 12">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- Модальное окно для фотографий -->
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <button class="nav-button prev" onclick="changeImage(-1)">❮</button>
+        <button class="nav-button next" onclick="changeImage(1)">❯</button>
+        <img class="modal-content" id="modal-img">
+        <div class="photo-counter" id="modal-counter">1 / 12</div>
+    </div>
+    
+    <script>
+        // Массив фотографий
+        const photos = [
+            'photos/photo_0001_1602258576.jpg',
+            'photos/photo_0002_1602230793.jpg',
+            'photos/photo_0003_1602182118.jpg',
+            'photos/photo_0004_1602137758.jpg',
+            'photos/photo_0005_1583056836.jpg',
+            'photos/photo_0006_1578768933.jpg',
+            'photos/photo_0007_1578768892.jpg',
+            'photos/photo_0008_1578768883.jpg',
+            'photos/photo_0009_1578743618.jpg',
+            'photos/photo_0010_1559232791.jpg',
+            'photos/photo_0011_1502866094.jpg',
+            'photos/photo_0012_1433245169.jpg',
+
+        ];
+        
+        let currentImageIndex = 0;
+        
+        // Переключение табов
+        function showTab(tabName) {
+            // Скрываем все табы
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Убираем активный класс у всех кнопок
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Показываем выбранный таб
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // Активируем кнопку (находим кнопку по тексту или data-атрибуту)
+            const buttons = document.querySelectorAll('.tab-button');
+            for (let btn of buttons) {
+                if (btn.textContent.includes(tabName === 'info' ? 'Информация' : 
+                                              tabName === 'friends' ? 'Друзья' : 'Фотографии')) {
+                    btn.classList.add('active');
+                    break;
+                }
+            }
+        }
+        
+        // Поиск по друзьям
+        function searchFriends() {
+            const searchText = document.getElementById('friend-search').value.toLowerCase();
+            const friends = document.querySelectorAll('.friend-card');
+            
+            friends.forEach(friend => {
+                const name = friend.getAttribute('data-name').toLowerCase();
+                if (name.includes(searchText)) {
+                    friend.style.display = 'flex';
+                } else {
+                    friend.style.display = 'none';
+                }
+            });
+        }
+        
+        // Модальное окно для фото
+        function openModal(index) {
+            if (photos.length === 0) return;
+            currentImageIndex = index;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('modal-img').src = photos[currentImageIndex];
+            updateCounter();
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        function changeImage(direction) {
+            if (photos.length === 0) return;
+            currentImageIndex += direction;
+            if (currentImageIndex >= photos.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = photos.length - 1;
+            }
+            document.getElementById('modal-img').src = photos[currentImageIndex];
+            updateCounter();
+        }
+        
+        function updateCounter() {
+            document.getElementById('modal-counter').innerText = 
+                (currentImageIndex + 1) + ' / ' + photos.length;
+        }
+        
+        // Клавиши навигации
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('modal').style.display === 'block') {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+        });
+        
+        // Закрытие по клику вне изображения
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
