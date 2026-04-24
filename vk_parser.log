@@ -77,3 +77,44 @@
 2026-03-16 09:25:25 | WARNING  | vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
 2026-03-16 09:25:25 | WARNING  | vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
 2026-03-16 09:25:25 | INFO     | vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-03-16 09:52:38 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-03-16 09:52:49 | ERROR    | src.vk_api.vk_api_client | Ошибка при запросе utils.resolveScreenName: HTTPSConnectionPool(host='api.vk.com', port=443): Max retries exceeded with url: /method/utils.resolveScreenName?screen_names=naruto000uzumaki&access_token=vk1.a.placeholder_token&v=5.131 (Caused by NameResolutionError("HTTPSConnection(host='api.vk.com', port=443): Failed to resolve 'api.vk.com' ([Errno 11001] getaddrinfo failed)"))
+2026-03-16 09:52:49 | INFO     | src.vk_api.vk_api_client | Повторная попытка 1/3
+2026-03-16 09:52:52 | WARNING  | src.vk_api.vk_api_client | API error 5: User authorization failed: invalid access_token (4).
+2026-03-16 09:52:52 | ERROR    | src.vk_api.vk_api_client | Токен недействителен или отсутствует. Проверьте VK_TOKEN в config.py
+2026-03-16 09:52:52 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-03-16 09:52:54 | WARNING  | src.vk_api.vk_api_client | API error 5: User authorization failed: invalid access_token (4).
+2026-03-16 09:52:54 | ERROR    | src.vk_api.vk_api_client | Токен недействителен или отсутствует. Проверьте VK_TOKEN в config.py
+2026-03-16 09:52:54 | WARNING  | src.vk_api.vk_api_client | Пользователь не найден: naruto000uzumaki
+2026-03-16 09:53:17 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-03-16 09:53:19 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-03-16 09:53:19 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-03-16 09:53:20 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-03-16 09:53:33 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: lil_chinch
+2026-03-16 09:53:34 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-03-16 09:53:34 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: lil_chinch
+2026-03-16 09:53:36 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Влад Тамашевич (ID: 551667191)
+2026-03-16 09:54:15 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-03-16 09:54:16 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-03-16 09:54:16 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-03-16 09:54:18 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-04-24 20:24:48 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-24 20:24:49 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-24 20:24:49 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-24 20:24:49 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-04-24 20:24:51 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: lil_chinch
+2026-04-24 20:24:52 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-24 20:24:52 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: lil_chinch
+2026-04-24 20:24:52 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Влад Тамашевич (ID: 551667191)
+2026-04-24 20:25:19 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-24 20:25:20 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-24 20:25:20 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-24 20:25:20 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-04-24 20:25:22 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-24 20:25:23 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-24 20:25:23 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-24 20:25:23 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-04-24 20:25:52 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-24 20:25:53 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-24 20:25:53 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-24 20:25:53 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)

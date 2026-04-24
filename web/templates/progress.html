@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Загрузка... - VK Parser{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 text-center">
+        <div class="card">
+            <div class="card-body py-5">
+                <div class="spinner"></div>
+                <h4 class="mt-4">Загрузка профиля</h4>
+                <p class="text-muted">{{ message }}</p>
+                <div class="progress mt-4" style="height: 8px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                         style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Автоматическое обновление каждые 2 секунды
+    setTimeout(function() {
+        window.location.reload();
+    }, 3000);
+</script>
+{% endblock %}

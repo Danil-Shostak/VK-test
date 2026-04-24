@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}VK Parser - Главная{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-12 text-center">
+        <h1 class="mb-3">Анализ профилей ВКонтакте</h1>
+        <p class="lead text-muted">
+            Парсинг профилей и система идентификации пользователей
+        </p>
+    </div>
+</div>
+
+<!-- Карточки функций -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <a href="/parse" class="card feature-card p-4 h-100">
+            <div class="feature-icon parse">
+                <i class="fas fa-download"></i>
+            </div>
+            <h3>Парсинг профиля</h3>
+            <p class="text-muted mb-0">
+                Загрузить полную информацию о профиле VK: данные пользователя, список друзей, фотографии
+            </p>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="/compare" class="card feature-card p-4 h-100">
+            <div class="feature-icon compare">
+                <i class="fas fa-balance-scale"></i>
+            </div>
+            <h3>Сравнение профилей</h3>
+            <p class="text-muted mb-0">
+                Определить вероятность того, что два профиля принадлежат одному человеку
+            </p>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="/profiles" class="card feature-card p-4 h-100">
+            <div class="feature-icon history">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <h3>Сохраненные профили</h3>
+            <p class="text-muted mb-0">
+                Просмотреть ранее загруженные профили и результаты сравнений
+            </p>
+        </a>
+    </div>
+</div>
+
+<!-- Информация о возможностях -->
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">
+                    <i class="fas fa-info-circle text-primary me-2"></i>Возможности системы
+                </h4>
+                
+                <h6 class="text-muted mb-3">Парсинг профилей:</h6>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Полная информация о пользователе (имя, дата рождения, город, образование, работа)
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Список друзей с детальной информацией
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Загрузка и сохранение фотографий
+                    </li>
+                </ul>
+                
+                <h6 class="text-muted mb-3">Сравнение профилей:</h6>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Анализ имени (точное, нечеткое, фонетическое)
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Геолокационный анализ (город, страна, часовой пояс)
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Анализ социальных связей (общие друзья, группы)
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Демографический анализ (возраст, пол, образование)
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Визуальное сравнение фотографий
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Как начать -->
+<div class="row mt-4">
+    <div class="col-lg-8 mx-auto">
+        <div class="card bg-light border-0">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-rocket text-primary me-2"></i>Как начать
+                </h5>
+                <ol class="mb-0">
+                    <li class="mb-2">Перейдите на страницу <a href="/parse">Парсинг</a></li>
+                    <li class="mb-2">Введите URL или ID профиля VK</li>
+                    <li class="mb-2">При необходимости укажите API токен</li>
+                    <li class="mb-2">Нажмите "Начать парсинг" и дождитесь завершения</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

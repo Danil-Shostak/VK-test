@@ -3,12 +3,14 @@
 import os
 
 # VK API токен
-# Приоритет: 1) переменная окружения 2) файл token.txt 3) значение по умолчанию
+# Приоритет: 1) переменная окружения 2) файл token.txt в корне проекта 3) значение по умолчанию
 VK_TOKEN = os.environ.get('VK_TOKEN')
 
-# Если токен не найден в переменной окружения, пробуем считать из файла
+# Если токен не найден в переменной окружения, пробуем считать из файла в корне проекта
 if not VK_TOKEN:
-    token_file = os.path.join(os.path.dirname(__file__), 'token.txt')
+    # Ищем token.txt в корне проекта
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    token_file = os.path.join(project_root, 'token.txt')
     if os.path.exists(token_file):
         with open(token_file, 'r', encoding='utf-8') as f:
             VK_TOKEN = f.read().strip()

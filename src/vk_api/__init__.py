@@ -1,6 +1,6 @@
 # VK API Client Package
 # Модули для взаимодействия с API ВКонтакте
 
-from .vk_api_client import VKAPIClient
+from .vk_api_client import VKApiClient
 
-__all__ = ['VKAPIClient']
+__all__ = ['VKApiClient']

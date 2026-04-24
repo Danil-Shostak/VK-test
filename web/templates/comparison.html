@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Результат сравнения - VK Parser{% endblock %}
+
+{% block content %}
+<!-- Заголовок с оценкой -->
+<div class="card mb-4">
+    <div class="card-body text-center py-5">
+        {% set percentage = result.final.percentage|default(0)|int %}
+        <div class="match-score {% if percentage >= 70 %}match-high{% elif percentage >= 40 %}match-medium{% else %}match-low{% endif %}">
+            {{ percentage }}%
+        </div>
+        <h3 class="mt-3 {% if percentage >= 70 %}text-success{% elif percentage >= 40 %}text-warning{% else %}text-danger{% endif %}">
+            {{ result.final.interpretation }}
+        </h3>
+        <p class="text-muted mb-0">
+            Уверенность: {{ result.final.confidence }}
+        </p>
+    </div>
+</div>
+
+<!-- Карточки профилей -->
+<div class="row g-4 mb-4">
+    <!-- Профиль 1 -->
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-user me-2 text-primary"></i>Профиль 1
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    {% if profile1.photo_200 %}
+                    <img src="{{ profile1.photo_200 }}" alt="Avatar" class="profile-avatar mb-3">
+                    {% else %}
+                    <div class="profile-avatar mb-3 bg-light d-flex align-items-center justify-content-center mx-auto">
+                        <i class="fas fa-user fa-3x text-secondary"></i>
+                    </div>
+                    {% endif %}
+                    <h5>{{ profile1.first_name }} {{ profile1.last_name }}</h5>
+                    {% if profile1.screen_name %}
+                    <a href="https://vk.com/{{ profile1.screen_name }}" target="_blank" class="text-decoration-none">
+                        @{{ profile1.screen_name }}
+                    </a>
+                    {% endif %}
+                </div>
+                <table class="table table-sm">
+                    {% if profile1.city %}
+                    <tr><td class="text-muted">Город</td><td>{{ profile1.city.title }}</td></tr>
+                    {% endif %}
+                    {% if profile1.country %}
+                    <tr><td class="text-muted">Страна</td><td>{{ profile1.country.title }}</td></tr>
+                    {% endif %}
+                    {% if profile1.bdate %}
+                    <tr><td class="text-muted">Дата рождения</td><td>{{ profile1.bdate }}</td></tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Профиль 2 -->
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-user me-2 text-success"></i>Профиль 2
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    {% if profile2.photo_200 %}
+                    <img src="{{ profile2.photo_200 }}" alt="Avatar" class="profile-avatar mb-3">
+                    {% else %}
+                    <div class="profile-avatar mb-3 bg-light d-flex align-items-center justify-content-center mx-auto">
+                        <i class="fas fa-user fa-3x text-secondary"></i>
+                    </div>
+                    {% endif %}
+                    <h5>{{ profile2.first_name }} {{ profile2.last_name }}</h5>
+                    {% if profile2.screen_name %}
+                    <a href="https://vk.com/{{ profile2.screen_name }}" target="_blank" class="text-decoration-none">
+                        @{{ profile2.screen_name }}
+                    </a>
+                    {% endif %}
+                </div>
+                <table class="table table-sm">
+                    {% if profile2.city %}
+                    <tr><td class="text-muted">Город</td><td>{{ profile2.city.title }}</td></tr>
+                    {% endif %}
+                    {% if profile2.country %}
+                    <tr><td class="text-muted">Страна</td><td>{{ profile2.country.title }}</td></tr>
+                    {% endif %}
+                    {% if profile2.bdate %}
+                    <tr><td class="text-muted">Дата рождения</td><td>{{ profile2.bdate }}</td></tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Детальный анализ -->
+<div class="card mb-4">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
+            <i class="fas fa-chart-pie me-2"></i>Детальный анализ
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Прогресс-бары -->
+        <div class="row g-4 mb-4">
+            {% if result.name %}
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>Имя</span>
+                    <span class="fw-bold">{{ result.name.percentage|int }}%</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-primary" style="width: {{ result.name.percentage }}%"></div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if result.geo %}
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>Геолокация</span>
+                    <span class="fw-bold">{{ result.geo.percentage|int }}%</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-info" style="width: {{ result.geo.percentage }}%"></div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if result.friends %}
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>Друзья</span>
+                    <span class="fw-bold">{{ result.friends.percentage|int }}%</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-success" style="width: {{ result.friends.percentage }}%"></div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if result.demographics %}
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>Демография</span>
+                    <span class="fw-bold">{{ result.demographics.percentage|int }}%</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-warning" style="width: {{ result.demographics.percentage }}%"></div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if result.visual %}
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>Визуальное сходство</span>
+                    <span class="fw-bold">{{ result.visual.percentage|int }}%</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-danger" style="width: {{ result.visual.percentage }}%"></div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Детали -->
+        {% if result.name and result.name.details %}
+        <h6>Анализ имени:</h6>
+        <ul class="small text-muted mb-3">
+            {% for detail in result.name.details %}
+            <li>{{ detail }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        {% if result.friends and result.friends.details %}
+        <h6>Анализ друзей:</h6>
+        <ul class="small text-muted mb-3">
+            {% for detail in result.friends.details %}
+            <li>{{ detail }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        {% if result.geo and result.geo.details %}
+        <h6>Геолокация:</h6>
+        <ul class="small text-muted mb-3">
+            {% for detail in result.geo.details %}
+            <li>{{ detail }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Действия -->
+<div class="d-flex gap-2">
+    <a href="/compare" class="btn btn-vk">
+        <i class="fas fa-redo me-2"></i>Новое сравнение
+    </a>
+    <a href="/" class="btn btn-outline-secondary">
+        <i class="fas fa-home me-2"></i>На главную
+    </a>
+</div>
+{% endblock %}

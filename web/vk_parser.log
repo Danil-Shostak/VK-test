@@ -1,0 +1,12 @@
+2026-03-16 10:06:26 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-03-16 10:06:27 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-03-16 10:06:27 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-03-16 10:06:28 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-03-16 10:06:32 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: lil_chinch
+2026-03-16 10:06:34 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-03-16 10:06:34 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: lil_chinch
+2026-03-16 10:06:35 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Влад Тамашевич (ID: 551667191)
+2026-03-16 10:07:07 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-03-16 10:07:09 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-03-16 10:07:09 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-03-16 10:07:10 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)

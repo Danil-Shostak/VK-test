@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user_data.raw_data.first_name }} {{ user_data.raw_data.last_name }} - VK Parser{% endblock %}
+
+{% block content %}
+<!-- Заголовок профиля -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                {% if user_data.raw_data.photo_200 %}
+                <img src="{{ user_data.raw_data.photo_200 }}" 
+                     alt="Avatar" 
+                     class="profile-avatar">
+                {% else %}
+                <div class="profile-avatar bg-light d-flex align-items-center justify-content-center">
+                    <i class="fas fa-user fa-3x text-secondary"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col">
+                <h2 class="mb-1">
+                    {{ user_data.raw_data.first_name }} {{ user_data.raw_data.last_name }}
+                </h2>
+                {% if user_data.raw_data.screen_name %}
+                <p class="mb-1">
+                    <a href="https://vk.com/{{ user_data.raw_data.screen_name }}" 
+                       target="_blank" 
+                       class="text-decoration-none">
+                        @{{ user_data.raw_data.screen_name }}
+                    </a>
+                </p>
+                {% endif %}
+                <span class="status-badge {% if user_data.raw_data.online == 1 %}status-online{% else %}status-offline{% endif %}">
+                    {% if user_data.raw_data.online == 1 %}<i class="fas fa-circle me-1"></i>Онлайн{% else %}Не в сети{% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Информация о пользователе -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-user me-2 text-primary"></i>Основная информация
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                        {% if user_data.raw_data.bdate %}
+                        <tr>
+                            <td class="text-muted">Дата рождения:</td>
+                            <td>{{ user_data.raw_data.bdate }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user_data.raw_data.city %}
+                        <tr>
+                            <td class="text-muted">Город:</td>
+                            <td>{{ user_data.raw_data.city.title }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user_data.raw_data.country %}
+                        <tr>
+                            <td class="text-muted">Страна:</td>
+                            <td>{{ user_data.raw_data.country.title }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user_data.raw_data.university_name %}
+                        <tr>
+                            <td class="text-muted">Университет:</td>
+                            <td>{{ user_data.raw_data.university_name }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user_data.raw_data.faculty_name %}
+                        <tr>
+                            <td class="text-muted">Факультет:</td>
+                            <td>{{ user_data.raw_data.faculty_name }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user_data.raw_data.occupation %}
+                        <tr>
+                            <td class="text-muted">Работа:</td>
+                            <td>{{ user_data.raw_data.occupation.name }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar me-2 text-primary"></i>Статистика
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6 mb-3">
+                        <div class="display-6 fw-bold text-primary">
+                            {% if friends_data and friends_data.count %}
+                                {{ friends_data.count }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </div>
+                        <div class="text-muted">Друзей</div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="display-6 fw-bold text-success">
+                            {% if photos_data %}
+                                {{ photos_data|length }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </div>
+                        <div class="text-muted">Фотографий</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Фотографии -->
+{% if photos_data and photos_data|length > 0 %}
+<div class="card mb-4">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
+            <i class="fas fa-images me-2 text-primary"></i>Фотографии
+            <span class="text-muted">({{ photos_data|length }})</span>
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="photo-grid">
+            {% for photo in photos_data[:20] %}
+            <img src="{{ photo.sizes[-1].url }}" 
+                 alt="Photo {{ loop.index }}"
+                 data-bs-toggle="modal" 
+                 data-bs-target="#photoModal"
+                 onclick="showPhoto('{{ photo.sizes[-1].url }}')">
+            {% endfor %}
+        </div>
+        {% if photos_data|length > 20 %}
+        <p class="text-muted text-center mt-3 mb-0">
+            Показано 20 из {{ photos_data|length }} фотографий
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Друзья -->
+{% if friends_data and friends_data['items'] and (friends_data['items']|list)|length > 0 %}
+<div class="card mb-4">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
+            <i class="fas fa-user-friends me-2 text-primary"></i>Друзья
+            <span class="text-muted">({{ friends_data.count }})</span>
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            {% for friend in (friends_data['items']|list)[:50] %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="d-flex align-items-center p-2 rounded bg-light">
+                    {% if friend.photo_100 %}
+                    <img src="{{ friend.photo_100 }}" 
+                         alt="{{ friend.first_name }}" 
+                         class="avatar-small me-2">
+                    {% else %}
+                    <div class="avatar-small me-2 bg-secondary d-flex align-items-center justify-content-center">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    {% endif %}
+                    <div class="text-truncate">
+                        <a href="https://vk.com/id{{ friend.id }}" 
+                           target="_blank"
+                           class="text-decoration-none text-dark small">
+                            {{ friend.first_name }} {{ friend.last_name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if friends_data.count > 50 %}
+        <p class="text-muted text-center mt-3 mb-0">
+            Показано 50 из {{ friends_data.count }} друзей
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Действия -->
+<div class="d-flex gap-2">
+    <a href="/compare" class="btn btn-vk">
+        <i class="fas fa-balance-scale me-2"></i>Сравнить с другим профилем
+    </a>
+    <a href="/" class="btn btn-outline-secondary">
+        <i class="fas fa-home me-2"></i>На главную
+    </a>
+</div>
+
+<!-- Модальное окно для фото -->
+<div class="modal fade" id="photoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-body p-0 text-center">
+                <img id="modalPhoto" src="" class="img-fluid" alt="Photo">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPhoto(url) {
+    document.getElementById('modalPhoto').src = url;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Парсинг профиля - VK Parser{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header bg-white py-3">
+                <h4 class="mb-0">
+                    <i class="fas fa-download me-2 text-primary"></i>Парсинг профиля VK
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+                </div>
+                {% endif %}
+                
+                <form method="POST" action="/parse">
+                    <div class="mb-4">
+                        <label for="profile_url" class="form-label fw-semibold">
+                            URL или ID профиля
+                        </label>
+                        <input type="text" 
+                               class="form-control form-control-lg" 
+                               id="profile_url" 
+                               name="profile_url" 
+                               placeholder="Например: vk.com/id123456789 или id123456789"
+                               required>
+                        <div class="form-text">
+                            Можно ввести полную ссылку или только ID пользователя
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="token" class="form-label fw-semibold">
+                            VK API токен <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="token" 
+                               name="token" 
+                               placeholder="Введите ваш access_token">
+                        <div class="form-text">
+                            Токен можно получить на странице 
+                            <a href="https://vk.com/apps?act=manage" target="_blank">Мои приложения</a>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   id="download_photos" 
+                                   name="download_photos" 
+                                   checked>
+                            <label class="form-check-label" for="download_photos">
+                                Скачивать фотографии профиля
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-vk btn-lg">
+                            <i class="fas fa-search me-2"></i>Начать парсинг
+                        </button>
+                        <a href="/" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>На главную
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Информация -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-info-circle me-2"></i>Как получить токен VK
+                </h6>
+                <ol class="mb-0 small text-muted">
+                    <li>Перейдите на <a href="https://vk.com/apps?act=manage" target="_blank">Мои приложения</a></li>
+                    <li>Создайте новое приложение (Тип: Standalone)</li>
+                    <li>Перейдите в "Настройки" → "Ключи доступа"</li>
+                    <li>Скопируйте access_token</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

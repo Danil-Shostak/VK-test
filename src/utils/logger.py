@@ -3,7 +3,52 @@
 import logging
 import os
 from datetime import datetime
-from config import LOG_LEVEL, LOG_FILE
+from src.utils.config import LOG_LEVEL, LOG_FILE
+
+def setup_logger(name: str, level: str = None) -> logging.Logger:
+    """
+    Настраивает и возвращает логгер
+    
+    Args:
+        name: Имя логгера
+        level: Уровень логирования (опционально)
+    
+    Returns:
+        Настроенный логгер
+    """
+    logger = logging.getLogger(name)
+    
+    if logger.handlers:
+        return logger
+    
+    # Уровень
+    log_level = level or LOG_LEVEL
+    lvl = getattr(logging, log_level.upper(), logging.INFO)
+    logger.setLevel(lvl)
+    
+    # Формат
+    formatter = logging.Formatter(
+        '%(asctime)s | %(levelname)-8s | %(name)s | %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    
+    # Консоль
+    console = logging.StreamHandler()
+    console.setLevel(lvl)
+    console.setFormatter(formatter)
+    logger.addHandler(console)
+    
+    # Файл
+    if LOG_FILE:
+        log_dir = os.path.dirname(LOG_FILE)
+        if log_dir and not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
+        file_handler = logging.FileHandler(LOG_FILE, encoding='utf-8')
+        file_handler.setLevel(lvl)
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+    
+    return logger
 
 def get_logger(name: str) -> logging.Logger:
     """
