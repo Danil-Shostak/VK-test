@@ -322,64 +322,147 @@ class ProfileComparer:
     
     def _analyze_visual(self, p1: Optional[Dict], p2: Optional[Dict], ph1: Optional[List], ph2: Optional[List]) -> Dict[str, Any]:
         """
-        Анализирует визуальные данные (включая сравнение лиц)
+        Анализирует визуальные данные (включая сравнение лиц по всем фотографиям)
         """
-
+        
         if not p1 or not p2:
             return {
                 'score': 0.0,
                 'has_data': False,
                 'interpretation': 'Нет данных профилей для анализа'
             }
-
-        # Сначала пытаемся сравнить аватарки (лица)
+        
+        # 1. Сначала сравниваем аватарки (быстро)
         print("   Сравнение аватарок профилей...")
         avatar_result = self.visual_matcher.compare_avatars(p1, p2)
-
+        
         face_similarity = 0.0
         face_match = False
         face_method = 'none'
-
+        all_photos_result = {}
+        
         if avatar_result.get('face_comparison'):
             fc = avatar_result['face_comparison']
             if fc.get('face_similarity'):
                 face_similarity = fc['face_similarity']
                 face_match = fc.get('face_match', False)
                 face_method = fc.get('method', 'unknown')
-                print(f"      Лица: {face_similarity:.1f}% схожесть ({face_method})")
-
-        # Также анализируем коллекции фотографий
-        if not ph1 or not ph2:
-            return {
-                'score': face_similarity / 100.0 if face_similarity > 0 else 0.0,
-                'has_data': True,
-                'face_similarity': face_similarity,
-                'face_match': face_match,
-                'face_method': face_method,
-                'identical_photos': 0,
-                'interpretation': avatar_result.get('interpretation', 'Сравнение выполнено')
-            }
-
-        result = self.visual_matcher.compare_photo_collections(ph1, ph2)
-        identical_photos = result.get('identical_photos_count', 0)
-
-        if face_similarity > 0:
-            final_score = face_similarity / 100.0
-            interpretation = f"Схожесть лиц: {face_similarity:.1f}%"
-            if face_match:
-                interpretation += " - ВЫСОКАЯ ВЕРОЯТНОСТЬ СОВПАДЕНИЯ"
+                print(f"      Лица (аватары): {face_similarity:.1f}% схожесть ({face_method})")
+        
+        # 2. Если на аватарах не найдено лиц И есть другие фотографии — сравниваем все фотки
+        all_photos_similarity = 0.0
+        if ph1 and ph2 and (face_similarity == 0 or face_similarity < 60):
+            print("   Сравнение всех фотографий (face matching)...")
+            all_photos_result = self.visual_matcher.compare_all_photos(ph1, ph2, max_comparisons=200)
+            all_photos_similarity = all_photos_result.get('max_similarity', 0.0)
+            print(f"      Лица (все фото): {all_photos_similarity:.1f}% схожесть")
+        
+        # 3. Анализ коллекций фото (метаданные)
+        activity_similarity = 0.0
+        identical_photos = 0
+        if ph1 and ph2:
+            photo_collection_result = self.visual_matcher.compare_photo_collections(ph1, ph2)
+            identical_photos = photo_collection_result.get('identical_photos_count', 0)
+            activity_similarity = photo_collection_result.get('activity_similarity', 0.0)
+            print(f"      Идентичных фото: {identical_photos}")
+            print(f"      Сходство активности: {activity_similarity:.1%}")
+        
+        # 4. Определяем итоговый score (берем максимальное сходство из всех источников)
+        best_face_similarity = max(face_similarity, all_photos_similarity)
+        visual_score = best_face_similarity / 100.0
+        
+        # Если вообще нет совпадений по лицам — используем activity_similarity (с понижающим коэффициентом)
+        if visual_score == 0.0 and activity_similarity > 0:
+            visual_score = activity_similarity * 0.5
+        
+        # 5. Интерпретация
+        if best_face_similarity >= 80:
+            interpretation = "Очень высокая схожесть - вероятно одно и то же лицо"
+        elif best_face_similarity >= 60:
+            interpretation = "Высокая схожесть лиц"
+        elif identical_photos > 0:
+            interpretation = f"Найдено {identical_photos} идентичных фотографий"
+        elif activity_similarity > 0.7:
+            interpretation = "Похожая активность на фотографиях"
         else:
-            final_score = result.get('activity_similarity', 0.0)
-            interpretation = result.get('interpretation', '')
-
+            interpretation = "Низкое визуальное сходство"
+        
         return {
-            'score': final_score,
+            'score': visual_score,
             'has_data': True,
-            'face_similarity': face_similarity,
-            'face_match': face_match,
-            'face_method': face_method,
+            'face_similarity': best_face_similarity,
+            'face_match': best_face_similarity >= 60,
+            'face_method': face_method if face_similarity > 0 else 'face_recognition_all_photos',
             'identical_photos': identical_photos,
-            'activity_similarity': result.get('activity_similarity', 0.0),
+            'activity_similarity': activity_similarity,
+            'all_photos_comparisons': all_photos_result.get('total_comparisons', 0) if all_photos_result else 0,
+            'interpretation': interpretation
+        }
+        
+        # 1. Сначала сравниваем аватарки (быстро)
+        print("   Сравнение аватарок профилей...")
+        avatar_result = self.visual_matcher.compare_avatars(p1, p2)
+        
+        face_similarity = 0.0
+        face_match = False
+        face_method = 'none'
+        
+        if avatar_result.get('face_comparison'):
+            fc = avatar_result['face_comparison']
+            if fc.get('face_similarity'):
+                face_similarity = fc['face_similarity']
+                face_match = fc.get('face_match', False)
+                face_method = fc.get('method', 'unknown')
+                print(f"      Лица (аватары): {face_similarity:.1f}% схожесть ({face_method})")
+        
+        # 2. Если на аватарах не найдено лиц И есть другие фотографии — сравниваем все фотки
+        all_photos_similarity = 0.0
+        if ph1 and ph2 and (face_similarity == 0 or not face_match):
+            print("   Сравнение всех фотографий (face matching)...")
+            all_photos_result = self.visual_matcher.compare_all_photos(ph1, ph2, max_comparisons=300)
+            all_photos_similarity = all_photos_result.get('max_similarity', 0.0)
+            print(f"      Лица (все фото): {all_photos_similarity:.1f}% схожесть")
+        
+        # 3. Анализ коллекций фото (метаданные)
+        activity_similarity = 0.0
+        identical_photos = 0
+        if ph1 and ph2:
+            photo_collection_result = self.visual_matcher.compare_photo_collections(ph1, ph2)
+            identical_photos = photo_collection_result.get('identical_photos_count', 0)
+            activity_similarity = photo_collection_result.get('activity_similarity', 0.0)
+            print(f"      Идентичных фото: {identical_photos}")
+            print(f"      Сходство активности: {activity_similarity:.1%}")
+        
+        # 4. Определяем итоговый score
+        # Берем максимальное сходство из: аватаров, всех фото, активности
+        visual_score = max(face_similarity, all_photos_similarity) / 100.0
+        
+        # Если вообще нет совпадений по лицам — используем activity_similarity
+        if visual_score == 0.0 and activity_similarity > 0:
+            visual_score = activity_similarity * 0.5  #Downweight activity-only match
+        
+        # Интерпретация
+        if face_similarity >= 80 or all_photos_similarity >= 80:
+            interpretation = "Очень высокая схожесть лиц - вероятно одно и то же лицо"
+        elif face_similarity >= 60 or all_photos_similarity >= 60:
+            interpretation = "Высокая схожесть лиц"
+        elif identical_photos > 0:
+            interpretation = f"Найдено {identical_photos} идентичных фотографий"
+        elif activity_similarity > 0.7:
+            interpretation = "Похожая активность в фотографиях"
+        else:
+            interpretation = "Низкое визуальное сходство"
+        
+        return {
+            'score': visual_score,
+            'has_data': True,
+            'face_similarity': max(face_similarity, all_photos_similarity),
+            'face_match': face_match or all_photos_similarity >= 60,
+            'face_method': face_method if face_similarity > 0 else 'face_recognition_all_photos',
+            'identical_photos': identical_photos,
+            'activity_similarity': activity_similarity,
+            'identical_photos_count': identical_photos,
+            'all_photos_comparisons': all_photos_result.get('total_comparisons', 0) if ph1 and ph2 else 0,
             'interpretation': interpretation
         }
     

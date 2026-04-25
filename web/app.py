@@ -156,6 +156,7 @@ def index():
 @app.route('/parse', methods=['GET', 'POST'])
 def parse():
     """Страница парсинга профиля"""
+    
     if request.method == 'GET':
         return render_template('parse.html')
     

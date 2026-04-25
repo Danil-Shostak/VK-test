@@ -12,16 +12,13 @@ from typing import Dict, List, Tuple, Optional
 from collections import Counter
 from datetime import datetime
 
-# Импортируем модули распознавания лиц
-FACE_RECOGNITION_AVAILABLE = False
-CV2_AVAILABLE = False
-MEDIAPIPE_AVAILABLE = False
-
+# Импортируем модули распознавания лица (опционально)
 try:
     import face_recognition
     FACE_RECOGNITION_AVAILABLE = True
 except ImportError:
-    pass
+    FACE_RECOGNITION_AVAILABLE = False
+    print("[INFO] face_recognition не установлен — визуальное сравнение лиц через аватары отключено. Для активации: pip install face-recognition dlib")
 
 try:
     import cv2
@@ -50,8 +47,8 @@ class VisualMatcher:
     - Распознавание и сравнение лиц (ИНТЕГРИРОВАННО)
     """
     
-    # Типичные размеры аватарок VK
-    AVATAR_SIZES = ['photo_50', 'photo_100', 'photo_200', 'photo_400', 'photo_max', 'photo_max_orig']
+    # Приоритетные размеры аватарок VK (от бОльшего к меньшему)
+    AVATAR_SIZES = ['photo_max_orig', 'photo_max', 'photo_400', 'photo_200', 'photo_100', 'photo_50']
     
     # Единый порог для определения совпадения лиц
     FACE_MATCH_THRESHOLD = 0.6  # евклидово расстояние для face_recognition
@@ -72,39 +69,46 @@ class VisualMatcher:
             try:
                 self.face_engine = FaceRecognitionEngine()
                 if self.face_engine.is_available:
-                    print("[OK] FaceRecognition engine initialized")
+                    print("[OK] FaceRecognition engine initialized (точное сравнение лиц)")
+                else:
+                    print("[INFO] FaceRecognition engine не готов")
             except Exception as e:
-                print("[X] Initialization error: " + str(e))
+                print(f"[WARN] Ошибка инициализации FaceRecognition: {e}")
+        else:
+            print("[INFO] face_recognition не установлен — сравнение лиц недоступно. Для активации: pip install face-recognition dlib")
         
-        # 2. Пробуем OpenCV (fallback)
+        # 2. Пробуем OpenCV (fallback — только детекция)
+        try:
+            import cv2
+            CV2_AVAILABLE = True
+        except ImportError:
+            CV2_AVAILABLE = False
+        
         if CV2_AVAILABLE and not self.face_engine:
             try:
                 self.opencv_recognizer = OpenCVFaceRecognizer()
                 if self.opencv_recognizer.is_available:
-                    print("[OK] OpenCV FaceRecognizer initialized")
+                    print("[OK] OpenCV FaceRecognizer initialized (детекция лиц без сравнения)")
+                else:
+                    print("[INFO] OpenCV FaceRecognizer не доступен")
             except Exception as e:
-                print("[X] OpenCV init error: " + str(e))
+                print(f"[WARN] Ошибка инициализации OpenCV: {e}")
         
-        # 3. Пробуем MediaPipe (fallback)
-        if MEDIAPIPE_AVAILABLE and not self.face_engine:
-            try:
-                self.mediapipe_recognizer = MediaPipeFaceRecognizer()
-                if self.mediapipe_recognizer.is_available:
-                    print("[OK] MediaPipe FaceRecognizer initialized")
-            except Exception as e:
-                print("[X] MediaPipe init error: " + str(e))
+        # 3. MediaPipe (пока отключён)
+        print("[INFO] MediaPipe отключён (требует ручной загрузки моделей)")
     
     def get_avatar_url(self, user_data: Dict) -> Optional[str]:
         """
-        Извлекает URL аватарки профиля
+        Извлекает URL аватарки профиля (самый большой доступный размер)
         
         Args:
             user_data: Данные пользователя от VK API
         """
         
-        # Пробуем получить оригинальное фото
+        # Ищем самый большой размер (приоритет: photo_max_orig > photo_max > photo_400 > ...)
         for size in self.AVATAR_SIZES:
             if size in user_data and user_data[size]:
+                print(f"   [DEBUG get_avatar_url] Выбрали размер '{size}': {user_data[size][:80]}...")
                 return user_data[size]
         
         return None
@@ -251,15 +255,8 @@ class VisualMatcher:
     def compare_avatars_by_url(self, avatar_url1: str, avatar_url2: str, temp_dir: str = "temp_avatars") -> Dict[str, any]:
         """
         Сравнивает аватарки двух профилей по URL с использованием распознавания лиц
-        
-        Args:
-            avatar_url1: URL первой аватарки
-            avatar_url2: URL второй аватарки
-            temp_dir: Временная папка для скачанных аватарок
-            
-        Returns:
-            Результат сравнения лиц
         """
+        print(f"   [DEBUG] compare_avatars_by_url: {avatar_url1[:50]}... vs {avatar_url2[:50]}...")
         os.makedirs(temp_dir, exist_ok=True)
         
         # Скачиваем аватарки
@@ -268,6 +265,7 @@ class VisualMatcher:
         
         success1 = self.download_avatar(avatar_url1, path1)
         success2 = self.download_avatar(avatar_url2, path2)
+        print(f"   [DEBUG] Скачивание: success1={success1}, success2={success2}")
         
         if not success1 or not success2:
             return {
@@ -278,6 +276,7 @@ class VisualMatcher:
         
         # Сравниваем лица
         result = self.compare_faces(path1, path2)
+        print(f"   [DEBUG] compare_faces вернул: method={result.get('method')}, success={result.get('success')}")
         
         # Удаляем временные файлы
         try:
@@ -302,8 +301,11 @@ class VisualMatcher:
             Результат сравнения
         """
         # Пробуем использовать наиболее точный метод
+        print(f"   [DEBUG] compare_faces: face_engine={self.face_engine is not None}, opencv={self.opencv_recognizer is not None}")
         if self.face_engine:
+            print("   → Пробуем FaceRecognitionEngine...")
             result = self.face_engine.compare_faces(image1_path, image2_path)
+            print(f"   ← FaceRecognition результат: success={result.get('success')}, error={result.get('error', 'none')}")
             if result.get('success'):
                 result['method'] = 'face_recognition'
                 result['face_match'] = result.get('match', False)
@@ -311,6 +313,7 @@ class VisualMatcher:
                 return result
         
         if self.opencv_recognizer:
+            print("   → Пробуем OpenCV...")
             result = self.opencv_recognizer.compare_faces(image1_path, image2_path)
             if result.get('success'):
                 result['method'] = 'opencv'
@@ -319,6 +322,7 @@ class VisualMatcher:
                 return result
         
         if self.mediapipe_recognizer:
+            print("   → Пробуем MediaPipe...")
             result = self.mediapipe_recognizer.compare_faces(image1_path, image2_path)
             if result.get('success'):
                 result['method'] = 'mediapipe'
@@ -409,17 +413,129 @@ class VisualMatcher:
             'likely_active': not is_default
         }
     
+    def compare_all_photos(self, photos1: List[Dict], photos2: List[Dict], max_comparisons: int = 500) -> Dict[str, any]:
+        """
+        Сравнивает лица на всех фотографиях двух профилей
+        
+        Args:
+            photos1: Список фотографий первого профиля
+            photos2: Список фотографий второго профиля
+            max_comparisons: Максимальное количество сравнений (для производительности)
+            
+        Returns:
+            Результат сравнения: максимальное сходство, количество совпадений и т.д.
+        """
+        print(f"   🔍 compare_all_photos: {len(photos1)} фото × {len(photos2)} фото")
+        
+        if not photos1 or not photos2:
+            return {
+                'max_similarity': 0.0,
+                'total_comparisons': 0,
+                'matched_faces': 0,
+                'interpretation': 'Нет фотографий для сравнения'
+            }
+        
+        # Создаем временную папку для скачивания фото
+        temp_dir = "temp_face_compare"
+        os.makedirs(temp_dir, exist_ok=True)
+        
+        max_similarity = 0.0
+        matched_faces = 0
+        comparisons_done = 0
+        
+        try:
+            # Для каждой фотографии из первой коллекции (ограничиваем до 50)
+            for i, photo1 in enumerate(photos1[:min(50, len(photos1))]):
+                url1 = self._get_best_photo_url(photo1)
+                if not url1:
+                    continue
+                    
+                path1 = os.path.join(temp_dir, f"p1_{i}.jpg")
+                if not self.download_avatar(url1, path1):
+                    continue
+                
+                # Для каждой фотографии из второй коллекции (ограничиваем до 50)
+                for j, photo2 in enumerate(photos2[:min(50, len(photos2))]):
+                    if comparisons_done >= max_comparisons:
+                        break
+                        
+                    url2 = self._get_best_photo_url(photo2)
+                    if not url2:
+                        continue
+                    
+                    path2 = os.path.join(temp_dir, f"p2_{j}.jpg")
+                    if not self.download_avatar(url2, path2):
+                        continue
+                    
+                    # Сравниваем лица
+                    result = self.compare_faces(path1, path2)
+                    comparisons_done += 1
+                    
+                    if result.get('success') and result.get('face_similarity', 0) > max_similarity:
+                        max_similarity = result['face_similarity']
+                        if result.get('face_match', False):
+                            matched_faces += 1
+                    
+                    # Удаляем временный файл фото2
+                    try:
+                        os.remove(path2)
+                    except:
+                        pass
+                
+                # Удаляем временный файл фото1
+                try:
+                    os.remove(path1)
+                except:
+                    pass
+                
+                if comparisons_done >= max_comparisons:
+                    break
+            
+            print(f"   ✓ Выполнено {comparisons_done} сравнений лиц")
+            print(f"   ✓ Максимальное сходство: {max_similarity:.1f}%")
+            
+            # Интерпретация
+            if max_similarity >= 80:
+                interpretation = "Очень высокая схожесть - вероятно одно и то же лицо"
+            elif max_similarity >= 60:
+                interpretation = "Высокая схожесть лиц"
+            elif max_similarity >= 40:
+                interpretation = "Средняя схожесть"
+            else:
+                interpretation = "Низкое сходство лиц"
+            
+            return {
+                'max_similarity': max_similarity,
+                'total_comparisons': comparisons_done,
+                'matched_faces': matched_faces,
+                'interpretation': interpretation
+            }
+            
+        except Exception as e:
+            print(f"   ⚠️ Ошибка при сравнении всех фото: {e}")
+            return {
+                'max_similarity': 0.0,
+                'total_comparisons': comparisons_done,
+                'error': str(e),
+                'interpretation': 'Ошибка сравнения'
+            }
+        finally:
+            # Очистка временной папки
+            try:
+                import shutil
+                if os.path.exists(temp_dir):
+                    shutil.rmtree(temp_dir)
+            except:
+                pass
+    
     def compare_avatars(self, user1_data: Dict, user2_data: Dict) -> Dict[str, any]:
         """
         Сравнивает аватарки двух профилей
-        
-        Args:
-            user1_data: Данные первого пользователя
-            user2_data: Данные второго пользователя
         """
-        
         avatar1 = self.get_avatar_url(user1_data)
         avatar2 = self.get_avatar_url(user2_data)
+        print(f"   [DEBUG compare_avatars] avatar1: {avatar1}")
+        print(f"   [DEBUG compare_avatars] avatar2: {avatar2}")
         
         # Если нет аватарок
         if not avatar1 and not avatar2:
@@ -428,6 +544,62 @@ class VisualMatcher:
                 'match_score': 0.0,
                 'interpretation': 'У обоих профилей нет аватарок'
             }
+        
+        if not avatar1 or not avatar2:
+            return {
+                'one_has_avatar': True,
+                'match_score': 0.1,
+                'interpretation': 'Только один профиль имеет аватарку'
+            }
+        
+        # Если URL совпадают - это точное совпадение
+        exact_match = (avatar1 == avatar2)
+        if exact_match:
+            return {
+                'exact_match': True,
+                'both_have_avatars': True,
+                'match_score': 1.0,
+                'interpretation': 'Аватарки полностью совпадают (одинаковое фото)'
+            }
+        
+        # Если URL разные - пробуем распознавание лиц
+        print("\n🔍 Сравнение аватарок методом распознавания лиц...")
+        face_result = self.compare_avatars_by_url(avatar1, avatar2)
+        print(f"   [DEBUG compare_avatars] face_result: success={face_result.get('success')}, method={face_result.get('method')}, similarity={face_result.get('face_similarity', 0)}")
+        
+        if face_result.get('success'):
+            return {
+                'exact_match': False,
+                'both_have_avatars': True,
+                'face_comparison': {
+                    'method': face_result.get('method', 'unknown'),
+                    'face_match': face_result.get('face_match', False),
+                    'face_similarity': face_result.get('face_similarity', 0),
+                    'face_distance': face_result.get('face_distance'),
+                    'interpretation': face_result.get('interpretation', '')
+                },
+                'match_score': face_result.get('face_similarity', 0) / 100,
+                'interpretation': f"Сравнение лиц: {face_result.get('interpretation', 'результат неизвестен')}"
+            }
+        
+        # Если распознавание не удалось (например, на аватаре нет лица)
+        # Пробуем сравнить лица по любым доступным фотографиям (самой крупной из каждой коллекции)
+        if face_result.get('error') and 'не найдено лицо' in face_result.get('error', ''):
+            print("   [INFO] На аватарах не найдено лиц, пробуем использовать другие фотографии...")
+            # Здесь photo_collections1 и photo_collections2 должны передаваться извне
+            # Пока оставляем fallback без лиц
+            pass
+        
+        # Если распознавание не удалось
+        return {
+            'exact_match': False,
+            'both_have_avatars': True,
+            'face_comparison': {
+                'error': face_result.get('error', 'Неизвестная ошибка')
+            },
+            'match_score': 0.0,
+            'interpretation': 'Не удалось сравнить лица (разные URL аватарок или нет лиц)'
+        }
         
         if not avatar1 or not avatar2:
             return {
@@ -787,7 +959,7 @@ class OpenCVFaceRecognizer:
         return {
             'success': True,
             'match': False,  # OpenCV не может надёжно сравнить лица
-            'similarity_percentage': 50.0,  # Неопределённый результат
+            'similarity_percentage': 0.0,  # Неопределённый результат — не завышаем оценку
             'warning': 'OpenCV Haar Cascade не поддерживает точное сравнение лиц. Используйте face_recognition для лучших результатов.',
             'interpretation': 'Лица найдены, но сравнение недоступно (используйте face_recognition)'
         }
@@ -873,7 +1045,7 @@ class MediaPipeFaceRecognizer:
         return {
             'success': True,
             'match': False,
-            'similarity_percentage': 50.0,
+            'similarity_percentage': 0.0,
             'warning': 'MediaPipe FaceDetector не поддерживает сравнение лиц. Используйте face_recognition.',
             'interpretation': 'Лица найдены, но точное сравнение недоступно'
         }

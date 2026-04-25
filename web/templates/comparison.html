@@ -310,16 +310,22 @@
         <div class="mb-4">
             <h6><i class="fas fa-camera me-2 text-danger"></i>Анализ фотографий</h6>
             <div class="row small">
-                <div class="col-md-6">
-                    <div class="d-flex justify-content-between">
-                        <span class="text-muted">Сходство лиц:</span>
-                        <span class="fw-bold">{{ result.analysis.visual.face_similarity|round(1) }}%</span>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Сходство лиц:</span>
+                            <span class="fw-bold">{{ result.analysis.visual.face_similarity|round(1) }}%</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Метод сравнения:</span>
+                            <span>{{ result.analysis.visual.face_method|default('не используется', true) }}</span>
+                        </div>
+                        {% if result.analysis.visual.all_photos_comparisons is defined and result.analysis.visual.all_photos_comparisons > 0 %}
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Сравнено пар фото:</span>
+                            <span>{{ result.analysis.visual.all_photos_comparisons }}</span>
+                        </div>
+                        {% endif %}
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <span class="text-muted">Метод сравнения:</span>
-                        <span>{{ result.analysis.visual.face_method|default('не используется', true) }}</span>
-                    </div>
-                </div>
                     <div class="col-md-6">
                         <div class="d-flex justify-content-between">
                             <span class="text-muted">Идентичных фото:</span>
@@ -330,7 +336,7 @@
                             <span>{{ (result.analysis.visual.activity_similarity|default(0) * 100)|round(1) }}%</span>
                         </div>
                     </div>
-            </div>
+                </div>
             <p class="small text-muted mb-0">
                 {% if result.analysis.visual.face_match %}
                     <span class="text-success"><i class="fas fa-check-circle"></i> Высокая вероятность совпадения лица</span>

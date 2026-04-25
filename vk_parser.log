@@ -237,3 +237,27 @@
 2026-04-25 08:58:11 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
 2026-04-25 08:58:11 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: compot
 2026-04-25 08:58:11 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Роман Парамонов (ID: 465801259)
+2026-04-25 12:21:45 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: a_beglov
+2026-04-25 12:21:45 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:21:45 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: a_beglov
+2026-04-25 12:21:46 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Беглов (ID: 535438957)
+2026-04-25 12:22:20 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: aleksandrsokolov43
+2026-04-25 12:22:20 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:22:20 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: aleksandrsokolov43
+2026-04-25 12:22:21 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Соколов (ID: 734734006)
+2026-04-25 12:24:13 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: aleksandrsokolov43
+2026-04-25 12:24:13 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:24:13 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: aleksandrsokolov43
+2026-04-25 12:24:15 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Соколов (ID: 734734006)
+2026-04-25 12:46:57 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-25 12:46:57 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:46:57 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-25 12:46:58 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-04-25 12:47:00 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: lil_chinch
+2026-04-25 12:47:00 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:47:00 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: lil_chinch
+2026-04-25 12:47:01 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Влад Тамашевич (ID: 551667191)
+2026-04-25 12:47:28 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: 127763305
+2026-04-25 12:47:29 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Дарья Бич (ID: 127763305)
+2026-04-25 12:47:30 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: 143046507
+2026-04-25 12:47:31 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Лазовский (ID: 143046507)

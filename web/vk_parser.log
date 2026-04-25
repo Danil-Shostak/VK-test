@@ -88,3 +88,79 @@
 2026-04-25 10:36:49 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Виктория Шпаковская (ID: 192658359)
 2026-04-25 10:42:42 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: 192658359
 2026-04-25 10:42:42 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Виктория Шпаковская (ID: 192658359)
+2026-04-25 11:44:41 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: zdrokvasilii
+2026-04-25 11:44:45 | WARNING  | src.vk_api.vk_api_client | API error 5: User authorization failed: access_token was given to another ip address
+2026-04-25 11:44:45 | ERROR    | src.vk_api.vk_api_client | Токен недействителен или отсутствует. Проверьте VK_TOKEN в config.py
+2026-04-25 11:44:45 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: zdrokvasilii
+2026-04-25 11:44:48 | WARNING  | src.vk_api.vk_api_client | API error 5: User authorization failed: access_token was given to another ip address
+2026-04-25 11:44:48 | ERROR    | src.vk_api.vk_api_client | Токен недействителен или отсутствует. Проверьте VK_TOKEN в config.py
+2026-04-25 11:44:48 | WARNING  | src.vk_api.vk_api_client | Пользователь не найден: zdrokvasilii
+2026-04-25 11:46:26 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: zdrokvasilii
+2026-04-25 11:46:26 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:46:26 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: zdrokvasilii
+2026-04-25 11:46:27 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Вася Здрок (ID: 16191817)
+2026-04-25 11:52:58 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-25 11:52:58 | WARNING  | src.vk_api.vk_api_client | API error 5: User authorization failed: access_token was given to another ip address
+2026-04-25 11:52:58 | ERROR    | src.vk_api.vk_api_client | Токен недействителен или отсутствует. Проверьте VK_TOKEN в config.py
+2026-04-25 11:52:58 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-25 11:53:02 | WARNING  | src.vk_api.vk_api_client | API error 5: User authorization failed: access_token was given to another ip address
+2026-04-25 11:53:02 | ERROR    | src.vk_api.vk_api_client | Токен недействителен или отсутствует. Проверьте VK_TOKEN в config.py
+2026-04-25 11:53:02 | WARNING  | src.vk_api.vk_api_client | Пользователь не найден: naruto000uzumaki
+2026-04-25 11:53:18 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-25 11:53:19 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:53:19 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-25 11:53:19 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-04-25 11:53:21 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: lil_chinch
+2026-04-25 11:53:22 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:53:22 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: lil_chinch
+2026-04-25 11:53:22 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Влад Тамашевич (ID: 551667191)
+2026-04-25 11:56:21 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: a_beglov
+2026-04-25 11:56:21 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:56:21 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: a_beglov
+2026-04-25 11:56:22 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Беглов (ID: 535438957)
+2026-04-25 11:57:32 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: aleksandrsokolov43
+2026-04-25 11:57:32 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:57:32 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: aleksandrsokolov43
+2026-04-25 11:57:33 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Соколов (ID: 734734006)
+2026-04-25 11:57:55 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: aleksandrsokolov43
+2026-04-25 11:57:56 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:57:56 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: aleksandrsokolov43
+2026-04-25 11:57:56 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Соколов (ID: 734734006)
+2026-04-25 11:58:03 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: aleksandrsokolov43
+2026-04-25 11:58:04 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:58:04 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: aleksandrsokolov43
+2026-04-25 11:58:04 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Соколов (ID: 734734006)
+2026-04-25 11:58:43 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: a_beglov
+2026-04-25 11:58:43 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 11:58:43 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: a_beglov
+2026-04-25 11:58:44 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Беглов (ID: 535438957)
+2026-04-25 12:02:07 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: a_beglov
+2026-04-25 12:02:07 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:02:07 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: a_beglov
+2026-04-25 12:02:09 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Беглов (ID: 535438957)
+2026-04-25 12:04:24 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: a_beglov
+2026-04-25 12:04:25 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:04:25 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: a_beglov
+2026-04-25 12:04:26 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Беглов (ID: 535438957)
+2026-04-25 12:08:42 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: rbusargin
+2026-04-25 12:08:43 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:08:43 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: rbusargin
+2026-04-25 12:08:44 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Роман Бусаргин (ID: 619271508)
+2026-04-25 12:08:55 | ERROR    | src.vk_api.vk_api_client | Превышен таймаут при запросе к friends.get
+2026-04-25 12:08:55 | INFO     | src.vk_api.vk_api_client | Повторная попытка 1/3
+2026-04-25 12:09:06 | ERROR    | src.vk_api.vk_api_client | Превышен таймаут при запросе к friends.get
+2026-04-25 12:09:06 | INFO     | src.vk_api.vk_api_client | Повторная попытка 2/3
+2026-04-25 12:10:07 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: roman_starovoyt
+2026-04-25 12:10:07 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:10:07 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: roman_starovoyt
+2026-04-25 12:10:08 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Роман Старовойт (ID: 516521317)
+2026-04-25 12:10:51 | ERROR    | src.vk_api.vk_api_client | Ошибка при запросе photos.getAll: ('Connection aborted.', ConnectionResetError(10054, 'Удаленный хост принудительно разорвал существующее подключение', None, 10054, None))
+2026-04-25 12:10:51 | INFO     | src.vk_api.vk_api_client | Повторная попытка 1/3
+2026-04-25 12:14:56 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: aleksandrsokolov43
+2026-04-25 12:14:56 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:14:56 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: aleksandrsokolov43
+2026-04-25 12:14:56 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Соколов (ID: 734734006)
+2026-04-25 12:15:39 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: a_beglov
+2026-04-25 12:15:39 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 12:15:39 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: a_beglov
+2026-04-25 12:15:40 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Александр Беглов (ID: 535438957)

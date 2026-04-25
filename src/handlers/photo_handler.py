@@ -10,12 +10,18 @@ class PhotoHandler:
     def __init__(self, api_client):
         self.api = api_client
     
-    def get_all_photos(self, user_id):
-        """Получает все фотографии пользователя"""
+    def get_all_photos(self, user_id, limit=100):
+        """
+        Получает фотографии пользователя (ограниченное количество последних)
+        
+        Args:
+            user_id: ID пользователя
+            limit: Максимальное количество фотографий (по умолчанию 100)
+        """
         all_photos = []
         offset = 0
         
-        print(f"\n📸 Загрузка фотографий пользователя {user_id}...")
+        print(f"\n📸 Загрузка фотографий пользователя {user_id} (лимит: {limit})...")
         
         while True:
             params = {
@@ -34,10 +40,17 @@ class PhotoHandler:
             items = response.get('items', [])
             count_total = response.get('count', 0)
             
-            all_photos.extend(items)
-            print(f"   Загружено {len(all_photos)} из {count_total} фотографий...")
+            # Добавляем фото, но не превышаем лимит
+            remaining = limit - len(all_photos)
+            if remaining <= 0:
+                break
+                
+            items_to_add = items[:remaining]
+            all_photos.extend(items_to_add)
+            print(f"   Загружено {len(all_photos)} из {min(limit, count_total)} фотографий...")
             
-            if len(items) < MAX_PHOTOS_PER_REQUEST or len(all_photos) >= count_total:
+            # Проверяем, нужно ли продолжать
+            if len(items) < MAX_PHOTOS_PER_REQUEST or len(all_photos) >= count_total or len(all_photos) >= limit:
                 break
                 
             offset += len(items)

@@ -169,10 +169,10 @@ class VKProfileAnalyzer:
         friends_handler = FriendsHandler(self.api)
         friends_data = friends_handler.get_all_friends(user_id)
         
-        # Загружаем фото
-        print(f"   📸 Загрузка фотографий...")
+        # Загружаем фото (лимит 100 последних)
+        print(f"   📸 Загрузка фотографий (лимит 100)...")
         photo_handler = PhotoHandler(self.api)
-        photos_data = photo_handler.get_all_photos(user_id)
+        photos_data = photo_handler.get_all_photos(user_id, limit=100)
         
         return {
             'profile': user_data,
