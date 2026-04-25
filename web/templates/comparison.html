@@ -165,6 +165,27 @@
             </div>
             {% endif %}
             
+            {% if result.analysis.social_geo and result.analysis.social_geo.has_data %}
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>Гео соцсетей</span>
+                    <span class="fw-bold">{{ (result.analysis.social_geo.score * 100)|int }}%</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-info" style="width: {{ result.analysis.social_geo.score * 100 }}%"></div>
+                </div>
+                <small class="text-muted">
+                    {% set dist = result.analysis.social_geo.centroid_distance_km %}
+                    {% if dist is not none %}
+                        Расстояние: {{ dist|round(1) }} км
+                    {% else %}
+                        Расстояние: не определено
+                    {% endif %}
+                    | Пересечение: {{ (result.analysis.social_geo.mutual_overlap * 100)|round(1) }}%
+                </small>
+            </div>
+            {% endif %}
+            
             {% if result.analysis.demographics %}
             <div class="col-md-6">
                 <div class="d-flex justify-content-between mb-1">
@@ -243,35 +264,83 @@
         </div>
         {% endif %}
         
-        <!-- Детали по друзьям -->
-        {% if result.analysis.friends and result.analysis.friends.has_data %}
-        <div class="mb-4">
-            <h6><i class="fas fa-users me-2 text-success"></i>Анализ друзей</h6>
-            <div class="row small">
-                <div class="col-md-4">
-                    <div class="d-flex justify-content-between">
-                        <span class="text-muted">Общих друзей:</span>
-                        <span class="fw-bold">{{ result.analysis.friends.common_count }}</span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="d-flex justify-content-between">
-                        <span class="text-muted">Профиль 1:</span>
-                        <span>{{ result.analysis.friends.total_1 }}</span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="d-flex justify-content-between">
-                        <span class="text-muted">Профиль 2:</span>
-                        <span>{{ result.analysis.friends.total_2 }}</span>
-                    </div>
-                </div>
-            </div>
-            <p class="small text-muted mb-0">{{ result.analysis.friends.interpretation }}</p>
-        </div>
-        {% endif %}
-        
-        <!-- Детали по геолокации -->
+         <!-- Детали по друзьям -->
+         {% if result.analysis.friends and result.analysis.friends.has_data %}
+         <div class="mb-4">
+             <h6><i class="fas fa-users me-2 text-success"></i>Анализ друзей</h6>
+             <div class="row small">
+                 <div class="col-md-4">
+                     <div class="d-flex justify-content-between">
+                         <span class="text-muted">Общих друзей:</span>
+                         <span class="fw-bold">{{ result.analysis.friends.common_count }}</span>
+                     </div>
+                 </div>
+                 <div class="col-md-4">
+                     <div class="d-flex justify-content-between">
+                         <span class="text-muted">Профиль 1:</span>
+                         <span>{{ result.analysis.friends.total_1 }}</span>
+                     </div>
+                 </div>
+                 <div class="col-md-4">
+                     <div class="d-flex justify-content-between">
+                         <span class="text-muted">Профиль 2:</span>
+                         <span>{{ result.analysis.friends.total_2 }}</span>
+                     </div>
+                 </div>
+             </div>
+             <p class="small text-muted mb-0">{{ result.analysis.friends.interpretation }}</p>
+         </div>
+         {% endif %}
+         
+         <!-- Детали по географическому анализу социальных сетей -->
+         <div class="mb-4">
+             <h6><i class="fas fa-globe me-2 text-info"></i>География социальных кластеров</h6>
+             {% if result.analysis.social_geo and result.analysis.social_geo.has_data %}
+             <div class="row small">
+                 <div class="col-md-6">
+                     <div class="d-flex justify-content-between">
+                         <span class="text-muted">Расстояние между центроидами:</span>
+                         <span class="fw-bold">
+                             {% if result.analysis.social_geo.centroid_distance_km is not none %}
+                                 {{ result.analysis.social_geo.centroid_distance_km|round(1) }} км
+                             {% else %}
+                                 <span class="text-muted">не определено</span>
+                             {% endif %}
+                         </span>
+                     </div>
+                     <div class="d-flex justify-content-between mt-1">
+                         <span class="text-muted">Пересечение сетей:</span>
+                         <span>
+                             {% set m = result.analysis.social_geo.mutual_overlap * 100 %}
+                             {{ m|round(1) }}% 
+                             <small class="text-muted">(сеть1→2: {{ (result.analysis.social_geo.overlap_1_in_2 * 100)|round(1) }}%, сеть2→1: {{ (result.analysis.social_geo.overlap_2_in_1 * 100)|round(1) }}%)</small>
+                         </span>
+                     </div>
+                 </div>
+                 <div class="col-md-6">
+                     <div class="d-flex justify-content-between">
+                         <span class="text-muted">Координаты друзей:</span>
+                         <span>{{ result.analysis.social_geo.coords1_count }} / {{ result.analysis.social_geo.coords2_count }}</span>
+                     </div>
+                     <div class="d-flex justify-content-between mt-1">
+                         <span class="text-muted">Радиус пересечения:</span>
+                         <span>{{ result.analysis.social_geo.details.spatial_analysis.radius_km|default(100)|round(0)|int }} км</span>
+                     </div>
+                 </div>
+             </div>
+             <p class="small text-muted mb-0">{{ result.analysis.social_geo.interpretation }}</p>
+             {% else %}
+             <p class="small text-muted mb-0">
+                 {% if result.analysis.friends and result.analysis.friends.has_data %}
+                     Нет данных о городах друзей для гео-анализа (не удалось геокодировать)
+                 {% else %}
+                     Нет данных о друзьях для географического анализа
+                 {% endif %}
+             </p>
+             {% endif %}
+         </div>
+         
+         <!-- Детали по геолокации -->
         {% if result.analysis.geolocation and result.analysis.geolocation.has_data %}
         <div class="mb-4">
             <h6><i class="fas fa-map-marker-alt me-2 text-info"></i>Геолокация</h6>

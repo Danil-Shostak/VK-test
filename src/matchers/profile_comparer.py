@@ -18,6 +18,7 @@ from src.matchers.friends_matcher import FriendsMatcher
 from src.matchers.content_matcher import ContentMatcher
 from src.matchers.visual_matcher import VisualMatcher
 from src.matchers.demographics_matcher import DemographicsMatcher
+from src.matchers.social_geo_analyzer import SocialGeoAnalyzer
 
 
 class ProfileComparer:
@@ -40,10 +41,11 @@ class ProfileComparer:
     DEFAULT_WEIGHTS = {
         'name': 0.15,
         'visual': 0.25,
-        'friends': 0.25,
-        'geolocation': 0.10,
+        'friends': 0.20,      # Снижено с 0.25
+        'geolocation': 0.08,  # Снижено с 0.10
         'content': 0.15,
         'demographics': 0.10,
+        'social_geo': 0.07,   # Новый фактор
     }
     
     def __init__(self, custom_weights: Optional[Dict[str, float]] = None):
@@ -51,7 +53,7 @@ class ProfileComparer:
         Инициализирует компаратор профилей
         
         Args:
-            custom_weights: Пользовательские весы (если нужно переопределить)
+            custom_weights: Пользовательские веса (если нужно переопределить)
         """
         
         # Инициализируем все модули
@@ -61,6 +63,7 @@ class ProfileComparer:
         self.content_matcher = ContentMatcher()
         self.visual_matcher = VisualMatcher()
         self.demographics_matcher = DemographicsMatcher()
+        self.social_geo_analyzer = SocialGeoAnalyzer(geo_matcher=self.geo_matcher)
         
         # Устанавливаем веса
         self.weights = custom_weights or self.DEFAULT_WEIGHTS.copy()
@@ -117,6 +120,11 @@ class ProfileComparer:
         friends_result = self._analyze_friends(friends1_data, friends2_data)
         results['analysis']['friends'] = friends_result
         
+        # 3b. Анализ географической структуры социальных сетей
+        print("🗺️ Анализ географии социальных кластеров...")
+        social_geo_result = self._analyze_social_geo(friends1_data, friends2_data)
+        results['analysis']['social_geo'] = social_geo_result
+        
         # 4. Анализ контента
         print("📝 Анализ контента...")
         content_result = self._analyze_content(profile1_data, profile2_data)
@@ -171,10 +179,21 @@ class ProfileComparer:
     def _analyze_name(self, p1: Dict, p2: Dict) -> Dict[str, Any]:
         """Анализирует совпадение имен"""
         
+        # Извлекаем и гарантируем строки
         first_name1 = p1.get('first_name', '')
         last_name1 = p1.get('last_name', '')
         first_name2 = p2.get('first_name', '')
         last_name2 = p2.get('last_name', '')
+        
+        # Приводим к строке, если передано число (например, id вместо имени)
+        if not isinstance(first_name1, str):
+            first_name1 = str(first_name1)
+        if not isinstance(last_name1, str):
+            last_name1 = str(last_name1)
+        if not isinstance(first_name2, str):
+            first_name2 = str(first_name2)
+        if not isinstance(last_name2, str):
+            last_name2 = str(last_name2)
         
         result = self.name_matcher.compare_full_names(
             first_name1, last_name1, first_name2, last_name2
@@ -241,9 +260,25 @@ class ProfileComparer:
         if not f1 or not f2:
             return {
                 'score': 0.0,
+                'common_count': 0,
+                'total_1': 0,
+                'total_2': 0,
+                'jaccard': 0.0,
                 'has_data': False,
                 'interpretation': 'Нет данных о друзьях'
             }
+        
+        result = self.friends_matcher.compare_friends(f1, f2)
+        
+        return {
+            'score': result['friend_overlap_score'],
+            'common_count': result['common_count'],
+            'total_1': result['total_friends_1'],
+            'total_2': result['total_friends_2'],
+            'jaccard': result['jaccard_index'],
+            'has_data': True,
+            'interpretation': result['interpretation']
+        }
         
         result = self.friends_matcher.compare_friends(f1, f2)
         
@@ -367,16 +402,26 @@ class ProfileComparer:
             print(f"      Идентичных фото: {identical_photos}")
             print(f"      Сходство активности: {activity_similarity:.1%}")
         
-        # 4. Определяем итоговый score (берем максимальное сходство из всех источников)
+        # 4. Определяем итоговый score
         best_face_similarity = max(face_similarity, all_photos_similarity)
         visual_score = best_face_similarity / 100.0
         
-        # Если вообще нет совпадений по лицам — используем activity_similarity (с понижающим коэффициентом)
+        # БОНУС за много идентичных фото (признак одного аккаунта)
+        if identical_photos >= 10:
+            visual_score = max(visual_score, 0.8)
+        elif identical_photos >= 5:
+            visual_score = max(visual_score, 0.6)
+        elif identical_photos >= 3:
+            visual_score = max(visual_score, 0.5)
+        
+        # Если нет совпадений по лицам — используем activity_similarity (с понижающим коэффициентом)
         if visual_score == 0.0 and activity_similarity > 0:
-            visual_score = activity_similarity * 0.5
+            visual_score = activity_similarity * 0.7
         
         # 5. Интерпретация
-        if best_face_similarity >= 80:
+        if identical_photos >= 10:
+            interpretation = f"Найдено {identical_photos} идентичных фотографий — вероятно один аккаунт"
+        elif best_face_similarity >= 80:
             interpretation = "Очень высокая схожесть - вероятно одно и то же лицо"
         elif best_face_similarity >= 60:
             interpretation = "Высокая схожесть лиц"
@@ -398,72 +443,37 @@ class ProfileComparer:
             'all_photos_comparisons': all_photos_result.get('total_comparisons', 0) if all_photos_result else 0,
             'interpretation': interpretation
         }
+    
+    def _analyze_social_geo(self, f1: Optional[Dict], f2: Optional[Dict]) -> Dict[str, Any]:
+        """
+        Анализирует географическую структуру социальных сетей (центроиды, плотность)
+        """
         
-        # 1. Сначала сравниваем аватарки (быстро)
-        print("   Сравнение аватарок профилей...")
-        avatar_result = self.visual_matcher.compare_avatars(p1, p2)
+        if not f1 or not f2:
+            return {
+                'score': 0.0,
+                'has_data': False,
+                'interpretation': 'Нет данных о друзьях для географического анализа'
+            }
         
-        face_similarity = 0.0
-        face_match = False
-        face_method = 'none'
+        # Выполняем полный анализ
+        result = self.social_geo_analyzer.analyze_social_geo_overlap(f1, f2)
         
-        if avatar_result.get('face_comparison'):
-            fc = avatar_result['face_comparison']
-            if fc.get('face_similarity'):
-                face_similarity = fc['face_similarity']
-                face_match = fc.get('face_match', False)
-                face_method = fc.get('method', 'unknown')
-                print(f"      Лица (аватары): {face_similarity:.1f}% схожесть ({face_method})")
-        
-        # 2. Если на аватарах не найдено лиц И есть другие фотографии — сравниваем все фотки
-        all_photos_similarity = 0.0
-        if ph1 and ph2 and (face_similarity == 0 or not face_match):
-            print("   Сравнение всех фотографий (face matching)...")
-            all_photos_result = self.visual_matcher.compare_all_photos(ph1, ph2, max_comparisons=300)
-            all_photos_similarity = all_photos_result.get('max_similarity', 0.0)
-            print(f"      Лица (все фото): {all_photos_similarity:.1f}% схожесть")
-        
-        # 3. Анализ коллекций фото (метаданные)
-        activity_similarity = 0.0
-        identical_photos = 0
-        if ph1 and ph2:
-            photo_collection_result = self.visual_matcher.compare_photo_collections(ph1, ph2)
-            identical_photos = photo_collection_result.get('identical_photos_count', 0)
-            activity_similarity = photo_collection_result.get('activity_similarity', 0.0)
-            print(f"      Идентичных фото: {identical_photos}")
-            print(f"      Сходство активности: {activity_similarity:.1%}")
-        
-        # 4. Определяем итоговый score
-        # Берем максимальное сходство из: аватаров, всех фото, активности
-        visual_score = max(face_similarity, all_photos_similarity) / 100.0
-        
-        # Если вообще нет совпадений по лицам — используем activity_similarity
-        if visual_score == 0.0 and activity_similarity > 0:
-            visual_score = activity_similarity * 0.5  #Downweight activity-only match
-        
-        # Интерпретация
-        if face_similarity >= 80 or all_photos_similarity >= 80:
-            interpretation = "Очень высокая схожесть лиц - вероятно одно и то же лицо"
-        elif face_similarity >= 60 or all_photos_similarity >= 60:
-            interpretation = "Высокая схожесть лиц"
-        elif identical_photos > 0:
-            interpretation = f"Найдено {identical_photos} идентичных фотографий"
-        elif activity_similarity > 0.7:
-            interpretation = "Похожая активность в фотографиях"
-        else:
-            interpretation = "Низкое визуальное сходство"
+        # Используем geo_cluster_similarity как основной score
+        score = result.get('geo_cluster_similarity', 0.0)
+        has_data = result.get('has_data', False)
         
         return {
-            'score': visual_score,
-            'has_data': True,
-            'face_similarity': max(face_similarity, all_photos_similarity),
-            'face_match': face_match or all_photos_similarity >= 60,
-            'face_method': face_method if face_similarity > 0 else 'face_recognition_all_photos',
-            'identical_photos': identical_photos,
-            'activity_similarity': activity_similarity,
-            'identical_photos_count': identical_photos,
-            'all_photos_comparisons': all_photos_result.get('total_comparisons', 0) if ph1 and ph2 else 0,
-            'interpretation': interpretation
+            'score': score,
+            'centroid_distance_km': result.get('centroid_distance_km'),
+            'overlap_1_in_2': result.get('overlap_1_in_2'),
+            'overlap_2_in_1': result.get('overlap_2_in_1'),
+            'mutual_overlap': result.get('mutual_overlap'),
+            'coords1_count': result.get('coords1_count'),
+            'coords2_count': result.get('coords2_count'),
+            'has_data': has_data,
+            'interpretation': result.get('interpretation', ''),
+            'details': result.get('details', {})
         }
     
     def _calculate_weighted_scores(self, analysis: Dict) -> Dict[str, float]:
@@ -479,6 +489,7 @@ class ProfileComparer:
             'geolocation': analysis.get('geolocation', {}).get('score', 0.0),
             'content': analysis.get('content', {}).get('score', 0.0),
             'demographics': analysis.get('demographics', {}).get('score', 0.0),
+            'social_geo': analysis.get('social_geo', {}).get('score', 0.0),
         }
         
         # Применяем веса
@@ -564,6 +575,8 @@ class ProfileComparer:
             data_factors.append('geolocation')
         if analysis.get('friends', {}).get('has_data'):
             data_factors.append('friends')
+        if analysis.get('social_geo', {}).get('has_data'):
+            data_factors.append('social_geo')
         if analysis.get('content', {}).get('has_data'):
             data_factors.append('content')
         if analysis.get('demographics', {}).get('has_data'):
@@ -621,16 +634,17 @@ class ProfileComparer:
         breakdown = []
         
         factors = [
-            ('name', 'Имя', 'name_analysis'),
-            ('geolocation', 'Геолокация', 'geo_analysis'),
-            ('friends', 'Друзья', 'friends_analysis'),
-            ('content', 'Контент', 'content_analysis'),
-            ('demographics', 'Демография', 'demo_analysis'),
-            ('visual', 'Фотографии', 'visual_analysis'),
+            ('name', 'Имя', 'name'),
+            ('geolocation', 'Геолокация', 'geolocation'),
+            ('friends', 'Друзья', 'friends'),
+            ('social_geo', 'Гео соцсетей', 'social_geo'),
+            ('content', 'Контент', 'content'),
+            ('demographics', 'Демография', 'demographics'),
+            ('visual', 'Фотографии', 'visual'),
         ]
         
         for factor_key, factor_name, analysis_key in factors:
-            factor_data = analysis.get(factor_key, {})
+            factor_data = analysis.get(analysis_key, {})
             weight = self.weights.get(factor_key, 0)
             score = factor_data.get('score', 0.0)
             has_data = factor_data.get('has_data', False)

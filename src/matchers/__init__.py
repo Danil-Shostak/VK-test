@@ -8,6 +8,7 @@ from .demographics_matcher import DemographicsMatcher
 from .visual_matcher import VisualMatcher
 from .content_matcher import ContentMatcher
 from .profile_comparer import ProfileComparer
+from .social_geo_analyzer import SocialGeoAnalyzer
 
 __all__ = [
     'NameMatcher',
@@ -16,5 +17,6 @@ __all__ = [
     'DemographicsMatcher',
     'VisualMatcher',
     'ContentMatcher',
-    'ProfileComparer'
+    'ProfileComparer',
+    'SocialGeoAnalyzer'
 ]

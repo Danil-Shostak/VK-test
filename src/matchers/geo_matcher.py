@@ -200,35 +200,31 @@ class GeoMatcher:
             for city in cities:
                 self.city_to_group[city] = group_name
     
-    def normalize_city(self, city: str) -> str:
+    def normalize_city(self, city) -> str:
         """Нормализует название города"""
-        if not city:
+        if city is None:
             return ""
-        
+        if not isinstance(city, str):
+            city = str(city)
         city = city.strip().lower()
-        
         # Проверяем по словарю псевдонимов
         if city in self.city_normalized:
             return self.city_normalized[city]
-        
         # Удаляем "г.", "город" и т.д.
         city_clean = re.sub(r'^(г\.?|город)\s+', '', city)
-        
         if city_clean in self.city_normalized:
             return self.city_normalized[city_clean]
-        
         return city_clean
     
-    def normalize_country(self, country: str) -> str:
+    def normalize_country(self, country) -> str:
         """Нормализует название страны"""
-        if not country:
+        if country is None:
             return ""
-        
+        if not isinstance(country, str):
+            country = str(country)
         country = country.strip().lower()
-        
         if country in self.country_normalized:
             return self.country_normalized[country]
-        
         return country
     
     def get_city_coords(self, city: str) -> Optional[Tuple[float, float]]:
@@ -314,8 +310,8 @@ class GeoMatcher:
         
         details = {}
         
-        # Точное совпадение
-        exact_match = (location1.strip().lower() == location2.strip().lower())
+        # Точное совпадение (без нормализации, но с безопасным приведением к строке)
+        exact_match = (str(location1).strip().lower() == str(location2).strip().lower())
         details['exact_match'] = exact_match
         
         # Нормализованное совпадение

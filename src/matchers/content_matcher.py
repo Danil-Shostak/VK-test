@@ -79,6 +79,10 @@ class ContentMatcher:
                 'avg_sentence_length': 0,
             }
         
+        # Приводим к строке, если передан не строковый тип (например, int)
+        if not isinstance(text, str):
+            text = str(text)
+        
         # Базовая статистика
         words = text.split()
         word_count = len(words)
@@ -304,8 +308,11 @@ class ContentMatcher:
         
         for field in interest_fields:
             if field in profile_data and profile_data[field]:
+                value = profile_data[field]
+                if not isinstance(value, str):
+                    value = str(value)
                 # Разбиваем на отдельные интересы
-                items = re.split(r'[,;]', profile_data[field].lower())
+                items = re.split(r'[,;]', value.lower())
                 for item in items:
                     cleaned = item.strip()
                     if len(cleaned) > 2:

@@ -1,0 +1,110 @@
+{
+  "metadata": {
+    "export_date": "2026-04-26 01:57:20",
+    "profile_url": "https://vk.com/zdrokvasilii",
+    "profile_id": 16191817
+  },
+  "basic_info": {
+    "id": 16191817,
+    "first_name": "Вася",
+    "last_name": "Здрок",
+    "domain": "zdrokvasilii",
+    "screen_name": "zdrokvasilii",
+    "sex": "Мужской",
+    "city": "Гродно",
+    "country": "Беларусь",
+    "photo": "https://sun54-2.userapi.com/s/v1/ig2/JUvgWHYvXOvPd2cX-kRMxa_fktWcZVmRPhNzx5OWe6Dab36NuXeqVABpP02k5z5x31aYghn7S5FVSeUwp1-jqCgM.jpg?quality=96&crop=545,0,1707,1707&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BfWsfuK1WY3vjMhascZakfj0CkRtCO3rkXMdq93RCRE&cs=240x240",
+    "is_closed": false,
+    "verified": 0
+  },
+  "personal_info": {},
+  "contacts": {},
+  "interests": {},
+  "education_career": {},
+  "statistics": {
+    "counters": {
+      "albums": 13,
+      "audios": 0,
+      "followers": 243,
+      "friends": 211,
+      "online_friends": 1,
+      "pages": 32,
+      "photos": 65,
+      "subscriptions": 0,
+      "videos": 1,
+      "video_playlists": 0,
+      "mutual_friends": 0,
+      "clips_followers": 454,
+      "clips_views": 0,
+      "clips_likes": 0
+    },
+    "followers_count": 454
+  },
+  "online_status": {
+    "online": 0,
+    "last_seen": {
+      "time": 1776654893,
+      "platform": 2
+    }
+  },
+  "raw_data": {
+    "id": 16191817,
+    "nickname": "",
+    "domain": "zdrokvasilii",
+    "city": {
+      "id": 649,
+      "title": "Гродно"
+    },
+    "country": {
+      "id": 3,
+      "title": "Беларусь"
+    },
+    "photo_200": "https://sun54-2.userapi.com/s/v1/ig2/JUvgWHYvXOvPd2cX-kRMxa_fktWcZVmRPhNzx5OWe6Dab36NuXeqVABpP02k5z5x31aYghn7S5FVSeUwp1-jqCgM.jpg?quality=96&crop=545,0,1707,1707&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BfWsfuK1WY3vjMhascZakfj0CkRtCO3rkXMdq93RCRE&cs=200x200",
+    "photo_max": "https://sun54-2.userapi.com/s/v1/ig2/JUvgWHYvXOvPd2cX-kRMxa_fktWcZVmRPhNzx5OWe6Dab36NuXeqVABpP02k5z5x31aYghn7S5FVSeUwp1-jqCgM.jpg?quality=96&crop=545,0,1707,1707&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BfWsfuK1WY3vjMhascZakfj0CkRtCO3rkXMdq93RCRE&cs=400x400",
+    "photo_max_orig": "https://sun54-2.userapi.com/s/v1/ig2/JUvgWHYvXOvPd2cX-kRMxa_fktWcZVmRPhNzx5OWe6Dab36NuXeqVABpP02k5z5x31aYghn7S5FVSeUwp1-jqCgM.jpg?quality=96&crop=545,0,1707,1707&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BfWsfuK1WY3vjMhascZakfj0CkRtCO3rkXMdq93RCRE&cs=240x240",
+    "has_photo": 1,
+    "photo_400": "https://sun54-2.userapi.com/s/v1/ig2/JUvgWHYvXOvPd2cX-kRMxa_fktWcZVmRPhNzx5OWe6Dab36NuXeqVABpP02k5z5x31aYghn7S5FVSeUwp1-jqCgM.jpg?quality=96&crop=545,0,1707,1707&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BfWsfuK1WY3vjMhascZakfj0CkRtCO3rkXMdq93RCRE&cs=400x400",
+    "site": "",
+    "status": "",
+    "last_seen": {
+      "platform": 2,
+      "time": 1776654893
+    },
+    "followers_count": 454,
+    "occupation": {
+      "id": 31173,
+      "name": "ГГАУ",
+      "type": "university",
+      "graduate_year": 2013,
+      "country_id": 3,
+      "city_id": 649
+    },
+    "counters": {
+      "albums": 13,
+      "audios": 0,
+      "followers": 243,
+      "friends": 211,
+      "online_friends": 1,
+      "pages": 32,
+      "photos": 65,
+      "subscriptions": 0,
+      "videos": 1,
+      "video_playlists": 0,
+      "mutual_friends": 0,
+      "clips_followers": 454,
+      "clips_views": 0,
+      "clips_likes": 0
+    },
+    "sex": 2,
+    "screen_name": "zdrokvasilii",
+    "photo_50": "https://sun54-2.userapi.com/s/v1/ig2/JUvgWHYvXOvPd2cX-kRMxa_fktWcZVmRPhNzx5OWe6Dab36NuXeqVABpP02k5z5x31aYghn7S5FVSeUwp1-jqCgM.jpg?quality=96&crop=545,0,1707,1707&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BfWsfuK1WY3vjMhascZakfj0CkRtCO3rkXMdq93RCRE&cs=50x50",
+    "photo_100": "https://sun54-2.userapi.com/s/v1/ig2/JUvgWHYvXOvPd2cX-kRMxa_fktWcZVmRPhNzx5OWe6Dab36NuXeqVABpP02k5z5x31aYghn7S5FVSeUwp1-jqCgM.jpg?quality=96&crop=545,0,1707,1707&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&ava=1&u=BfWsfuK1WY3vjMhascZakfj0CkRtCO3rkXMdq93RCRE&cs=100x100",
+    "online": 0,
+    "verified": 0,
+    "friend_status": 0,
+    "first_name": "Вася",
+    "last_name": "Здрок",
+    "can_access_closed": true,
+    "is_closed": false
+  }
+}

@@ -446,7 +446,7 @@ class VisualMatcher:
         try:
             # Для каждой фотографии из первой коллекции (ограничиваем до 50)
             for i, photo1 in enumerate(photos1[:min(50, len(photos1))]):
-                url1 = self._get_best_photo_url(photo1)
+                url1 = self.get_avatar_url(photo1)
                 if not url1:
                     continue
                     
@@ -459,7 +459,7 @@ class VisualMatcher:
                     if comparisons_done >= max_comparisons:
                         break
                         
-                    url2 = self._get_best_photo_url(photo2)
+                    url2 = self.get_avatar_url(photo2)
                     if not url2:
                         continue
                     

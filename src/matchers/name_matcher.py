@@ -130,11 +130,20 @@ class NameMatcher:
                 self.canonical_forms[var] = canonical
             self.canonical_forms[canonical] = canonical
     
-    def normalize_name(self, name: str) -> str:
-        """Нормализует имя: убирает пробелы, приводит к нижнему регистру"""
-        if not name:
+    def normalize_name(self, name) -> str:
+        """
+        Нормализует имя: приводит к строке, удаляет пробелы, регистр, пунктуацию.
+        Поддерживает str и int (id → строка).
+        """
+        if name is None:
             return ""
-        return re.sub(r'\s+', '', name.strip().lower())
+        # Приводим к строке, если передан не str (например, int ID)
+        if not isinstance(name, str):
+            name = str(name)
+        cleaned = name.strip().lower()
+        # Удаляем пунктуацию и спецсимволы, сохраняем буквы (любые алфавиты) и цифры
+        cleaned = re.sub(r'[^\w]', '', cleaned, flags=re.UNICODE)
+        return cleaned.replace('_', '')
     
     def transliterate(self, text: str, to_cyrillic: bool = False) -> str:
         """Транслитерирует текст между кириллицей и латиницей"""
@@ -250,6 +259,39 @@ class NameMatcher:
             previous_row = current_row
         
         return previous_row[-1]
+    
+    def jaccard_similarity(self, s1: str, s2: str, tokenize: bool = True) -> float:
+        """
+        Вычисляет коэффициент Жаккара (Jaccard index) между двумя строками
+        
+        Args:
+            s1: Первая строка
+            s2: Вторая строка
+            tokenize: Если True - разбивает на токены (символы), иначе использует множества символов
+            
+        Returns:
+            Коэффициент Жаккара (0-1), где 1 = полное совпадение, 0 = нет общих элементов
+        """
+        if not s1 or not s2:
+            return 0.0
+        
+        if tokenize:
+            # Разбиваем на токены - используем слова (после нормализации)
+            # Для имен подходит разбиение по символам или по n-граммам
+            # Здесь используем set от символов ( character-level Jaccard)
+            set1 = set(s1)
+            set2 = set(s2)
+        else:
+            # Используем целые строки как множества
+            set1 = {s1}
+            set2 = {s2}
+        
+        union = set1 | set2
+        if not union:
+            return 0.0
+        
+        intersection = set1 & set2
+        return len(intersection) / len(union)
     
     def fuzzy_ratio(self, s1: str, s2: str) -> float:
         """Вычисляет коэффициент нечеткого сходства (0-1)"""
@@ -378,36 +420,43 @@ class NameMatcher:
         details['levenshtein_distance'] = lev_dist
         details['levenshtein_score'] = lev_score
         
-        # Расчет итоговой оценки с весами
-        weights = {
-            'exact': 1.0,
-            'fuzzy': 0.7,
-            'phonetic': 0.6,
-            'variation': 0.8,
-            'transliteration': 0.75,
-            'levenshtein': 0.6
-        }
+        # 8. Jaccard similarity (на уровне символов)
+        jaccard_score = self.jaccard_similarity(n1, n2, tokenize=True)
+        details['jaccard_score'] = jaccard_score
         
-        # Базовые факторы
-        base_score = 0.0
+        # Расчет итоговой оценки
+        # Если точное совпадение — максимум
         if exact_match:
-            base_score = 1.0
-        elif fuzzy_score > 0.85:
-            base_score = max(base_score, 0.9)
-        elif variation_match:
-            base_score = max(base_score, 0.85)
-        elif translit_match:
-            base_score = max(base_score, 0.8)
-        
-        # Уточняющие факторы
-        if phonetic_score > 0.7:
-            base_score = max(base_score, phonetic_score * 0.7)
-        if lev_score > 0.8:
-            base_score = max(base_score, lev_score * 0.6)
-        if fuzzy_score > 0.7:
-            base_score = max(base_score, fuzzy_score * 0.5)
-        
-        final_score = min(base_score, 1.0)
+            final_score = 1.0
+        else:
+            # Собираем вклад всех метрик
+            contributions = []
+            
+            # Качественные факторы (вариации, транслитерация) — высокий фиксированный балл
+            if variation_match:
+                contributions.append(0.85)
+            if translit_match:
+                contributions.append(0.8)
+            
+            # Нечеткое сходство (fuzzy) — основной фактор для похожих имен
+            if fuzzy_score > 0.5:
+                contributions.append(fuzzy_score * 0.7)
+            
+            # Фонетическое сходство
+            if phonetic_score > 0.3:
+                contributions.append(phonetic_score * 0.6)
+            
+            # Расстояние Левенштейна
+            if lev_score > 0.5:
+                contributions.append(lev_score * 0.6)
+            
+            # Jaccard similarity
+            if jaccard_score > 0.4:
+                contributions.append(jaccard_score * 0.65)
+            
+            # Итог — максимум из всех вкладов
+            final_score = max(contributions) if contributions else 0.0
+            final_score = min(final_score, 1.0)
         
         return {
             'exact_match': exact_match,
@@ -415,8 +464,11 @@ class NameMatcher:
             'phonetic_score': phonetic_score,
             'variation_match': variation_match,
             'transliteration_match': translit_match,
+            'levenshtein_score': lev_score,
+            'jaccard_score': jaccard_score,
             'final_score': final_score,
-            'details': details
+            'details': details,
+            'interpretation': self._interpret_score(final_score)
         }
     
     def compare_full_names(self, first_name1: str, last_name1: str, 

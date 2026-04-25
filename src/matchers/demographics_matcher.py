@@ -197,14 +197,14 @@ class DemographicsMatcher:
             results.append(str(education['university']).lower())
         
         if 'university_name' in education and education['university_name']:
-            results.append(education['university_name'].lower())
+            results.append(str(education['university_name']).lower())
         
         # Факультет
         if 'faculty' in education and education['faculty']:
-            results.append(education['faculty'].lower())
+            results.append(str(education['faculty']).lower())
         
         if 'faculty_name' in education and education['faculty_name']:
-            results.append(education['faculty_name'].lower())
+            results.append(str(education['faculty_name']).lower())
         
         # Год выпуска
         if 'graduation' in education and education['graduation']:
@@ -291,18 +291,18 @@ class DemographicsMatcher:
         
         for job in career1:
             if job.get('company'):
-                companies1.add(job['company'].lower())
+                companies1.add(str(job['company']).lower())
             if job.get('position'):
-                positions1.add(job['position'].lower())
+                positions1.add(str(job['position']).lower())
         
         companies2 = set()
         positions2 = set()
         
         for job in career2:
             if job.get('company'):
-                companies2.add(job['company'].lower())
+                companies2.add(str(job['company']).lower())
             if job.get('position'):
-                positions2.add(job['position'].lower())
+                positions2.add(str(job['position']).lower())
         
         # Проверяем совпадения
         common_companies = companies1 & companies2
@@ -438,6 +438,12 @@ class DemographicsMatcher:
         # Родной город
         home_town1 = user1.get('home_town', '')
         home_town2 = user2.get('home_town', '')
+        
+        # Приводим к строке, если передано число
+        if not isinstance(home_town1, str):
+            home_town1 = str(home_town1) if home_town1 else ''
+        if not isinstance(home_town2, str):
+            home_town2 = str(home_town2) if home_town2 else ''
         
         if home_town1 and home_town2:
             results['home_town'] = {
