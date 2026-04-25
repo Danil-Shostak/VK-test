@@ -46,7 +46,8 @@
                                             <option value="">-- Выберите профиль --</option>
                                             {% for profile in saved_profiles %}
                                             <option value="{{ profile.path }}">
-                                                {{ profile.user.first_name }} {{ profile.user.last_name }}
+                                                {% set u = profile.user.raw_data if profile.user.raw_data is defined else profile.user %}
+                                                {{ u.first_name }} {{ u.last_name }}
                                             </option>
                                             {% endfor %}
                                         </select>
@@ -81,7 +82,8 @@
                                             <option value="">-- Выберите профиль --</option>
                                             {% for profile in saved_profiles %}
                                             <option value="{{ profile.path }}">
-                                                {{ profile.user.first_name }} {{ profile.user.last_name }}
+                                                {% set u = profile.user.raw_data if profile.user.raw_data is defined else profile.user %}
+                                                {{ u.first_name }} {{ u.last_name }}
                                             </option>
                                             {% endfor %}
                                         </select>

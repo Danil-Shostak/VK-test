@@ -28,18 +28,25 @@
     <div class="col-md-6 col-lg-4">
         <div class="card h-100">
             <div class="card-body">
+                {% set user = profile.user.raw_data if profile.user.raw_data is defined else profile.user %}
                 <div class="d-flex align-items-center mb-3">
-                    {% if profile.user.photo_100 %}
-                    <img src="{{ profile.user.photo_100 }}" alt="Avatar" class="avatar-small me-3">
+                    {% if user.local_avatar %}
+                    <img src="{{ user.local_avatar }}" alt="Avatar" class="avatar-small me-3">
+                    {% elif user.photo_100 %}
+                    <img src="{{ user.photo_100 }}" alt="Avatar" class="avatar-small me-3">
+                    {% elif user.photo_50 %}
+                    <img src="{{ user.photo_50 }}" alt="Avatar" class="avatar-small me-3">
+                    {% elif user.photo_max %}
+                    <img src="{{ user.photo_max }}" alt="Avatar" class="avatar-small me-3">
                     {% else %}
                     <div class="avatar-small me-3 bg-secondary d-flex align-items-center justify-content-center">
                         <i class="fas fa-user text-white"></i>
                     </div>
                     {% endif %}
                     <div>
-                        <h5 class="mb-0">{{ profile.user.first_name }} {{ profile.user.last_name }}</h5>
-                        {% if profile.user.screen_name %}
-                        <small class="text-muted">@{{ profile.user.screen_name }}</small>
+                        <h5 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h5>
+                        {% if user.screen_name %}
+                        <small class="text-muted">@{{ user.screen_name }}</small>
                         {% endif %}
                     </div>
                 </div>

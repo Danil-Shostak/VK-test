@@ -151,7 +151,8 @@ class VKApiClient:
         # Запрашиваем расширенные данные о пользователе
         fields = [
             'id', 'first_name', 'last_name', 'sex', 'bdate', 'city', 'country',
-            'photo_max', 'photo_max_orig', 'has_photo', 'online', 'online_mobile',
+            'photo_50', 'photo_100', 'photo_200', 'photo_400', 'photo_max', 'photo_max_orig',
+            'has_photo', 'online', 'online_mobile',
             'domain', 'nickname', 'screen_name', 'maiden_name',
             'friend_status', 'can_access_closed', 'is_closed',
             'about', 'activities', 'books', 'games', 'interests', 'movies', 'music', 'quotes',

@@ -79,6 +79,19 @@ def parse_profile_async(profile_url, token, download_photos, session_id):
         results_folder = f"{RESULTS_FOLDER}/{username}_{timestamp}"
         os.makedirs(results_folder, exist_ok=True)
         
+        # Скачиваем аватарку
+        avatar_url = user.get('photo_max_orig') or user.get('photo_max') or user.get('photo_200') or user.get('photo_100')
+        if avatar_url:
+            try:
+                avatar_response = requests.get(avatar_url, timeout=10)
+                if avatar_response.status_code == 200:
+                    avatar_path = os.path.join(results_folder, 'avatar.jpg')
+                    with open(avatar_path, 'wb') as f:
+                        f.write(avatar_response.content)
+                    user['local_avatar'] = f"/photos/{username}_{timestamp}/avatar.jpg"
+            except:
+                pass
+        
         user_id = user.get('id')
         
         # Загружаем друзей
@@ -104,6 +117,10 @@ def parse_profile_async(profile_url, token, download_photos, session_id):
         # Подготавливаем данные
         profiles_cache[session_id] = {'status': 'processing', 'message': 'Подготавливаем данные...'}
         user_data = DataPreparer.prepare_user_data(user)
+        
+        # Сохраняем путь к локальной аватарке
+        if 'local_avatar' in user:
+            user_data['local_avatar'] = user['local_avatar']
         
         # Сохраняем данные
         FileExporter.save_json(user_data, f"{results_folder}/user_info.json")
@@ -285,10 +302,33 @@ def compare():
         
         # Сохраняем результат
         comparison_id = str(uuid.uuid4())
+        
+        # Сохраняем информацию о локальных аватарках
+        profile1_local_avatar = None
+        profile2_local_avatar = None
+        
+        if profile1_path and os.path.exists(profile1_path):
+            try:
+                with open(os.path.join(profile1_path, 'user_info.json'), 'r', encoding='utf-8') as f:
+                    p1_raw = json.load(f)
+                    profile1_local_avatar = p1_raw.get('local_avatar')
+            except:
+                pass
+        
+        if profile2_path and os.path.exists(profile2_path):
+            try:
+                with open(os.path.join(profile2_path, 'user_info.json'), 'r', encoding='utf-8') as f:
+                    p2_raw = json.load(f)
+                    profile2_local_avatar = p2_raw.get('local_avatar')
+            except:
+                pass
+        
         comparisons_cache[comparison_id] = {
             'result': result,
             'profile1': p1['profile'],
-            'profile2': p2['profile']
+            'profile2': p2['profile'],
+            'profile1_local_avatar': profile1_local_avatar,
+            'profile2_local_avatar': profile2_local_avatar
         }
         
         return redirect(url_for('comparison_result', comparison_id=comparison_id))
@@ -330,11 +370,15 @@ def comparison_result(comparison_id):
     result = data['result']
     p1 = data['profile1']
     p2 = data['profile2']
+    p1_local_avatar = data.get('profile1_local_avatar')
+    p2_local_avatar = data.get('profile2_local_avatar')
     
     return render_template('comparison.html',
                           result=result,
                           profile1=p1,
-                          profile2=p2)
+                          profile2=p2,
+                          profile1_local_avatar=p1_local_avatar,
+                          profile2_local_avatar=p2_local_avatar)
 
 
 @app.route('/profiles')

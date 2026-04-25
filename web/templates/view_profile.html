@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user_data.raw_data.first_name }} {{ user_data.raw_data.last_name }} - VK Parser{% endblock %}
+{% set user = user_data.raw_data if user_data.raw_data is defined else user_data %}
+
+{% block title %}{{ user.first_name }} {{ user.last_name }} - VK Parser{% endblock %}
 
 {% block content %}
 <!-- Навигация -->
@@ -8,7 +10,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Главная</a></li>
         <li class="breadcrumb-item"><a href="/profiles">Профили</a></li>
-        <li class="breadcrumb-item active">{{ user_data.raw_data.first_name }} {{ user_data.raw_data.last_name }}</li>
+        <li class="breadcrumb-item active">{{ user.first_name }} {{ user.last_name }}</li>
     </ol>
 </nav>
 
@@ -17,8 +19,20 @@
     <div class="card-body">
         <div class="row align-items-center">
             <div class="col-auto">
-                {% if user_data.raw_data.photo_200 %}
-                <img src="{{ user_data.raw_data.photo_200 }}" 
+                {% if user.local_avatar %}
+                <img src="{{ user.local_avatar }}" 
+                     alt="Avatar" 
+                     class="profile-avatar">
+                {% elif user.photo_200 %}
+                <img src="{{ user.photo_200 }}" 
+                     alt="Avatar" 
+                     class="profile-avatar">
+                {% elif user.photo_max %}
+                <img src="{{ user.photo_max }}" 
+                     alt="Avatar" 
+                     class="profile-avatar">
+                {% elif user.photo_max_orig %}
+                <img src="{{ user.photo_max_orig }}" 
                      alt="Avatar" 
                      class="profile-avatar">
                 {% else %}
@@ -29,20 +43,69 @@
             </div>
             <div class="col">
                 <h2 class="mb-1">
-                    {{ user_data.raw_data.first_name }} {{ user_data.raw_data.last_name }}
+                    {{ user.first_name }} {{ user.last_name }}
                 </h2>
-                {% if user_data.raw_data.screen_name %}
+                {% if user.screen_name %}
                 <p class="mb-1">
-                    <a href="https://vk.com/{{ user_data.raw_data.screen_name }}" 
+                    <a href="https://vk.com/{{ user.screen_name }}" 
                        target="_blank" 
                        class="text-decoration-none">
-                        @{{ user_data.raw_data.screen_name }}
+                        @{{ user.screen_name }}
                     </a>
                 </p>
                 {% endif %}
-                <span class="status-badge {% if user_data.raw_data.online == 1 %}status-online{% else %}status-offline{% endif %}">
-                    {% if user_data.raw_data.online == 1 %}<i class="fas fa-circle me-1"></i>Онлайн{% else %}Не в сети{% endif %}
+                <span class="status-badge {% if user.online == 1 %}status-online{% else %}status-offline{% endif %}">
+                    {% if user.online == 1 %}<i class="fas fa-circle me-1"></i>Онлайн{% else %}Не в сети{% endif %}
                 </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Информация о пользователе -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-user me-2 text-primary"></i>Основная информация
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                        {% if user.bdate %}
+                        <tr>
+                            <td class="text-muted">Дата рождения:</td>
+                            <td>{{ user.bdate }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user.city %}
+                        <tr>
+                            <td class="text-muted">Город:</td>
+                            <td>{{ user.city.title if user.city.title is defined else user.city }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user.country %}
+                        <tr>
+                            <td class="text-muted">Страна:</td>
+                            <td>{{ user.country.title if user.country.title is defined else user.country }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user.university_name %}
+                        <tr>
+                            <td class="text-muted">Университет:</td>
+                            <td>{{ user.university_name }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if user.occupation %}
+                        <tr>
+                            <td class="text-muted">Работа:</td>
+                            <td>{{ user.occupation.name if user.occupation.name is defined else user.occupation }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -132,7 +195,7 @@
 </div>
 
 <!-- Фотографии -->
-{% if photos_data and photos_data.items and photos_data.items|length > 0 %}
+{% if photos_data and photos_data['items'] and photos_data['items']|length > 0 %}
 <div class="card mb-4">
     <div class="card-header bg-white">
         <h5 class="mb-0">
@@ -142,7 +205,7 @@
     </div>
     <div class="card-body">
         <div class="photo-grid">
-            {% for photo in photos_data.items[:20] %}
+            {% for photo in photos_data['items'][:20] %}
             <img src="{{ photo.sizes[-1].url }}" 
                  alt="Photo {{ loop.index }}"
                  data-bs-toggle="modal" 
