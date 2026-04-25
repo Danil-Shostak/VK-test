@@ -66,3 +66,25 @@
 2026-04-25 00:56:57 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
 2026-04-25 00:56:57 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: lil_chinch
 2026-04-25 00:56:58 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Влад Тамашевич (ID: 551667191)
+2026-04-25 09:09:54 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: naruto000uzumaki
+2026-04-25 09:09:55 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 09:09:55 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: naruto000uzumaki
+2026-04-25 09:09:55 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Котик Александр (ID: 372017665)
+2026-04-25 09:10:16 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: compot
+2026-04-25 09:10:16 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 09:10:16 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: compot
+2026-04-25 09:10:17 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Роман Парамонов (ID: 465801259)
+2026-04-25 09:13:08 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: compot
+2026-04-25 09:13:09 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 09:13:09 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: compot
+2026-04-25 09:13:09 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Роман Парамонов (ID: 465801259)
+2026-04-25 10:28:04 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: shaxmatist51
+2026-04-25 10:28:05 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-25 10:28:05 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: shaxmatist51
+2026-04-25 10:28:05 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Роман Иванов (ID: 53887577)
+2026-04-25 10:36:45 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: 127763305
+2026-04-25 10:36:46 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Дарья Бич (ID: 127763305)
+2026-04-25 10:36:49 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: 192658359
+2026-04-25 10:36:49 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Виктория Шпаковская (ID: 192658359)
+2026-04-25 10:42:42 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: 192658359
+2026-04-25 10:42:42 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Виктория Шпаковская (ID: 192658359)

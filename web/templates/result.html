@@ -140,11 +140,11 @@
     <div class="card-body">
         <div class="photo-grid">
             {% for photo in photos_data[:20] %}
-            <img src="{{ photo.sizes[-1].url }}" 
+            <img src="{{ photo.sizes[photo.sizes|length - 1].url if photo.sizes else (photo.photo_max or photo.photo_200) }}" 
                  alt="Photo {{ loop.index }}"
                  data-bs-toggle="modal" 
                  data-bs-target="#photoModal"
-                 onclick="showPhoto('{{ photo.sizes[-1].url }}')">
+                 onclick="showPhoto('{{ photo.sizes[photo.sizes|length - 1].url if photo.sizes else (photo.photo_max or photo.photo_200) }}')">
             {% endfor %}
         </div>
         {% if photos_data|length > 20 %}

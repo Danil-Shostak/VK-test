@@ -331,6 +331,10 @@ def compare():
             'profile2_local_avatar': profile2_local_avatar
         }
         
+        # Логируем структуру результата для отладки
+        print(f"\n📊 Результат сравнения сохранен в кэш ({comparison_id})")
+        print(f"   Бонусы: {result.get('scores', {}).get('bonuses', {})}")
+        
         return redirect(url_for('comparison_result', comparison_id=comparison_id))
         
     except Exception as e:

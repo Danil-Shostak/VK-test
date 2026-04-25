@@ -1,294 +1,311 @@
 {% extends "base.html" %}
 
 {% set user = user_data.raw_data if user_data.raw_data is defined else user_data %}
+{% set photos_all = photos_data['items'] if photos_data else [] %}
+{% set friends_all_raw = (friends_data['items']|list) if friends_data else [] %}
 
 {% block title %}{{ user.first_name }} {{ user.last_name }} - VK Parser{% endblock %}
 
 {% block content %}
-<!-- Навигация -->
-<nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Главная</a></li>
-        <li class="breadcrumb-item"><a href="/profiles">Профили</a></li>
-        <li class="breadcrumb-item active">{{ user.first_name }} {{ user.last_name }}</li>
-    </ol>
+<!-- Верхнее меню -->
+<nav style="background: #0077FF; padding: 12px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500;">Главная</a>
+            <span style="color: rgba(255,255,255,0.5);">/</span>
+            <a href="/profiles" style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500;">Профили</a>
+            <span style="color: rgba(255,255,255,0.5);">/</span>
+            <span style="color: white; font-weight: 600;">{{ user.first_name }} {{ user.last_name }}</span>
+        </div>
+    </div>
 </nav>
 
-<!-- Заголовок профиля -->
-<div class="card mb-4">
-    <div class="card-body">
-        <div class="row align-items-center">
-            <div class="col-auto">
-                {% if user.local_avatar %}
-                <img src="{{ user.local_avatar }}" 
-                     alt="Avatar" 
-                     class="profile-avatar">
-                {% elif user.photo_200 %}
-                <img src="{{ user.photo_200 }}" 
-                     alt="Avatar" 
-                     class="profile-avatar">
-                {% elif user.photo_max %}
-                <img src="{{ user.photo_max }}" 
-                     alt="Avatar" 
-                     class="profile-avatar">
-                {% elif user.photo_max_orig %}
-                <img src="{{ user.photo_max_orig }}" 
-                     alt="Avatar" 
-                     class="profile-avatar">
-                {% else %}
-                <div class="profile-avatar bg-light d-flex align-items-center justify-content-center">
-                    <i class="fas fa-user fa-3x text-secondary"></i>
+<!-- Шапка профиля -->
+<div style="max-width: 1200px; margin: 20px auto 0; padding: 0 15px;">
+    <div style="background: white; border-radius: 12px; padding: 24px; display: flex; align-items: center; gap: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #eaeaea;">
+        <div>
+            {% if user.photo_200 %}
+                <img src="{{ user.photo_200 }}" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #0077FF;">
+            {% else %}
+                <div style="width: 100px; height: 100px; border-radius: 50%; background: #f0f2f5; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user" style="font-size: 48px; color: #b0b0b0;"></i>
                 </div>
-                {% endif %}
-            </div>
-            <div class="col">
-                <h2 class="mb-1">
-                    {{ user.first_name }} {{ user.last_name }}
-                </h2>
-                {% if user.screen_name %}
-                <p class="mb-1">
-                    <a href="https://vk.com/{{ user.screen_name }}" 
-                       target="_blank" 
-                       class="text-decoration-none">
-                        @{{ user.screen_name }}
-                    </a>
-                </p>
-                {% endif %}
-                <span class="status-badge {% if user.online == 1 %}status-online{% else %}status-offline{% endif %}">
-                    {% if user.online == 1 %}<i class="fas fa-circle me-1"></i>Онлайн{% else %}Не в сети{% endif %}
-                </span>
+            {% endif %}
+        </div>
+        <div style="flex: 1;">
+            <h1 style="margin: 0; font-size: 28px; color: #1a1a1a;">{{ user.first_name }} {{ user.last_name }}</h1>
+            {% if user.screen_name %}
+                <p style="margin: 6px 0 0 0; color: #555;"><a href="https://vk.com/{{ user.screen_name }}" target="_blank" style="color: #0077FF; text-decoration: none;">@{{ user.screen_name }}</a></p>
+            {% endif %}
+            <div style="margin-top: 10px; display: flex; gap: 15px; color: #666; font-size: 14px;">
+                <span><i class="fas fa-map-marker-alt" style="color: #0077FF; margin-right: 5px;"></i> {{ user.city.title if user.city else 'Не указан' }}</span>
+                <span><i class="fas fa-birthday-cake" style="color: #0077FF; margin-right: 5px;"></i> {{ user.bdate if user.bdate else '—' }}</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Информация о пользователе -->
-<div class="row g-4 mb-4">
-    <div class="col-lg-6">
-        <div class="card h-100">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">
-                    <i class="fas fa-user me-2 text-primary"></i>Основная информация
-                </h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-borderless mb-0">
-                    <tbody>
-                        {% if user.bdate %}
-                        <tr>
-                            <td class="text-muted">Дата рождения:</td>
-                            <td>{{ user.bdate }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user.city %}
-                        <tr>
-                            <td class="text-muted">Город:</td>
-                            <td>{{ user.city.title if user.city.title is defined else user.city }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user.country %}
-                        <tr>
-                            <td class="text-muted">Страна:</td>
-                            <td>{{ user.country.title if user.country.title is defined else user.country }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user.university_name %}
-                        <tr>
-                            <td class="text-muted">Университет:</td>
-                            <td>{{ user.university_name }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user.occupation %}
-                        <tr>
-                            <td class="text-muted">Работа:</td>
-                            <td>{{ user.occupation.name if user.occupation.name is defined else user.occupation }}</td>
-                        </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Информация о пользователе -->
-<div class="row g-4 mb-4">
-    <div class="col-lg-6">
-        <div class="card h-100">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">
-                    <i class="fas fa-user me-2 text-primary"></i>Основная информация
-                </h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-borderless mb-0">
-                    <tbody>
-                        {% if user_data.raw_data.bdate %}
-                        <tr>
-                            <td class="text-muted">Дата рождения:</td>
-                            <td>{{ user_data.raw_data.bdate }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user_data.raw_data.city %}
-                        <tr>
-                            <td class="text-muted">Город:</td>
-                            <td>{{ user_data.raw_data.city.title }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user_data.raw_data.country %}
-                        <tr>
-                            <td class="text-muted">Страна:</td>
-                            <td>{{ user_data.raw_data.country.title }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user_data.raw_data.university_name %}
-                        <tr>
-                            <td class="text-muted">Университет:</td>
-                            <td>{{ user_data.raw_data.university_name }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if user_data.raw_data.occupation %}
-                        <tr>
-                            <td class="text-muted">Работа:</td>
-                            <td>{{ user_data.raw_data.occupation.name }}</td>
-                        </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+<!-- Основной контент -->
+<div style="max-width: 1200px; margin: 20px auto; padding: 0 15px; display: flex; flex-direction: column; gap: 20px;">
     
-    <div class="col-lg-6">
-        <div class="card h-100">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">
-                    <i class="fas fa-chart-bar me-2 text-primary"></i>Статистика
-                </h5>
+    <!-- Фотоальбом (выше друзей) -->
+    <div style="width: 100%;">
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #eaeaea;">
+            <div style="padding: 16px 20px; border-bottom: 1px solid #eee; background: #fafafa;">
+                <h2 style="margin: 0; font-size: 18px; color: #333; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-camera"></i> Фотоальбом
+                    <span style="background: #28a745; color: white; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: normal;" id="photoCount">0</span>
+                </h2>
             </div>
-            <div class="card-body">
-                <div class="row text-center">
-                    <div class="col-6 mb-3">
-                        <div class="display-6 fw-bold text-primary">
-                            {% if friends_data and friends_data.count %}
-                                {{ friends_data.count }}
-                            {% else %}
-                                0
-                            {% endif %}
-                        </div>
-                        <div class="text-muted">Друзей</div>
-                    </div>
-                    <div class="col-6 mb-3">
-                        <div class="display-6 fw-bold text-success">
-                            {% if photos_data and photos_data.count %}
-                                {{ photos_data.count }}
-                            {% else %}
-                                0
-                            {% endif %}
-                        </div>
-                        <div class="text-muted">Фотографий</div>
-                    </div>
+
+            <!-- Сетка 5x5 (25 фото) -->
+            <div id="gridPhotos" style="padding: 10px;">
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
+                    <!-- Фото загружаются через JS -->
                 </div>
             </div>
+
+            <!-- Пагинация фото -->
+            <div id="pagerPhotos" style="padding: 12px 20px; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                <!-- Кнопки сгенерируются JS -->
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Фотографии -->
-{% if photos_data and photos_data['items'] and photos_data['items']|length > 0 %}
-<div class="card mb-4">
-    <div class="card-header bg-white">
-        <h5 class="mb-0">
-            <i class="fas fa-images me-2 text-primary"></i>Фотографии
-            <span class="text-muted">({{ photos_data.count }})</span>
-        </h5>
-    </div>
-    <div class="card-body">
-        <div class="photo-grid">
-            {% for photo in photos_data['items'][:20] %}
-            <img src="{{ photo.sizes[-1].url }}" 
-                 alt="Photo {{ loop.index }}"
-                 data-bs-toggle="modal" 
-                 data-bs-target="#photoModal"
-                 onclick="showPhoto('{{ photo.sizes[-1].url }}')">
-            {% endfor %}
-        </div>
-        {% if photos_data.count > 20 %}
-        <p class="text-muted text-center mt-3 mb-0">
-            Показано 20 из {{ photos_data.count }} фотографий
-        </p>
-        {% endif %}
-    </div>
-</div>
-{% endif %}
-
-<!-- Друзья -->
-{% if friends_data and friends_data['items'] and (friends_data['items']|list)|length > 0 %}
-<div class="card mb-4">
-    <div class="card-header bg-white">
-        <h5 class="mb-0">
-            <i class="fas fa-user-friends me-2 text-primary"></i>Друзья
-            <span class="text-muted">({{ friends_data.count }})</span>
-        </h5>
-    </div>
-    <div class="card-body">
-        <div class="row g-3">
-            {% for friend in (friends_data['items']|list)[:50] %}
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="d-flex align-items-center p-2 rounded bg-light">
-                    {% if friend.photo_100 %}
-                    <img src="{{ friend.photo_100 }}" 
-                         alt="{{ friend.first_name }}" 
-                         class="avatar-small me-2">
-                    {% else %}
-                    <div class="avatar-small me-2 bg-secondary d-flex align-items-center justify-content-center">
-                        <i class="fas fa-user text-white"></i>
-                    </div>
-                    {% endif %}
-                    <div class="text-truncate">
-                        <a href="https://vk.com/id{{ friend.id }}" 
-                           target="_blank"
-                           class="text-decoration-none text-dark small">
-                            {{ friend.first_name }} {{ friend.last_name }}
-                        </a>
-                    </div>
+    <!-- Друзья (сетка 10x5) -->
+    <div style="width: 100%;">
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #eaeaea;">
+            <!-- Заголовок поиска -->
+            <div style="padding: 16px 20px; border-bottom: 1px solid #eee; background: #fafafa;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0; font-size: 18px; color: #333; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-users"></i> Друзья
+                        <span style="background: #0077FF; color: white; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: normal;" id="friendCount">0</span>
+                    </h2>
+                    <input type="text" id="inpFriends" placeholder="Поиск по имени или фамилии..." onkeyup="filterFriendsGrid()" style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 250px; font-size: 14px;">
                 </div>
             </div>
-            {% endfor %}
-        </div>
-        {% if friends_data.count > 50 %}
-        <p class="text-muted text-center mt-3 mb-0">
-            Показано 50 из {{ friends_data.count }} друзей
-        </p>
-        {% endif %}
-    </div>
-</div>
-{% endif %}
 
-<!-- Действия -->
-<div class="d-flex gap-2">
-    <a href="/compare?profile1={{ profile_path }}" class="btn btn-vk">
-        <i class="fas fa-balance-scale me-2"></i>Сравнить с другим профилем
-    </a>
-    <a href="/profiles" class="btn btn-outline-secondary">
-        <i class="fas fa-arrow-left me-2"></i>К списку профилей
-    </a>
-</div>
+            <!-- Сетка 10x5 (50 ячеек) -->
+            <div id="gridFriends" style="padding: 10px;">
+                <div style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px;">
+                    <!-- Друзья загружаются через JS -->
+                </div>
+            </div>
 
-<!-- Модальное окно для фото -->
-<div class="modal fade" id="photoModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content bg-dark">
-            <div class="modal-body p-0 text-center">
-                <img id="modalPhoto" src="" class="img-fluid" alt="Photo">
+            <!-- Пагинация друзей -->
+            <div id="pagerFriends" style="padding: 12px 20px; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                <!-- Кнопки сгенерируются JS -->
             </div>
         </div>
     </div>
+</div>
+
+<!-- Модальное окно (Увеличение фото) -->
+<div id="modalOverlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 10000; justify-content:center; align-items:center; cursor:zoom-out;">
+    <img id="modalImg" src="" style="max-width:90%; max-height:90%; object-fit:contain; border-radius:8px; pointer-events:none;">
 </div>
 
 <script>
-function showPhoto(url) {
-    document.getElementById('modalPhoto').src = url;
+// Данные с сервера
+const ALL_FRIENDS = {{ friends_all_raw | tojson | safe }};
+const ALL_PHOTOS = {{ photos_all | tojson | safe }};
+
+// Обновляем счетчики
+document.getElementById('friendCount').textContent = ALL_FRIENDS.length;
+document.getElementById('photoCount').textContent = ALL_PHOTOS.length;
+
+// Константы сеток
+const FRIENDS_ROWS = 5;
+const FRIENDS_COLS = 10;
+const FRIENDS_PER_PAGE = FRIENDS_ROWS * FRIENDS_COLS;
+
+const PHOTOS_ROWS = 5;
+const PHOTOS_COLS = 5;
+const PHOTOS_PER_PAGE = PHOTOS_ROWS * PHOTOS_COLS;
+
+// Текущая страница
+let currentFriendsPage = 0;
+let currentPhotoPage = 0;
+let filteredFriends = [...ALL_FRIENDS];
+
+// Вспомогательная функция: получить URL largest фото
+function getLargestPhotoUrl(photo) {
+    if (!photo || !photo.sizes || photo.sizes.length === 0) {
+        return photo.photo_max || photo.photo_200 || '';
+    }
+    // Находим фото с максимальными размерами
+    let maxSize = 0;
+    let bestUrl = '';
+    for (const size of photo.sizes) {
+        const area = (size.width || 0) * (size.height || 0);
+        if (area > maxSize) {
+            maxSize = area;
+            bestUrl = size.url;
+        }
+    }
+    return bestUrl || (photo.sizes[photo.sizes.length - 1] && photo.sizes[photo.sizes.length - 1].url) || '';
 }
+
+// --- Функции для Друзей ---
+function renderFriendsPage(page) {
+    const grid = document.querySelector('#gridFriends > div');
+    const start = page * FRIENDS_PER_PAGE;
+    const end = start + FRIENDS_PER_PAGE;
+    const pageData = filteredFriends.slice(start, end);
+    
+    grid.innerHTML = '';
+    pageData.forEach(f => {
+        const cell = document.createElement('div');
+        cell.className = 'friend_cell';
+        cell.setAttribute('data-name', `${f.first_name || ''} ${f.last_name || ''}`.toLowerCase());
+        cell.style.cssText = "background: #f9f9f9; border-radius: 6px; padding: 4px; text-align: center; transition: all 0.2s; border: 2px solid transparent; min-height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;";
+        
+        const avatar = f.photo_100 ? `<img src="${f.photo_100}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;">` : 
+                      `<div style="width: 50px; height: 50px; border-radius: 50%; background: #e0e0e0; display: flex; align-items: center; justify-content: center;"><i class="fas fa-user" style="color: #888;"></i></div>`;
+        
+        const firstName = (f.first_name || '').substring(0, 8);
+        const lastName = (f.last_name || '').substring(0, 8);
+        const vkUrl = f.id ? `https://vk.com/id${f.id}` : (f.domain ? `https://vk.com/${f.domain}` : '#');
+        
+        cell.innerHTML = `
+            <a href="${vkUrl}" target="_blank" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                ${avatar}
+                <span style="font-size: 12px; font-weight: 600; margin-top: 4px; line-height: 1.2;">${firstName}<br>${lastName}</span>
+            </a>
+        `;
+        cell.onclick = (e) => {
+            if (!e.target.closest('a')) {
+                window.open(vkUrl, '_blank');
+            }
+        };
+        grid.appendChild(cell);
+    });
+    
+    // Заполняем пустые ячейки
+    const emptyCount = FRIENDS_PER_PAGE - pageData.length;
+    for(let i=0; i<emptyCount; i++) {
+        const empty = document.createElement('div');
+        empty.style.cssText = "background: #fafafa; border-radius: 6px; min-height: 110px; border: 2px dashed #eee;";
+        grid.appendChild(empty);
+    }
+    
+    renderFriendsPager();
+}
+
+function renderFriendsPager() {
+    const totalPages = Math.ceil(filteredFriends.length / FRIENDS_PER_PAGE) || 1;
+    const pager = document.getElementById('pagerFriends');
+    pager.innerHTML = '';
+    
+    // Кнопка назад
+    const prev = document.createElement('button');
+    prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prev.disabled = currentFriendsPage === 0;
+    prev.onclick = () => { currentFriendsPage--; renderFriendsPage(currentFriendsPage); };
+    pager.appendChild(prev);
+    
+    // Номера страниц
+    for(let i=0; i<totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i+1;
+        btn.style.cssText = `padding: 6px 12px; border: 1px solid #ddd; background: ${currentFriendsPage===i ? '#0077FF' : 'white'}; color: ${currentFriendsPage===i ? 'white' : '#333'}; border-radius: 4px; cursor: pointer;`;
+        btn.onclick = () => { currentFriendsPage = i; renderFriendsPage(i); };
+        pager.appendChild(btn);
+    }
+    
+    // Кнопка вперед
+    const next = document.createElement('button');
+    next.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    next.disabled = currentFriendsPage >= totalPages - 1;
+    next.onclick = () => { currentFriendsPage++; renderFriendsPage(currentFriendsPage); };
+    pager.appendChild(next);
+}
+
+function filterFriendsGrid() {
+    const q = document.getElementById('inpFriends').value.toLowerCase().replace(/\s+/g, ' ').trim();
+    if(!q) {
+        filteredFriends = [...ALL_FRIENDS];
+    } else {
+        filteredFriends = ALL_FRIENDS.filter(f => 
+            `${f.first_name || ''} ${f.last_name || ''}`.toLowerCase().includes(q) ||
+            `${f.last_name || ''} ${f.first_name || ''}`.toLowerCase().includes(q) ||
+            (f.first_name && f.first_name.toLowerCase().includes(q)) ||
+            (f.last_name && f.last_name.toLowerCase().includes(q))
+        );
+    }
+    currentFriendsPage = 0;
+    renderFriendsPage(0);
+}
+
+// --- Функции для Фото ---
+function renderPhotosPage(page) {
+    const grid = document.querySelector('#gridPhotos > div');
+    const start = page * PHOTOS_PER_PAGE;
+    const end = start + PHOTOS_PER_PAGE;
+    const pageData = ALL_PHOTOS.slice(start, end);
+    
+    grid.innerHTML = '';
+    pageData.forEach(p => {
+        const cell = document.createElement('div');
+        cell.style.cssText = "position: relative; background: #000; border-radius: 6px; overflow: hidden; aspect-ratio: 1 / 1; cursor: pointer;";
+        const photoUrl = getLargestPhotoUrl(p);
+        cell.onclick = () => showPhotoModal(photoUrl);
+        cell.innerHTML = `
+            <img src="${photoUrl}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" 
+                 onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"/>
+        `;
+        grid.appendChild(cell);
+    });
+    
+    // Заполняем пустые ячейки (чтобы сетка не дергалась)
+    const emptyCount = PHOTOS_PER_PAGE - pageData.length;
+    for(let i=0; i<emptyCount; i++) {
+        const empty = document.createElement('div');
+        empty.style.cssText = "background: #fafafa; border-radius: 6px; aspect-ratio: 1 / 1;";
+        grid.appendChild(empty);
+    }
+    
+    renderPhotosPager();
+}
+
+function renderPhotosPager() {
+    const totalPages = Math.ceil(ALL_PHOTOS.length / PHOTOS_PER_PAGE) || 1;
+    const pager = document.getElementById('pagerPhotos');
+    pager.innerHTML = '';
+    
+    const prev = document.createElement('button');
+    prev.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prev.disabled = currentPhotoPage === 0;
+    prev.onclick = () => { currentPhotoPage--; renderPhotosPage(currentPhotoPage); };
+    pager.appendChild(prev);
+    
+    for(let i=0; i<totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i+1;
+        btn.style.cssText = `padding: 6px 12px; border: 1px solid #ddd; background: ${currentPhotoPage===i ? '#0077FF' : 'white'}; color: ${currentPhotoPage===i ? 'white' : '#333'}; border-radius: 4px; cursor: pointer;`;
+        btn.onclick = () => { currentPhotoPage = i; renderPhotosPage(i); };
+        pager.appendChild(btn);
+    }
+    
+    const next = document.createElement('button');
+    next.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    next.disabled = currentPhotoPage >= totalPages - 1;
+    next.onclick = () => { currentPhotoPage++; renderPhotosPage(currentPhotoPage); };
+    pager.appendChild(next);
+}
+
+// --- Модальное окно ---
+function showPhotoModal(url) {
+    document.getElementById('modalImg').src = url;
+    document.getElementById('modalOverlay').style.display = 'flex';
+}
+function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+}
+
+// Инициализация при загрузке
+renderFriendsPage(0);
+renderPhotosPage(0);
 </script>
 {% endblock %}

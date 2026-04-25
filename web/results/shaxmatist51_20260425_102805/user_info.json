@@ -1,0 +1,237 @@
+{
+  "metadata": {
+    "export_date": "2026-04-25 10:28:50",
+    "profile_url": "https://vk.com/shaxmatist51",
+    "profile_id": 53887577
+  },
+  "basic_info": {
+    "id": 53887577,
+    "first_name": "Роман",
+    "last_name": "Иванов",
+    "domain": "shaxmatist51",
+    "screen_name": "shaxmatist51",
+    "sex": "Мужской",
+    "birth_date": "18.10.1997",
+    "photo": "https://sun54-2.userapi.com/s/v1/ig2/HSmF8jCaEvuG65s6UNzbV09E292_hGLn4XDebeMwJX3HNZB5DJKGbey_nLt8KuP2vqz70VRNpRHwOIOg91QvFRyx.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=Y0lQal2Hq22YYaI2aAIxvLNk8ILW21mn5ibMiEWkuUQ&cs=240x240",
+    "is_closed": false,
+    "verified": 0
+  },
+  "personal_info": {
+    "home_town": "мурманск"
+  },
+  "contacts": {},
+  "interests": {
+    "music": "всё нормальное"
+  },
+  "education_career": {
+    "career": [
+      {
+        "country_id": 1,
+        "group_id": 6980140
+      }
+    ],
+    "universities": [
+      {
+        "city": 87,
+        "country": 0,
+        "id": 628,
+        "name": "МАГУ (бывш. МГГУ, МГПУ)"
+      }
+    ],
+    "schools": [
+      {
+        "city": 87,
+        "class": "а",
+        "class_id": 1,
+        "country": 1,
+        "id": "9617",
+        "name": "Школа №3"
+      },
+      {
+        "city": 172,
+        "class": "",
+        "class_id": 0,
+        "country": 1,
+        "id": "51859",
+        "name": "Детско-юношеская спортивная школа № 1",
+        "type": 6,
+        "type_str": "Спортивная школа",
+        "year_from": 2011
+      }
+    ]
+  },
+  "statistics": {
+    "counters": {
+      "albums": 2,
+      "audios": 912,
+      "followers": 232,
+      "friends": 120,
+      "gifts": 634,
+      "groups": 100,
+      "online_friends": 9,
+      "pages": 39,
+      "photos": 66,
+      "subscriptions": 0,
+      "user_photos": 6,
+      "videos": 165,
+      "video_playlists": 0,
+      "mutual_friends": 0,
+      "clips_followers": 352,
+      "clips_views": 0,
+      "clips_likes": 0
+    },
+    "followers_count": 352
+  },
+  "online_status": {
+    "online": 1,
+    "last_seen": {
+      "time": 1777102082,
+      "platform": 2
+    }
+  },
+  "raw_data": {
+    "id": 53887577,
+    "nickname": "",
+    "domain": "shaxmatist51",
+    "bdate": "18.10.1997",
+    "photo_200": "https://sun54-2.userapi.com/s/v1/ig2/HSmF8jCaEvuG65s6UNzbV09E292_hGLn4XDebeMwJX3HNZB5DJKGbey_nLt8KuP2vqz70VRNpRHwOIOg91QvFRyx.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=Y0lQal2Hq22YYaI2aAIxvLNk8ILW21mn5ibMiEWkuUQ&cs=200x200",
+    "photo_max": "https://sun54-2.userapi.com/s/v1/ig2/HSmF8jCaEvuG65s6UNzbV09E292_hGLn4XDebeMwJX3HNZB5DJKGbey_nLt8KuP2vqz70VRNpRHwOIOg91QvFRyx.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=Y0lQal2Hq22YYaI2aAIxvLNk8ILW21mn5ibMiEWkuUQ&cs=400x400",
+    "photo_max_orig": "https://sun54-2.userapi.com/s/v1/ig2/HSmF8jCaEvuG65s6UNzbV09E292_hGLn4XDebeMwJX3HNZB5DJKGbey_nLt8KuP2vqz70VRNpRHwOIOg91QvFRyx.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=Y0lQal2Hq22YYaI2aAIxvLNk8ILW21mn5ibMiEWkuUQ&cs=240x240",
+    "has_photo": 1,
+    "photo_400": "https://sun54-2.userapi.com/s/v1/ig2/HSmF8jCaEvuG65s6UNzbV09E292_hGLn4XDebeMwJX3HNZB5DJKGbey_nLt8KuP2vqz70VRNpRHwOIOg91QvFRyx.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=Y0lQal2Hq22YYaI2aAIxvLNk8ILW21mn5ibMiEWkuUQ&cs=400x400",
+    "interests": "",
+    "books": "",
+    "quotes": "",
+    "about": "",
+    "games": "",
+    "movies": "",
+    "activities": "",
+    "music": "всё нормальное",
+    "site": "",
+    "status": "",
+    "last_seen": {
+      "platform": 2,
+      "time": 1777102082
+    },
+    "followers_count": 352,
+    "occupation": {
+      "id": 6980140,
+      "name": "Газпром нефть",
+      "type": "work"
+    },
+    "career": [
+      {
+        "country_id": 1,
+        "group_id": 6980140
+      }
+    ],
+    "military": [],
+    "university": 628,
+    "university_name": "МАГУ (бывш. МГГУ, МГПУ)",
+    "faculty": 0,
+    "faculty_name": "",
+    "graduation": 0,
+    "home_town": "мурманск",
+    "personal": {
+      "alcohol": 0,
+      "inspired_by": "",
+      "langs": [
+        "Русский",
+        "English",
+        "Deutsch"
+      ],
+      "langs_full": [
+        {
+          "id": 0,
+          "native_name": "Русский"
+        },
+        {
+          "id": 3,
+          "native_name": "English"
+        },
+        {
+          "id": 6,
+          "native_name": "Deutsch"
+        }
+      ],
+      "life_main": 0,
+      "people_main": 0,
+      "political": 3,
+      "smoking": 0
+    },
+    "universities": [
+      {
+        "city": 87,
+        "country": 0,
+        "id": 628,
+        "name": "МАГУ (бывш. МГГУ, МГПУ)"
+      }
+    ],
+    "schools": [
+      {
+        "city": 87,
+        "class": "а",
+        "class_id": 1,
+        "country": 1,
+        "id": "9617",
+        "name": "Школа №3"
+      },
+      {
+        "city": 172,
+        "class": "",
+        "class_id": 0,
+        "country": 1,
+        "id": "51859",
+        "name": "Детско-юношеская спортивная школа № 1",
+        "type": 6,
+        "type_str": "Спортивная школа",
+        "year_from": 2011
+      }
+    ],
+    "relatives": [
+      {
+        "type": "sibling",
+        "id": 77690932
+      },
+      {
+        "type": "sibling",
+        "id": 34362219
+      },
+      {
+        "type": "sibling",
+        "id": 223868022
+      }
+    ],
+    "counters": {
+      "albums": 2,
+      "audios": 912,
+      "followers": 232,
+      "friends": 120,
+      "gifts": 634,
+      "groups": 100,
+      "online_friends": 9,
+      "pages": 39,
+      "photos": 66,
+      "subscriptions": 0,
+      "user_photos": 6,
+      "videos": 165,
+      "video_playlists": 0,
+      "mutual_friends": 0,
+      "clips_followers": 352,
+      "clips_views": 0,
+      "clips_likes": 0
+    },
+    "sex": 2,
+    "screen_name": "shaxmatist51",
+    "photo_50": "https://sun54-2.userapi.com/s/v1/ig2/HSmF8jCaEvuG65s6UNzbV09E292_hGLn4XDebeMwJX3HNZB5DJKGbey_nLt8KuP2vqz70VRNpRHwOIOg91QvFRyx.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=Y0lQal2Hq22YYaI2aAIxvLNk8ILW21mn5ibMiEWkuUQ&cs=50x50",
+    "photo_100": "https://sun54-2.userapi.com/s/v1/ig2/HSmF8jCaEvuG65s6UNzbV09E292_hGLn4XDebeMwJX3HNZB5DJKGbey_nLt8KuP2vqz70VRNpRHwOIOg91QvFRyx.jpg?quality=96&crop=144,144,1152,1152&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&ava=1&u=Y0lQal2Hq22YYaI2aAIxvLNk8ILW21mn5ibMiEWkuUQ&cs=100x100",
+    "online": 1,
+    "online_app": 3140623,
+    "verified": 0,
+    "friend_status": 0,
+    "first_name": "Роман",
+    "last_name": "Иванов",
+    "can_access_closed": true,
+    "is_closed": false
+  }
+}

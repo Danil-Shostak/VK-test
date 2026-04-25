@@ -158,7 +158,10 @@
                 <div class="progress" style="height: 8px;">
                     <div class="progress-bar bg-success" style="width: {{ result.analysis.friends.score * 100 }}%"></div>
                 </div>
-                <small class="text-muted">{{ result.analysis.friends.interpretation }}</small>
+                <small class="text-muted">
+                    Общих: {{ result.analysis.friends.common_count }} из {{ result.analysis.friends.total_1 }} / {{ result.analysis.friends.total_2 }}
+                    (Jaccard: {{ (result.analysis.friends.jaccard * 100)|round(1) }}%)
+                </small>
             </div>
             {% endif %}
             
@@ -184,14 +187,22 @@
                 <div class="progress" style="height: 8px;">
                     <div class="progress-bar bg-danger" style="width: {{ result.analysis.visual.score * 100 }}%"></div>
                 </div>
-                <small class="text-muted">{{ result.analysis.visual.interpretation }}</small>
+                <small class="text-muted">
+                    {% if result.analysis.visual.face_similarity > 0 %}
+                        Сходство лиц: {{ result.analysis.visual.face_similarity|round(1) }}%
+                        {% if result.analysis.visual.face_match %}(высокая вероятность совпадения){% endif %}
+                    {% else %}
+                        {{ result.analysis.visual.interpretation }}
+                    {% endif %}
+                    {% if result.analysis.visual.identical_photos > 0 %}| Идентичные фото: {{ result.analysis.visual.identical_photos }}{% endif %}
+                </small>
             </div>
             {% endif %}
             
             {% if result.analysis.content %}
             <div class="col-md-6">
                 <div class="d-flex justify-content-between mb-1">
-                    <span>Контент</span>
+                    <span>Контент / Интересы</span>
                     <span class="fw-bold">{{ (result.analysis.content.score * 100)|int }}%</span>
                 </div>
                 <div class="progress" style="height: 8px;">
@@ -203,58 +214,315 @@
         </div>
         
         <!-- Детали по именам -->
-        {% if result.analysis.name and result.analysis.name.first_name %}
-        <h6>Анализ имени:</h6>
-        <ul class="small text-muted mb-3">
-            <li>Имя: {{ result.analysis.name.first_name.value1 }} vs {{ result.analysis.name.first_name.value2 }} 
-                (сходство: {{ (result.analysis.name.first_name.comparison.fuzzy_score * 100)|int }}%)</li>
-            <li>Фамилия: {{ result.analysis.name.last_name.value1 }} vs {{ result.analysis.name.last_name.value2 }}
-                (сходство: {{ (result.analysis.name.last_name.comparison.fuzzy_score * 100)|int }}%)</li>
-            <li>{{ result.analysis.name.interpretation }}</li>
-        </ul>
+        {% if result.analysis.name %}
+        <div class="mb-4">
+            <h6><i class="fas fa-id-card me-2 text-primary"></i>Анализ имени</h6>
+            <div class="row small">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Имя:</span>
+                        <span><strong>{{ result.analysis.name.first_name.value1 }}</strong> vs <strong>{{ result.analysis.name.first_name.value2 }}</strong></span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Фамилия:</span>
+                        <span><strong>{{ result.analysis.name.last_name.value1 }}</strong> vs <strong>{{ result.analysis.name.last_name.value2 }}</strong></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Сходство (имя):</span>
+                        <span>{{ (result.analysis.name.first_name.comparison.fuzzy_score * 100)|int }}%</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Сходство (фамилия):</span>
+                        <span>{{ (result.analysis.name.last_name.comparison.fuzzy_score * 100)|int }}%</span>
+                    </div>
+                </div>
+            </div>
+            <p class="small text-muted mb-0">{{ result.analysis.name.interpretation }}</p>
+        </div>
         {% endif %}
         
         <!-- Детали по друзьям -->
-        {% if result.analysis.friends and result.analysis.friends.common_count is defined %}
-        <h6>Анализ друзей:</h6>
-        <ul class="small text-muted mb-3">
-            <li>Общие друзья: {{ result.analysis.friends.common_count }}</li>
-            <li>Всего в профиле 1: {{ result.analysis.friends.total_1 }}</li>
-            <li>Всего в профиле 2: {{ result.analysis.friends.total_2 }}</li>
-            <li>{{ result.analysis.friends.interpretation }}</li>
-        </ul>
+        {% if result.analysis.friends and result.analysis.friends.has_data %}
+        <div class="mb-4">
+            <h6><i class="fas fa-users me-2 text-success"></i>Анализ друзей</h6>
+            <div class="row small">
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Общих друзей:</span>
+                        <span class="fw-bold">{{ result.analysis.friends.common_count }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Профиль 1:</span>
+                        <span>{{ result.analysis.friends.total_1 }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Профиль 2:</span>
+                        <span>{{ result.analysis.friends.total_2 }}</span>
+                    </div>
+                </div>
+            </div>
+            <p class="small text-muted mb-0">{{ result.analysis.friends.interpretation }}</p>
+        </div>
         {% endif %}
         
         <!-- Детали по геолокации -->
-        {% if result.analysis.geolocation %}
-        <h6>Геолокация:</h6>
-        <ul class="small text-muted mb-3">
-            {% if result.analysis.geolocation.city1 %}
-            <li>Город 1: {{ result.analysis.geolocation.city1 }}</li>
-            <li>Город 2: {{ result.analysis.geolocation.city2 }}</li>
-            {% endif %}
-            <li>{{ result.analysis.geolocation.interpretation }}</li>
-        </ul>
+        {% if result.analysis.geolocation and result.analysis.geolocation.has_data %}
+        <div class="mb-4">
+            <h6><i class="fas fa-map-marker-alt me-2 text-info"></i>Геолокация</h6>
+            <div class="row small">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Профиль 1:</span>
+                        <span>
+                            {% if result.analysis.geolocation.city1 %}
+                                {{ result.analysis.geolocation.city1 }}{% if result.analysis.geolocation.country1 %}, {{ result.analysis.geolocation.country1 }}{% endif %}
+                            {% else %}
+                                <span class="text-muted">Не указана</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Профиль 2:</span>
+                        <span>
+                            {% if result.analysis.geolocation.city2 %}
+                                {{ result.analysis.geolocation.city2 }}{% if result.analysis.geolocation.country2 %}, {{ result.analysis.geolocation.country2 }}{% endif %}
+                            {% else %}
+                                <span class="text-muted">Не указана</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <p class="small text-muted mb-0">{{ result.analysis.geolocation.interpretation }}</p>
+        </div>
         {% endif %}
         
-        <!-- Бонусы -->
-        {% if result.scores and result.scores.bonuses %}
-        <h6>Бонусы:</h6>
-        <ul class="small text-muted mb-3">
-            {% if result.scores.bonuses.strong_name_match > 0 %}
-            <li>Сильное совпадение имени: +{{ (result.scores.bonuses.strong_name_match * 100)|int }}%</li>
-            {% endif %}
-            {% if result.scores.bonuses.high_friend_overlap > 0 %}
-            <li>Пересечение друзей: +{{ (result.scores.bonuses.high_friend_overlap * 100)|int }}%</li>
-            {% endif %}
-            {% if result.scores.bonuses.exact_location > 0 %}
-            <li>Точная геолокация: +{{ (result.scores.bonuses.exact_location * 100)|int }}%</li>
-            {% endif %}
-            {% if result.scores.bonuses.identical_photos > 0 %}
-            <li>Идентичные фото: +{{ (result.scores.bonuses.identical_photos * 100)|int }}%</li>
-            {% endif %}
-        </ul>
+        <!-- Детали по фотографиям -->
+        {% if result.analysis.visual and result.analysis.visual.has_data %}
+        <div class="mb-4">
+            <h6><i class="fas fa-camera me-2 text-danger"></i>Анализ фотографий</h6>
+            <div class="row small">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Сходство лиц:</span>
+                        <span class="fw-bold">{{ result.analysis.visual.face_similarity|round(1) }}%</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Метод сравнения:</span>
+                        <span>{{ result.analysis.visual.face_method|default('не используется', true) }}</span>
+                    </div>
+                </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Идентичных фото:</span>
+                            <span class="fw-bold">{{ result.analysis.visual.identical_photos }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Сходство активности:</span>
+                            <span>{{ (result.analysis.visual.activity_similarity|default(0) * 100)|round(1) }}%</span>
+                        </div>
+                    </div>
+            </div>
+            <p class="small text-muted mb-0">
+                {% if result.analysis.visual.face_match %}
+                    <span class="text-success"><i class="fas fa-check-circle"></i> Высокая вероятность совпадения лица</span>
+                {% elif result.analysis.visual.face_similarity >= 50 %}
+                    <span class="text-warning"><i class="fas fa-exclamation-triangle"></i> Умеренное сходство лиц</span>
+                {% else %}
+                    <span class="text-muted">Лица не схожи</span>
+                {% endif %}
+            </p>
+        </div>
         {% endif %}
+        
+        <!-- Детали по демографии -->
+        {% if result.analysis.demographics and result.analysis.demographics.has_data %}
+        <div class="mb-4">
+            <h6><i class="fas fa-chart-bar me-2 text-warning"></i>Демографические данные</h6>
+            {% set demo = result.analysis.demographics.details %}
+            <div class="row small">
+                {% if demo.birthdate is defined %}
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Дата рождения:</span>
+                        <span>
+                            {% if demo.birthdate.exact_match %}<span class="text-success"><i class="fas fa-check-circle"></i> Точное совпадение</span>
+                            {% elif demo.birthdate.year_match %}<span class="text-info"><i class="fas fa-calendar"></i> Совпадение года</span>
+                            {% else %}<span class="text-muted">Разные даты</span>{% endif %}
+                        </span>
+                    </div>
+                    {% if demo.birthdate.age1 is defined and demo.birthdate.age2 is defined %}
+                    <div class="d-flex justify-content-between mt-1">
+                        <span class="text-muted">Возраст:</span>
+                        <span>{{ demo.birthdate.age1 }} vs {{ demo.birthdate.age2 }} лет</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                {% if demo.sex is defined %}
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Пол:</span>
+                        <span>
+                            {% if demo.sex.match %}
+                                <span class="text-success"><i class="fas fa-check-circle"></i> Совпадает</span>
+                            {% else %}
+                                <span class="text-warning"><i class="fas fa-times-circle"></i> Различается</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if demo.relation is defined %}
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Семейное положение:</span>
+                        <span>{{ demo.relation.relation1|default('Не указано') }} vs {{ demo.relation.relation2|default('Не указано') }}</span>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if demo.education is defined %}
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Образование:</span>
+                        <span>{{ demo.education.interpretation|default('Нет данных') }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <p class="small text-muted mb-0 mt-2">{{ result.analysis.demographics.interpretation }}</p>
+        </div>
+        {% endif %}
+        
+        <!-- Бонусы и штрафы -->
+        {% if result.scores and result.scores.bonuses %}
+        <div class="mb-4">
+            <h6><i class="fas fa-star me-2 text-warning"></i>Бонусы и штрафы</h6>
+            <div class="row small">
+                {% set bonuses = result.scores.bonuses %}
+                {% if bonuses.strong_name_match > 0 %}
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted"><i class="fas fa-check-circle text-success"></i> Сильное совпадение имени:</span>
+                        <span class="text-success">+{{ (bonuses.strong_name_match * 100)|int }}%</span>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if bonuses.high_friend_overlap > 0 %}
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted"><i class="fas fa-check-circle text-success"></i> Большое пересечение друзей:</span>
+                        <span class="text-success">+{{ (bonuses.high_friend_overlap * 100)|int }}%</span>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if bonuses.exact_location > 0 %}
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted"><i class="fas fa-check-circle text-success"></i> Точное совпадение геолокации:</span>
+                        <span class="text-success">+{{ (bonuses.exact_location * 100)|int }}%</span>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if bonuses.identical_photos > 0 %}
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted"><i class="fas fa-check-circle text-success"></i> Идентичные фотографии:</span>
+                        <span class="text-success">+{{ (bonuses.identical_photos * 100)|int }}%</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Общий бонус -->
+            <div class="mt-3 p-3 bg-light rounded">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold">Суммарный бонус:</span>
+                    <span class="fs-5 fw-bold text-success">+{{ (bonuses.total_bonus * 100)|round(1) }}%</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Взвешенные баллы по факторам -->
+        {% if result.scores and result.scores.weighted_scores %}
+        <div class="mb-4">
+            <h6><i class="fas fa-balance-scale me-2 text-primary"></i>Взвешенные оценки</h6>
+            <div class="row small">
+                {% for factor, weight in {'name': 15, 'visual': 25, 'friends': 25, 'geolocation': 10, 'content': 15, 'demographics': 10}.items() %}
+                    {% set score = result.scores.weighted_scores[factor]|default(0) %}
+                    <div class="col-md-4 col-6 mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">{{ factor|title }} (вес {{ weight }}%):</span>
+                            <span>{{ (score * 100)|round(1) }}%</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Информация о качестве данных -->
+        {% if result.final.data_quality %}
+        <div class="mb-4">
+            <h6><i class="fas fa-database me-2 text-muted"></i>Качество данных</h6>
+            <div class="row small">
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Профиль 1:</span>
+                        <span>{{ 'Полный' if result.final.data_quality.profile1_complete else 'Частичный' }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Профиль 2:</span>
+                        <span>{{ 'Полный' if result.final.data_quality.profile2_complete else 'Частичный' }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Данные о друзьях:</span>
+                        <span>{{ 'Есть' if result.final.data_quality.has_friends else 'Отсутствуют' }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Данные о фото:</span>
+                        <span>{{ 'Есть' if result.final.data_quality.has_photos else 'Отсутствуют' }}</span>
+                    </div>
+                </div>
+            </div>
+            {% if result.final.data_quality.missing_factors %}
+            <p class="small text-muted mb-0 mt-2">
+                <i class="fas fa-exclamation-triangle text-warning"></i> Отсутствуют: 
+                {% if 'profile1_incomplete' in result.final.data_quality.missing_factors %}данные профиля 1{% endif %}
+                {% if 'profile2_incomplete' in result.final.data_quality.missing_factors %}{{ ', ' if 'profile1_incomplete' in result.final.data_quality.missing_factors }}данные профиля 2{% endif %}
+                {% if 'no_friends' in result.final.data_quality.missing_factors %}{{ ', ' if 'profile1_incomplete' in result.final.data_quality.missing_factors or 'profile2_incomplete' in result.final.data_quality.missing_factors }}друзья{% endif %}
+                {% if 'no_photos' in result.final.data_quality.missing_factors %}{{ ', ' if 'profile1_incomplete' in result.final.data_quality.missing_factors or 'profile2_incomplete' in result.final.data_quality.missing_factors or 'no_friends' in result.final.data_quality.missing_factors }}фотографии{% endif %}
+            </p>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Уверенность в результате -->
+        <div class="mb-4">
+            <h6><i class="fas fa-shield-alt me-2 text-info"></i>Уверенность в результате</h6>
+            <p class="mb-0">{{ result.final.confidence }}</p>
+        </div>
     </div>
 </div>
 
