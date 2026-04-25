@@ -14,3 +14,7 @@
 2026-04-26 01:43:47 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
 2026-04-26 01:43:47 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: itachi111ychiha
 2026-04-26 01:43:47 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Паша Трипутько (ID: 248661855)
+2026-04-26 01:56:28 | INFO     | src.vk_api.vk_api_client | Поиск пользователя: zdrokvasilii
+2026-04-26 01:56:29 | WARNING  | src.vk_api.vk_api_client | API error 100: One of the parameters specified was missing or invalid: screen_name is undefined
+2026-04-26 01:56:29 | WARNING  | src.vk_api.vk_api_client | Не удалось разрешить screen_name: zdrokvasilii
+2026-04-26 01:56:29 | INFO     | src.vk_api.vk_api_client | Пользователь найден: Вася Здрок (ID: 16191817)
